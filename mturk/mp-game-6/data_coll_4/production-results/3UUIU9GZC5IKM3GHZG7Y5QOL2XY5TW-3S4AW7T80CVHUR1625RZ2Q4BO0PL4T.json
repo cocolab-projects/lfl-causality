@@ -1,0 +1,1579 @@
+{
+ "AssignmentId": "3S4AW7T80CVHUR1625RZ2Q4BO0PL4T",
+ "WorkerId": "e9673c051894125e7d7104a832e761f3",
+ "HITId": "3UUIU9GZC5IKM3GHZG7Y5QOL2XY5TW",
+ "AssignmentStatus": "Approved",
+ "AutoApprovalTime": "2019-01-28T16:45:26.000Z",
+ "AcceptTime": "2019-01-28T16:00:35.000Z",
+ "SubmitTime": "2019-01-28T16:35:26.000Z",
+ "ApprovalTime": "2019-01-28T16:45:57.000Z",
+ "answers": {
+  "game_id": "3027-bf78bd29-679a-475a-b0c0-1ca9149a31dc",
+  "role": "student",
+  "round_selections": [
+   [
+    {
+     "stim_num": 0,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 1,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 2,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 3,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 4,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 5,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 6,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 7,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 8,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 9,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 10,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 11,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 12,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 13,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 14,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 15,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 16,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 17,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 18,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 19,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 20,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 21,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 22,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 23,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 24,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 25,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 26,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 27,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 28,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 29,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 30,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 31,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 32,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 33,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 34,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 35,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 36,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 37,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 38,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 39,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 40,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 41,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 42,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 43,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 44,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 45,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 46,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 47,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 48,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 49,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    }
+   ],
+   [
+    {
+     "stim_num": 0,
+     "turker_label": true,
+     "true_label": false,
+     "is_correct": false
+    },
+    {
+     "stim_num": 1,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 2,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 3,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 4,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 5,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 6,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 7,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 8,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 9,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 10,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 11,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 12,
+     "turker_label": true,
+     "true_label": false,
+     "is_correct": false
+    },
+    {
+     "stim_num": 13,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 14,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 15,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 16,
+     "turker_label": true,
+     "true_label": false,
+     "is_correct": false
+    },
+    {
+     "stim_num": 17,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 18,
+     "turker_label": true,
+     "true_label": false,
+     "is_correct": false
+    },
+    {
+     "stim_num": 19,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 20,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 21,
+     "turker_label": true,
+     "true_label": false,
+     "is_correct": false
+    },
+    {
+     "stim_num": 22,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 23,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 24,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 25,
+     "turker_label": true,
+     "true_label": false,
+     "is_correct": false
+    },
+    {
+     "stim_num": 26,
+     "turker_label": true,
+     "true_label": false,
+     "is_correct": false
+    },
+    {
+     "stim_num": 27,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 28,
+     "turker_label": true,
+     "true_label": false,
+     "is_correct": false
+    },
+    {
+     "stim_num": 29,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 30,
+     "turker_label": true,
+     "true_label": false,
+     "is_correct": false
+    },
+    {
+     "stim_num": 31,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 32,
+     "turker_label": true,
+     "true_label": false,
+     "is_correct": false
+    },
+    {
+     "stim_num": 33,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 34,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 35,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 36,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 37,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 38,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 39,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 40,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 41,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 42,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 43,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 44,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 45,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 46,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 47,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 48,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 49,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    }
+   ],
+   [
+    {
+     "stim_num": 0,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 1,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 2,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 3,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 4,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 5,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 6,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 7,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 8,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 9,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 10,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 11,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 12,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 13,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 14,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 15,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 16,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 17,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 18,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 19,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 20,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 21,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 22,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 23,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 24,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 25,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 26,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 27,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 28,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 29,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 30,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 31,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 32,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 33,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 34,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 35,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 36,
+     "turker_label": true,
+     "true_label": false,
+     "is_correct": false
+    },
+    {
+     "stim_num": 37,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 38,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 39,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 40,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 41,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 42,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 43,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 44,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 45,
+     "turker_label": true,
+     "true_label": false,
+     "is_correct": false
+    },
+    {
+     "stim_num": 46,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 47,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 48,
+     "turker_label": true,
+     "true_label": false,
+     "is_correct": false
+    },
+    {
+     "stim_num": 49,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    }
+   ],
+   [
+    {
+     "stim_num": 0,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 1,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 2,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 3,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 4,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 5,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 6,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 7,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 8,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 9,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 10,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 11,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 12,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 13,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 14,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 15,
+     "turker_label": true,
+     "true_label": false,
+     "is_correct": false
+    },
+    {
+     "stim_num": 16,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 17,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 18,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 19,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 20,
+     "turker_label": true,
+     "true_label": false,
+     "is_correct": false
+    },
+    {
+     "stim_num": 21,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 22,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 23,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 24,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 25,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 26,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 27,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 28,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 29,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 30,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 31,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 32,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 33,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 34,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 35,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 36,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 37,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 38,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 39,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 40,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 41,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 42,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 43,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 44,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 45,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 46,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 47,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 48,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 49,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    }
+   ],
+   [
+    {
+     "stim_num": 0,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 1,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 2,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 3,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 4,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 5,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 6,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 7,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 8,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 9,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 10,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 11,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 12,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 13,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 14,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 15,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 16,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 17,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 18,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 19,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 20,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 21,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 22,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 23,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 24,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 25,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 26,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 27,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 28,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 29,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 30,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 31,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 32,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 33,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 34,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 35,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 36,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 37,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 38,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 39,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 40,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 41,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 42,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 43,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 44,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 45,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 46,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 47,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 48,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 49,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    }
+   ]
+  ],
+  "subject_information": {
+   "nativeEnglish": "yes",
+   "enjoyment": "2",
+   "assess": "yes",
+   "age": "28",
+   "gender": "Male",
+   "education": "3",
+   "comments": "Nothing to add, thank you.",
+   "problems": "Everything worked perfectly fine.",
+   "fairprice": "1.50",
+   "strategy": "I tried my best to listen to my partner's instructions and identify the objects based on that.",
+   "humanPartner": "no",
+   "likePartner": "okay"
+  },
+  "time_in_minutes": 28.94515,
+  "round_summaries": [
+   {
+    "hits": 18,
+    "misses": 9,
+    "correct_rejections": 23,
+    "false_alarms": 0,
+    "score": 18
+   },
+   {
+    "hits": 32,
+    "misses": 2,
+    "correct_rejections": 6,
+    "false_alarms": 10,
+    "score": 22
+   },
+   {
+    "hits": 0,
+    "misses": 12,
+    "correct_rejections": 35,
+    "false_alarms": 3,
+    "score": 0
+   },
+   {
+    "hits": 27,
+    "misses": 11,
+    "correct_rejections": 10,
+    "false_alarms": 2,
+    "score": 25
+   },
+   {
+    "hits": 27,
+    "misses": 0,
+    "correct_rejections": 23,
+    "false_alarms": 0,
+    "score": 27
+   }
+  ],
+  "bonus": 132
+ }
+}

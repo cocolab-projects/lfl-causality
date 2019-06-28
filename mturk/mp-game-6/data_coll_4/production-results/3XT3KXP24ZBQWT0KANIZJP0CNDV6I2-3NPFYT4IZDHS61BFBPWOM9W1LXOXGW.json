@@ -1,0 +1,32 @@
+{
+ "AssignmentId": "3NPFYT4IZDHS61BFBPWOM9W1LXOXGW",
+ "WorkerId": "bfce8178cba3a89488d44346e9c720c1",
+ "HITId": "3XT3KXP24ZBQWT0KANIZJP0CNDV6I2",
+ "AssignmentStatus": "Approved",
+ "AutoApprovalTime": "2019-01-31T22:02:00.000Z",
+ "AcceptTime": "2019-01-31T20:12:26.000Z",
+ "SubmitTime": "2019-01-31T21:52:00.000Z",
+ "ApprovalTime": "2019-01-31T22:02:43.000Z",
+ "answers": {
+  "game_id": "1773-ef5f5660-1947-4c8d-9bc6-baf41556e60f",
+  "role": "explorer",
+  "round_selections": [],
+  "subject_information": {
+   "nativeEnglish": "yes",
+   "enjoyment": "1",
+   "assess": "yes",
+   "age": "61",
+   "gender": "Female",
+   "education": "1",
+   "comments": "my partner got disconnected, but this page says to answer the questions and submit,",
+   "problems": "my partner got disconnected before I could chat with them.  I sent an email asking if I should submit, but received no answer in time, so I'm submitting before this expires.",
+   "fairprice": "1.50",
+   "strategy": "I was trying to find the similarities of a klep",
+   "humanPartner": "yes",
+   "likePartner": ""
+  },
+  "time_in_minutes": 88.38703333333333,
+  "round_summaries": [],
+  "bonus": null
+ }
+}

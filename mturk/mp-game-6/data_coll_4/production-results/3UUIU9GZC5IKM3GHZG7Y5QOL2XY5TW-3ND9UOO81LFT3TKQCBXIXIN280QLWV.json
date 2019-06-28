@@ -1,0 +1,343 @@
+{
+ "AssignmentId": "3ND9UOO81LFT3TKQCBXIXIN280QLWV",
+ "WorkerId": "123295ca788dd8e5be91e444850bd3ac",
+ "HITId": "3UUIU9GZC5IKM3GHZG7Y5QOL2XY5TW",
+ "AssignmentStatus": "Approved",
+ "AutoApprovalTime": "2019-01-29T17:25:50.000Z",
+ "AcceptTime": "2019-01-29T16:40:34.000Z",
+ "SubmitTime": "2019-01-29T17:15:50.000Z",
+ "ApprovalTime": "2019-01-29T17:26:43.000Z",
+ "answers": {
+  "game_id": "4291-4b9e3359-e189-4e06-98ed-6e8994dbe203",
+  "role": "explorer",
+  "round_selections": [
+   [
+    {
+     "stim_num": 0,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 1,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 2,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 3,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 4,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 5,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 6,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 7,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 8,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 9,
+     "turker_label": true,
+     "true_label": true,
+     "is_correct": true
+    },
+    {
+     "stim_num": 10,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 11,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 12,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 13,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 14,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 15,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 16,
+     "turker_label": true,
+     "true_label": false,
+     "is_correct": false
+    },
+    {
+     "stim_num": 17,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 18,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 19,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 20,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 21,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 22,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 23,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 24,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 25,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 26,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 27,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 28,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 29,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 30,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 31,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 32,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 33,
+     "turker_label": true,
+     "true_label": false,
+     "is_correct": false
+    },
+    {
+     "stim_num": 34,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 35,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 36,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 37,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 38,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 39,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 40,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 41,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 42,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 43,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 44,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 45,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 46,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 47,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    },
+    {
+     "stim_num": 48,
+     "turker_label": false,
+     "true_label": false,
+     "is_correct": true
+    },
+    {
+     "stim_num": 49,
+     "turker_label": false,
+     "true_label": true,
+     "is_correct": false
+    }
+   ]
+  ],
+  "subject_information": {
+   "nativeEnglish": "yes",
+   "enjoyment": "2",
+   "assess": "yes",
+   "age": "30",
+   "gender": "Male",
+   "education": "3",
+   "comments": "Very good experiment",
+   "problems": "Nothing",
+   "fairprice": "10",
+   "strategy": "I would used my own strategy.",
+   "humanPartner": "yes",
+   "likePartner": "liked"
+  },
+  "time_in_minutes": 30.272733333333335,
+  "round_summaries": [
+   {
+    "hits": 1,
+    "misses": 9,
+    "correct_rejections": 38,
+    "false_alarms": 2,
+    "score": 0
+   }
+  ],
+  "bonus": null
+ }
+}

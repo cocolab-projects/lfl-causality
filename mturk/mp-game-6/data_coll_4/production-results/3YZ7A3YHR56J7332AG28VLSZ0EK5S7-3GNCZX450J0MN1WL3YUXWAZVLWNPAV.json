@@ -1,0 +1,32 @@
+{
+ "AssignmentId": "3GNCZX450J0MN1WL3YUXWAZVLWNPAV",
+ "WorkerId": "5175d63b267526539dbdfe43e031c29d",
+ "HITId": "3YZ7A3YHR56J7332AG28VLSZ0EK5S7",
+ "AssignmentStatus": "Approved",
+ "AutoApprovalTime": "2019-01-30T19:45:49.000Z",
+ "AcceptTime": "2019-01-30T17:58:57.000Z",
+ "SubmitTime": "2019-01-30T19:35:49.000Z",
+ "ApprovalTime": "2019-01-30T19:46:43.000Z",
+ "answers": {
+  "game_id": "6947-c1dbd547-5396-4067-bdcd-2185bb5321b5",
+  "role": "student",
+  "round_selections": [],
+  "subject_information": {
+   "nativeEnglish": "yes",
+   "enjoyment": "1",
+   "assess": "yes",
+   "age": "28",
+   "gender": "Female",
+   "education": "4",
+   "comments": "NONE",
+   "problems": "NONE",
+   "fairprice": "2",
+   "strategy": "NONE",
+   "humanPartner": "yes",
+   "likePartner": "okay"
+  },
+  "time_in_minutes": 80.26301666666667,
+  "round_summaries": [],
+  "bonus": null
+ }
+}

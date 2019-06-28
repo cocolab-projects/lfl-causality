@@ -1,0 +1,32 @@
+{
+ "AssignmentId": "3F1567XTNXITIUNVB5VM0KELK5UQ91",
+ "WorkerId": "86f7bc73fbe0fec571ac4bb6211f215c",
+ "HITId": "3UUIU9GZC5IKM3GHZG7Y5QOL2XY5TW",
+ "AssignmentStatus": "Approved",
+ "AutoApprovalTime": "2019-01-29T18:56:26.000Z",
+ "AcceptTime": "2019-01-29T16:58:03.000Z",
+ "SubmitTime": "2019-01-29T18:46:26.000Z",
+ "ApprovalTime": "2019-01-29T18:56:43.000Z",
+ "answers": {
+  "game_id": "5833-e7204816-9fc4-44a3-b366-0a1f958081df",
+  "role": "student",
+  "round_selections": [],
+  "subject_information": {
+   "nativeEnglish": "yes",
+   "enjoyment": "2",
+   "assess": "yes",
+   "age": "30",
+   "gender": "Female",
+   "education": "3",
+   "comments": "Yes.Good expreriment.",
+   "problems": "Nothing",
+   "fairprice": "Yes",
+   "strategy": "The student about the properties of the species",
+   "humanPartner": "yes",
+   "likePartner": "okay"
+  },
+  "time_in_minutes": 8.6152,
+  "round_summaries": [],
+  "bonus": null
+ }
+}

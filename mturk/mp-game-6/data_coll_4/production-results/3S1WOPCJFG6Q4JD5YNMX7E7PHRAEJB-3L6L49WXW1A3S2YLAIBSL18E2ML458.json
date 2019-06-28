@@ -1,0 +1,32 @@
+{
+ "AssignmentId": "3L6L49WXW1A3S2YLAIBSL18E2ML458",
+ "WorkerId": "81cf59074bbcac45fc383e924dec27ed",
+ "HITId": "3S1WOPCJFG6Q4JD5YNMX7E7PHRAEJB",
+ "AssignmentStatus": "Approved",
+ "AutoApprovalTime": "2019-01-30T15:46:51.000Z",
+ "AcceptTime": "2019-01-30T15:22:14.000Z",
+ "SubmitTime": "2019-01-30T15:36:51.000Z",
+ "ApprovalTime": "2019-01-30T15:47:43.000Z",
+ "answers": {
+  "game_id": "4309-c7a61003-57b6-4d7a-ac84-6e7f5d81785f",
+  "role": "student",
+  "round_selections": [],
+  "subject_information": {
+   "nativeEnglish": "yes",
+   "enjoyment": "1",
+   "assess": "yes",
+   "age": "48",
+   "gender": "Female",
+   "education": "3",
+   "comments": "It was disappointing that I wasn't able to play because my partner disconnected. Thank you for compensating it, but I would have enjoyed being able to come back and attempt it with a new partner.",
+   "problems": "Yes: \"Oops! It looks like your partner lost their connection!\"",
+   "fairprice": ".25",
+   "strategy": "No strategy. I was informed that my partner lost connection, and that I should complete this survey and submit the hit anyway.",
+   "humanPartner": "yes",
+   "likePartner": "not much"
+  },
+  "time_in_minutes": 8.06565,
+  "round_summaries": [],
+  "bonus": null
+ }
+}

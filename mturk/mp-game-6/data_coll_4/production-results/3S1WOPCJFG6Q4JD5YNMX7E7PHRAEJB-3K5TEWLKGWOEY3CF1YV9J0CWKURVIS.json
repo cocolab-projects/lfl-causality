@@ -1,0 +1,32 @@
+{
+ "AssignmentId": "3K5TEWLKGWOEY3CF1YV9J0CWKURVIS",
+ "WorkerId": "fabc05257ea166b079c40ec493e56944",
+ "HITId": "3S1WOPCJFG6Q4JD5YNMX7E7PHRAEJB",
+ "AssignmentStatus": "Approved",
+ "AutoApprovalTime": "2019-01-30T23:34:50.000Z",
+ "AcceptTime": "2019-01-30T21:30:05.000Z",
+ "SubmitTime": "2019-01-30T23:24:50.000Z",
+ "ApprovalTime": "2019-01-30T23:35:43.000Z",
+ "answers": {
+  "game_id": "2374-9cb71b70-aacc-4f36-b182-426ec84c0a27",
+  "role": "explorer",
+  "round_selections": [],
+  "subject_information": {
+   "nativeEnglish": "yes",
+   "enjoyment": "1",
+   "assess": "yes",
+   "age": "26",
+   "gender": "Male",
+   "education": "1",
+   "comments": "",
+   "problems": "I wasn't able to partner with someone.",
+   "fairprice": "I suppose but don't know for sure.",
+   "strategy": "I never got to participate.",
+   "humanPartner": "no",
+   "likePartner": "okay"
+  },
+  "time_in_minutes": 107.60848333333334,
+  "round_summaries": [],
+  "bonus": null
+ }
+}

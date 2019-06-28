@@ -1,0 +1,32 @@
+{
+ "AssignmentId": "3ZR9AIQJUCM4XVCKDC5G46CNLEA04J",
+ "WorkerId": "12547e23c9fb0b41d91cf6310b99d91d",
+ "HITId": "3YZ7A3YHR56J7332AG28VLSZ0EK5S7",
+ "AssignmentStatus": "Approved",
+ "AutoApprovalTime": "2019-01-30T17:13:29.000Z",
+ "AcceptTime": "2019-01-30T15:55:52.000Z",
+ "SubmitTime": "2019-01-30T17:03:29.000Z",
+ "ApprovalTime": "2019-01-30T17:13:43.000Z",
+ "answers": {
+  "game_id": "9347-f209f236-6f49-4154-9304-022279ddd343",
+  "role": "explorer",
+  "round_selections": [],
+  "subject_information": {
+   "nativeEnglish": "yes",
+   "enjoyment": "2",
+   "assess": "yes",
+   "age": "27",
+   "gender": "Male",
+   "education": "2",
+   "comments": "This experiment sounds like it would have been so fun to complete. I waited and waited and no partner was given to me. ",
+   "problems": "Only problem was that I was not assigned a partner.",
+   "fairprice": "",
+   "strategy": "Was unable to complete. Says Oops! It looks like your partner lost their connection! I would have tried to make a mental note of properties that each creature had that made them belong to the species. Sounds like a fun HIT.",
+   "humanPartner": "yes",
+   "likePartner": "not much"
+  },
+  "time_in_minutes": 24.022166666666667,
+  "round_summaries": [],
+  "bonus": null
+ }
+}
