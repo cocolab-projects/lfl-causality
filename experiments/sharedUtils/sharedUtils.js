@@ -24,8 +24,9 @@ var serveFile = function(req, res) {
     if(req.query.workerId) {
       console.log(" by workerID " + req.query.workerId);
     }
-    // console.log(__base);
-    // console.log(fileName);
+    if (fileName === '') {
+        fileName = 'index.html';
+    }
     if (fs.existsSync(__base + fileName)) {
         return res.sendFile(__base + fileName);
     } else {
