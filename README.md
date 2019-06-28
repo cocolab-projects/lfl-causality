@@ -8,7 +8,7 @@ Read on for instructions on how to set up this experiment.
 
 1. Install [node](https://nodejs.org/en/) (the javascript runtime that hosts the web server) and [mongodb](https://docs.mongodb.com/manual/administration/install-community/) (the database that will help us store results).
 2. Initialize a folder, `path/to/data/db/`, which will be used to store your Mongo database. I used my home dir (`~/data/db`)
-3. Run a mongodb server: `mongod` in some terminal window. (Or use `&` to run it in the background)
+3. Run a mongodb server: `mongod --dbpath path/to/data/db` in some terminal window. (Or use `&` to run it in the background)
 4. In a separate terminal window, connect to the mongo instance: `mongo` Then
    run the commands below to create a new user for the db
 
