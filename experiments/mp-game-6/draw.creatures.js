@@ -107,7 +107,7 @@ function drawTestCreature(stim, creatureInd, scale, roundProps){
         if (roundProps.selected_test_stim.includes(id)) {
             // Remove Previously Marked Creature
             unmarkAsSpecies(id);
-            roundProps.selected_test_stim = roundProps.selected_test_stim.slice(
+            roundProps.selected_test_stim.splice(
                 roundProps.selected_test_stim.indexOf(id),
                 1
             );
@@ -116,6 +116,7 @@ function drawTestCreature(stim, creatureInd, scale, roundProps){
             markAsSpecies(id);
             roundProps.selected_test_stim.push(id);
         }
+        console.log(roundProps.selected_test_stim)
     });
 }
   
