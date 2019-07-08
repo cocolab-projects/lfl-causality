@@ -52,7 +52,7 @@ function generateBox(config){
     function box(setting){    
         let arr = [] //array of results
         for(let i = 0; i < config.controls.length; i++){
-            arr.push(`Light ${i+1}: ${config.controls[i].eval(setting.args)}`)
+            arr.push(config.controls[i].eval(setting.args))
         }
         return arr //return the array
     }
@@ -77,6 +77,7 @@ function createRandomBox(numButtons, numLights){
     let configArray = []
     // create a control for each light
     for(let i = 0; i < numLights; i++){
+        console.log("creating a control for light: " + i)
         let buttonArray = []
         for(let j = 0; j < numButtons; j++){
             buttonArray.push(Math.floor(Math.random()*2) === 1)

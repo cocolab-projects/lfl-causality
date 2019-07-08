@@ -135,17 +135,26 @@ var customSetup = function(globalGame) {
         if (globalGame.my_role === "explorer") {
             drawProgressBar(globalGame.roundNum, globalGame.numRounds, 3, 8);
             globalGame.socket.send("enterSlide.train_creatures_slide.");
-            drawTrainCreatures(globalGame, globalGame.trialInfo.speciesName);    
-
+            drawTrainBox(globalGame, globalGame.trialInfo.speciesName);
+            var config = createRandomBox(globalGame.numButtons, globalGame.numLights);
+            console.log(toString(config));
+            globalGame.boxConfig = generateBox(config)
+            globalGame.roundProps.lightsOnPrev = [];
             // Start Time
             globalGame.roundProps[globalGame.my_role]['times']['train']['start'] = new Date();
-
         } else {
             globalGame.socket.send("enterSlide.chat_room_slide."); 
             drawProgressBar(globalGame.roundNum, globalGame.numRounds, 5, 8); 
             globalGame.socket.send("enterChatRoom.");
             drawChatRoom(globalGame);
         }
+    });
+    $("#train_creatures_slide_test_button").click(function(){
+        alert("Test button has been pressed. The following buttons are currently pressed " + globalGame.roundProps.selected_train)
+        globalGame.roundProps.lightsOnPrev = turnLightsOn(globalGame.roundProps.selected_train_stim, globalGame.boxConfig,
+                     globalGame.numButtons, globalGame.numLights, globalGame.roundProps.lightsOnPrev);
+        console.log("The following lights have been turned on:" + globalGame.roundProps.lightsOnPrev)
+
     });
 
     $("#train_creatures_slide_continue_button").click(function(){

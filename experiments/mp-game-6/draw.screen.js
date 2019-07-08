@@ -51,10 +51,11 @@ var drawTrainInstructions = function(game, speciesName, pluralSpeciesName) {
                 <h3>Instructions</h3>
                 <br>
                 <p>
-                    You are the "Explorer", studying creatures with a ` + speciesName + ` detector.
+                    You are the "Explorer", learning about how a group of buttons influences lights.
                     <br> <br>
-                    You will be shown a grid of creatures. Click on a creature to discover whether it is a ` + speciesName + `.
-                    Pay close attention, as you will have to teach your partner which are ` + pluralSpeciesName + `. 
+                    You will be shown a box of buttons and light configurations. Try out different
+                    configurations to learn what effects they have. You will have to teach a "Student"
+                    about the effects of the buttons
                     <br> <br>
                     Press Continue to start the game.
                     <br><br>
@@ -68,9 +69,10 @@ var drawTrainInstructions = function(game, speciesName, pluralSpeciesName) {
                 <h3>Instructions</h3>
                 <br>
                 <p>
-                    You are the "Student". Your partner is currently studying creatures with a ` + speciesName + ` detector. It will take them approximately 1 - 2 minutes to finish exploring. 
-                    <br> <br>
-                    Meanwhile you will be waiting in a chatroom. Once your partner is done, they will enter the chatroom. You should discuss what properties of ` + pluralSpeciesName + ` they learned during exploration. Pay close attention and ask questions, as you will be tested on your understanding of ` + pluralSpeciesName + `.
+                    You are the "Student". Your partner is currently studying buttons.
+                    Meanwhile you will be waiting in a chatroom. Once your partner is done, they will enter the chatroom.
+                    You should discuss what properties of buttons they learned during exploration.
+                    Pay close attention and ask questions, as you will be tested on your understanding of buttons.
                     <br> <br>
                     During your partner's exploration period please stay at the computer and <b>DO NOT CLOSE THIS TAB</b>. Otherwise, you will be disconnected from the game and we won't be able to reward you for the hit.
                     Please keep checking the chat window, as the status will update when the other player has also entered the room.
@@ -88,7 +90,7 @@ var drawTrainInstructions = function(game, speciesName, pluralSpeciesName) {
     $("#train_instructions_slide").removeClass("hidden");
 };
 
-var drawTrainCreatures = function(game, speciesName) {
+var drawTrainBox = function(game, speciesName) {
     // Clear previous
     $("#train_creatures_slide_header").empty();
     $("#train_creatures_slide_grid").empty();
@@ -97,13 +99,12 @@ var drawTrainCreatures = function(game, speciesName) {
     $("#train_creatures_slide_header").html(
         `
             <p class="label_prompt">
-                Click on each creature to discover whether or not it is a <strong>` + speciesName +`</strong>.
-                <br>
+                Click on different combinations buttons.
                 Study them carefully.
             </p>
         `
     );
-    drawCreaturesTable(game.trialInfo.train, speciesName, 5, true, game.roundProps);
+    drawBoxTable(game.numButtons, game.numLights, true, game.roundProps);
 
     // Make visible
     game.currentSlide[game.my_role] = "train_creatures_slide";    
@@ -184,7 +185,7 @@ var drawTestCreatures = function(game, speciesName, pluralSpeciesName) {
     `
    $("#test_creatures_slide_header").html(instructions);
 
-   drawCreaturesTable(game.trialInfo.test, speciesName, 5, false, game.roundProps);
+   drawBoxTable(3, 4, false, game.roundProps);
    
     // Make visible
     $("#test_creatures_slide_continue_button").prop("disabled", false);
