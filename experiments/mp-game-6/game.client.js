@@ -138,7 +138,8 @@ var customSetup = function(globalGame) {
             drawTrainBox(globalGame, globalGame.trialInfo.speciesName);
             var config = createRandomBox(globalGame.numButtons, globalGame.numLights);
             console.log(toString(config));
-            globalGame.boxConfig = generateBox(config)
+            globalGame.boxConfigDict = generateBox(config)();
+            console.log("current boxConfigDict: " + globalGame.boxConfigDict);
             globalGame.roundProps.lightsOnPrev = [];
             // Start Time
             globalGame.roundProps[globalGame.my_role]['times']['train']['start'] = new Date();
@@ -150,8 +151,8 @@ var customSetup = function(globalGame) {
         }
     });
     $("#train_creatures_slide_test_button").click(function(){
-        alert("Test button has been pressed. The following buttons are currently pressed " + globalGame.roundProps.selected_train)
-        globalGame.roundProps.lightsOnPrev = turnLightsOn(globalGame.roundProps.selected_train_stim, globalGame.boxConfig,
+        alert("Test button has been pressed. The following buttons are currently pressed " + globalGame.roundProps.selected_train_stim)
+        globalGame.roundProps.lightsOnPrev = turnLightsOn(globalGame.roundProps.selected_train_stim, globalGame.boxConfigDict,
                      globalGame.numButtons, globalGame.numLights, globalGame.roundProps.lightsOnPrev);
         console.log("The following lights have been turned on:" + globalGame.roundProps.lightsOnPrev)
 

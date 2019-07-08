@@ -104,7 +104,7 @@ var drawTrainBox = function(game, speciesName) {
             </p>
         `
     );
-    drawBoxTable(game.numButtons, game.numLights, true, game.roundProps);
+    drawBoxTable(game.numButtons, game.numLights, game.numStars, true, game.roundProps);
 
     // Make visible
     game.currentSlide[game.my_role] = "train_creatures_slide";    

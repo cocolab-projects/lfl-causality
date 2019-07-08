@@ -56,6 +56,7 @@ var game_core = function(options){
     this.numRounds = 1;
     this.numButtons = 3;
     this.numLights = 3;
+    this.numStars = 5;
     this.testScores = {};
     this.testScores[this.playerRoleNames.role1] = _.times(this.numRounds, _.constant({}));
     this.testScores[this.playerRoleNames.role2] = _.times(this.numRounds, _.constant({}));
