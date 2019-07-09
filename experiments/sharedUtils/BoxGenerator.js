@@ -36,9 +36,10 @@ function SingObj(arg, comps){
 }
 
 //stores the configurations that will control (turn on) lights
-function Config(arg, numButtons){
+function Config(arg, numButtons, numStars){
     this.controls = arg
     this.numButtons = numButtons
+    this.numStars = numStars
 }
 
 //generate the box. Takes in a config (what turns on what) and returns a function that
@@ -47,17 +48,21 @@ function generateBox(config){
     //function to return, which will take in a setting and return what is turned on
     function configDict(){
         let dict = {} // keys: setting of buttons, values: lights
-        for(var i = 0; i < (Math.pow(2, config.numButtons)); i++){
+        for(var i = 0; i < (Math.pow(2, (config.numButtons + config.numStars))); i++){
             var set = ""
             var setting = {}
-            for(var j = 1; j <= config.numButtons; j++){
+            for(var j = 1; j <= (config.numButtons + config.numStars); j++){
                 if((i%(Math.pow(2,j)) >= (Math.pow(2, j-1)))){
                     set = set + "1"
                 }
                 else {
                     set = set + "0"
                 }
-                setting[`button${j}`] = (i%(Math.pow(2,j)) >= (Math.pow(2, j-1)))
+                if(j <= config.numButtons){
+                    setting[`button${j}`] = (i%(Math.pow(2,j)) >= (Math.pow(2, j-1)))
+                } else {
+                    setting[`star${j-config.numButtons}`] = (i%(Math.pow(2,j)) >= (Math.pow(2, j-1)))
+                }
             }
             dict[set] = box(setting)
         }
@@ -85,7 +90,7 @@ function toString(config){
     return JSON.stringify(dict)
 }
 
-function createRandomBox(numButtons, numLights, numStars){
+function createRandomBox(numButtons, numStars, numLights){
     let configArray = []
     // create a control for each light
     for(let i = 0; i < numLights; i++){
@@ -100,14 +105,26 @@ function createRandomBox(numButtons, numLights, numStars){
                     compsArray.push(`button${j+1}`)
                 }
             }
+            for(let j = 0; j < numStars; j++){
+                if(Math.floor(Math.random()*2) === 1){
+                    compsDict[`star${j+1}`] = (Math.floor(Math.random()*2) === 1)
+                    compsArray.push(`star${j+1}`)
+                }
+            }
         } while(compsArray.length < 2 && numButtons >= 2); //keep going until there is at least one control
         let control
         switch(Math.floor(Math.random()*3)){
             case 0: //singular object
-                let indexToChoose = Math.floor(Math.random()*numButtons)
                 var singCompsDict = {}
-                singCompsDict[`button${indexToChoose+1}`] = (Math.floor(Math.random()*2) === 1)
-                compsArray = [`button${indexToChoose+1}`]
+                if(Math.random() < .5 || numStars === 0){
+                    let indexToChoose = Math.floor(Math.random()*numButtons)
+                    singCompsDict[`button${indexToChoose+1}`] = (Math.floor(Math.random()*2) === 1)
+                    compsArray = [`button${indexToChoose+1}`]
+                } else {
+                    let indexToChoose = Math.floor(Math.random()*numStars)
+                    singCompsDict[`star${indexToChoose+1}`] = (Math.floor(Math.random()*2) === 1)
+                    compsArray = [`star${indexToChoose+1}`]
+                }
                 control = new SingObj(singCompsDict, compsArray)
                 break
             case 1: //and object
@@ -119,7 +136,7 @@ function createRandomBox(numButtons, numLights, numStars){
         }
         configArray.push(control)
     }
-    let config = new Config(configArray, numButtons)
+    let config = new Config(configArray, numButtons, numStars)
     return config
 }
 

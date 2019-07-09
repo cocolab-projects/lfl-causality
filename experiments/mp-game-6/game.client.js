@@ -136,7 +136,7 @@ var customSetup = function(globalGame) {
             drawProgressBar(globalGame.roundNum, globalGame.numRounds, 3, 8);
             globalGame.socket.send("enterSlide.train_creatures_slide.");
             drawTrainBox(globalGame, globalGame.trialInfo.speciesName);
-            var config = createRandomBox(globalGame.numButtons, globalGame.numLights);
+            var config = createRandomBox(globalGame.numButtons, globalGame.numStars, globalGame.numLights);
             console.log(toString(config));
             globalGame.boxConfigDict = generateBox(config)();
             console.log("current boxConfigDict: " + globalGame.boxConfigDict);
@@ -153,7 +153,7 @@ var customSetup = function(globalGame) {
     $("#train_creatures_slide_test_button").click(function(){
         alert("Test button has been pressed. The following buttons are currently pressed " + globalGame.roundProps.selected_train_stim)
         globalGame.roundProps.lightsOnPrev = turnLightsOn(globalGame.roundProps.selected_train_stim, globalGame.boxConfigDict,
-                     globalGame.numButtons, globalGame.numLights, globalGame.roundProps.lightsOnPrev);
+                     globalGame.numButtons, globalGame.numLights, globalGame.roundProps.lightsOnPrev, globalGame.roundProps.starsNotPresent);
         console.log("The following lights have been turned on:" + globalGame.roundProps.lightsOnPrev)
 
     });

@@ -42,12 +42,16 @@ function drawBoxTable(numButtons, numLights, numStars, train, roundProps) {
     for(var h = 1; h<=numButtons; h++){
         drawTrainingScenario(roundProps, h)
     }
+    roundProps.starsNotPresent = ""
     for(var h = 1; h<=numStars; h++){
         if(Math.random() < .5){
             $("#star" + h).css({"opacity":0});
+            roundProps.starsNotPresent = roundProps.starsNotPresent + "0"
+        }else{
+            roundProps.starsNotPresent = roundProps.starsNotPresent + "1"
         }
     }
-
+    console.log("starsNotPresent:" + roundProps.starsNotPresent)
 }
 
     /**
@@ -185,7 +189,7 @@ function lighten(id){
     $(id).css({"opacity":.5});
 }
   
-function turnLightsOn(buttonsOn, test1, numButtons, numLights, lightsPrev) {
+function turnLightsOn(buttonsOn, test1, numButtons, numLights, lightsPrev, stars) {
     var lightsOn = [];
     var dictOfButtons = "";
     for(var i = 1; i<=numButtons; i++){
@@ -196,6 +200,8 @@ function turnLightsOn(buttonsOn, test1, numButtons, numLights, lightsPrev) {
             dictOfButtons = dictOfButtons + "0"
         }
     }
+    dictOfButtons = dictOfButtons + stars
+    console.log("dictOfButtons with stars: " + dictOfButtons)
     for(var j = 1; j<=numLights; j++){
         $("#light" + j).css({"opacity":0.5});
     }

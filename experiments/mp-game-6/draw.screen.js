@@ -185,7 +185,7 @@ var drawTestCreatures = function(game, speciesName, pluralSpeciesName) {
     `
    $("#test_creatures_slide_header").html(instructions);
 
-   drawBoxTable(3, 4, false, game.roundProps);
+   drawBoxTable(game.numButtons, game.numLights, game.numStars, false, game.roundProps);
    
     // Make visible
     $("#test_creatures_slide_continue_button").prop("disabled", false);
