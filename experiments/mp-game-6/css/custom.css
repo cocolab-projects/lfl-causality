@@ -247,35 +247,33 @@ ALOT...don't understand how to adjust that.*/
     table-layout: fixed;
 }
 
-.empty {
-   
-}
-
 :disabled{
    opacity: .5;
 }
 
 .beaker{
-   width:200px;
-   height:250px;
-   opacity:0.5;
-   padding:10px 0px;
-   margin:10px;
+   width:175px;
+   height:200px;
+   opacity:1.0;
+   padding:0px 10px;
 }
 
 .mixbeaker{
    width:200px;
-   height:250px;
+   height:200px;
    opacity:1.0;
-   padding:10px 0px;
    margin:auto;
    display: block;
 }
 
 .reaction{
-   width:75px;
-   height:100px;
+   width:150px;
+   height:200px;
    opacity:0.5;
-   padding:10px 0px;
-   margin:25px;
+   padding:0px 30px;
+   margin: 10px;
+}
+
+figure {
+   display: inline-block;
 }

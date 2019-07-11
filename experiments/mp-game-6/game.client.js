@@ -144,7 +144,10 @@ var customSetup = function(globalGame) {
             globalGame.roundProps.reactionsOnPrev = [];
             $("#train_creatures_slide_continue_button").show();
             $("#train_creatures_slide_newtest_button").prop("disabled", true);
+            $("#train_creatures_slide_continue_button").prop("disabled", false);
             globalGame.roundProps.numTests = 0;
+            globalGame.testStage = true;
+            globalGame.roundProps.combosTried = []
             // Start Time
             globalGame.roundProps[globalGame.my_role]['times']['train']['start'] = new Date();
         } else {
@@ -155,44 +158,51 @@ var customSetup = function(globalGame) {
         }
     });
     $("#train_creatures_slide_test_button").click(function(){
-//        globalGame.roundProps[globalGame.my_role]['times'][beakerStr(globalGame.roundProps.previousSelection, globalGame.numBeakers)]['end'] = new Date();
-//        globalGame.roundProps[globalGame.my_role]['duration'][beakerStr(globalGame.roundProps.previousSelection, globalGame.numBeakers)] = (
-//            globalGame.roundProps[globalGame.my_role]['times'][beakerStr(globalGame.roundProps.previousSelection, globalGame.numBeakers)]['end'] -
-//            globalGame.roundProps[globalGame.my_role]['times'][beakerStr(globalGame.roundProps.previousSelection, globalGame.numBeakers)]['start']
-//        ) / 1000.0;
-//        globalGame.roundProps[globalGame.my_role]['times'][beakerStr(globalGame.roundProps.selected_train_stim)]['start'] = new Date();
+        globalGame.roundProps.combosTried.push(beakerStr(globalGame.roundProps.selected_train_stim,
+                                                         globalGame.numBeakers))
+        globalGame.roundProps[globalGame.my_role]['times'][beakerStr(globalGame.roundProps.selected_train_stim,
+                                                                     globalGame.numBeakers)] = {}
+        globalGame.roundProps[globalGame.my_role]['times'][beakerStr(globalGame.roundProps.selected_train_stim,
+                                                                     globalGame.numBeakers)]['test'] = new Date();
         globalGame.roundProps.numTests++
         turnReactionsOn(globalGame.roundProps.selected_train_stim, globalGame.boxConfigDict,
-                     globalGame.numBeakers, globalGame.numReactions, globalGame.roundProps.numTests, globalGame.numReqTests);
+                     globalGame.numBeakers, globalGame.numReactions);
         console.log("The following reactions have been turned on:" + globalGame.roundProps.reactionsOnPrev)
         globalGame.roundProps.previousSelection = globalGame.roundProps.selected_train_stim;
         $("#train_creatures_slide_test_button").prop("disabled", true);
         $("#train_creatures_slide_newtest_button").prop("disabled", false);
         $("#train_creatures_slide_continue_button").show();
+        globalGame.testStage = false;
 
     });
 
     $("#train_creatures_slide_newtest_button").click(function(){
+        globalGame.roundProps[globalGame.my_role]['times'][beakerStr(globalGame.roundProps.selected_train_stim,
+                                                                     globalGame.numBeakers)]['learn'] = new Date();
         globalGame.roundProps.selected_train_stim = []
         $("#train_creatures_slide_test_button").prop("disabled", false);
         $("#train_creatures_slide_newtest_button").prop("disabled", true);
         $("#train_creatures_slide_continue_button").show();
         turnReactionsOff(globalGame.numReactions, globalGame.numBeakers)
+        globalGame.testStage = true;
     });
 
     $("#train_creatures_slide_continue_button").click(function(){
         // End Time
-        console.log("click")
-        globalGame.roundProps[globalGame.my_role]['times']['train']['end'] = new Date();
-        globalGame.roundProps[globalGame.my_role]['duration']['train'] = (
-            globalGame.roundProps[globalGame.my_role]['times']['train']['end'] -
-            globalGame.roundProps[globalGame.my_role]['times']['train']['start']
-        ) / 1000.0;
+        if(globalGame.roundProps.numTests < globalGame.numReqTests){
+            alert("You need to keep experimenting")
+        } else {
+            globalGame.roundProps[globalGame.my_role]['times']['train']['end'] = new Date();
+            globalGame.roundProps[globalGame.my_role]['duration']['train'] = (
+                globalGame.roundProps[globalGame.my_role]['times']['train']['end'] -
+                globalGame.roundProps[globalGame.my_role]['times']['train']['start']
+            ) / 1000.0;
 
-        clearTrainCreatures();
-        drawProgressBar(globalGame.roundNum, globalGame.numRounds, 4, 8);
-        globalGame.socket.send("enterSlide.chat_instructions_slide.");           
-        drawExplorerChatInstructions(globalGame, globalGame.trialInfo.speciesName);
+            clearTrainCreatures();
+            drawProgressBar(globalGame.roundNum, globalGame.numRounds, 4, 8);
+            globalGame.socket.send("enterSlide.chat_instructions_slide.");
+            drawExplorerChatInstructions(globalGame, globalGame.trialInfo.speciesName);
+        }
     });
 
     $("#chat_instructions_slide_continue_button").click(function(){

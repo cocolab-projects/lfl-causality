@@ -225,6 +225,54 @@ function shuffle(arr) {
     return arr;
 }
 
+//Dict of beakers to reactions
+function generateBeakerQuestions(dict){
+    var beakerQuestions = {};
+    for(var beakerConfig in dict){
+        beakerQuestions[beakerConfig] = {
+            q: "The following chemicals are in the box: " + binBeakersToString(beakerConfig) + ". Click on the reactions that will occur ",
+            a: dict[beakerConfig]
+        }
+    }
+    return beakerQuestions;
+}
+
+//Dict of reactions to beakers and dict of reactions to beakers
+function generateReactionQuestions(dict){
+    var questions = {};
+    var i = 0;
+    for(var reactionConfig in dict){
+        questions[reactionConfig] = {
+            q: "The following reactions are on: " + binReactionsToString(reactionConfig) + ". All other reactions are off. " +
+               "Click on a mixture of chemicals that will make this occur ",
+            a: dict[reactionConfig]
+        }
+    }
+    return questions;
+}
+
+function binBeakersToString(beakers){
+    var chemicals = []
+    for(var i = 0; i<beakers.length;  i++){
+        if(beakers[i] === '1'){
+            chemicals.push(color(i+1) + "ase");
+        }
+    }
+    chemicals.push("alien water (as always)")
+    return chemicals.toString();
+}
+
+function binReactionsToString(str){
+    var reactions = []
+    for(var i = 0; i<str.length;  i++){
+        if(str[i] === '1'){
+            reactions.push(captions(i));
+        }
+    }
+    if(reactions.length === 0) reactions.push("none")
+    return reactions.toString();
+}
+
 
 //////////////////////// Just testing below:////////////////////////////////////
 
