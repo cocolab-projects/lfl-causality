@@ -27,7 +27,7 @@ var drawRoundNumber = function(roundNum, game) {
     // Draw progress bar
     drawProgressBar(roundNum, game.numRounds, 1, 8);
     
-    // Set text & enable button
+    // Set text & enable beaker
     $("#round_slide_header").empty();
     $("#round_slide_header").html("<br> <br>")
     $("#round_slide_header").append(
@@ -43,7 +43,7 @@ var drawRoundNumber = function(roundNum, game) {
 };
 
 var drawTrainInstructions = function(game, speciesName, pluralSpeciesName) {
-    // Set instructions text and enable button
+    // Set instructions text and enable beaker
     if (game.my_role === "explorer") {
         $("#train_instructions_slide_header").html(
             `    
@@ -51,11 +51,12 @@ var drawTrainInstructions = function(game, speciesName, pluralSpeciesName) {
                 <h3>Instructions</h3>
                 <br>
                 <p>
-                    You are the "Explorer", learning about how a group of buttons influences lights.
+                    You are the "Explorer" on an alien planet, learning about alien chemicals.
                     <br> <br>
-                    You will be shown a box of buttons and light configurations. Try out different
-                    configurations to learn what effects they have. You will have to teach a "Student"
-                    about the effects of the buttons
+                    You will be shown a group of beakers. You can test these beakers by adding them to a special
+                    beaker of alien water. Try out different
+                    configurations to learn what properties they have. You will have to teach a "Student"
+                    about the properties of the chemicals and combinations of the chemicals
                     <br> <br>
                     Press Continue to start the game.
                     <br><br>
@@ -69,10 +70,10 @@ var drawTrainInstructions = function(game, speciesName, pluralSpeciesName) {
                 <h3>Instructions</h3>
                 <br>
                 <p>
-                    You are the "Student". Your partner is currently studying buttons.
+                    You are the "Student". Your partner is currently studying alien chemicals.
                     Meanwhile you will be waiting in a chatroom. Once your partner is done, they will enter the chatroom.
-                    You should discuss what properties of buttons they learned during exploration.
-                    Pay close attention and ask questions, as you will be tested on your understanding of buttons.
+                    You should discuss what properties of chemicals they learned during exploration.
+                    Pay close attention and ask questions, as you will be tested on your understanding of beakers.
                     <br> <br>
                     During your partner's exploration period please stay at the computer and <b>DO NOT CLOSE THIS TAB</b>. Otherwise, you will be disconnected from the game and we won't be able to reward you for the hit.
                     Please keep checking the chat window, as the status will update when the other player has also entered the room.
@@ -99,12 +100,13 @@ var drawTrainBox = function(game, speciesName) {
     $("#train_creatures_slide_header").html(
         `
             <p class="label_prompt">
-                Click on different combinations buttons.
+                Click on beakers to add them to the test beaker, and click again to remove them from the test.
+                Click mix to test the mixture, and newTest to start again after each different combinations.
                 Study them carefully.
             </p>
         `
     );
-    drawBoxTable(game.numButtons, game.numLights, game.numStars, true, game.roundProps);
+    drawBox(game.numBeakers, game.numReactions, true, game.roundProps);
 
     // Make visible
     game.currentSlide[game.my_role] = "train_creatures_slide";    
@@ -122,10 +124,10 @@ var drawExplorerChatInstructions = function(game, speciesName) {
         On the next page, you will enter into a chatroom with your partner, the "student".
         <br>
         <br>
-        Please discuss the properties of the ` + speciesName + ` creatures. The "student" will be advance the game out of the chatroom, once they feel like they have a good understanding of the properties of the  ` + speciesName + ` species.
+        Please discuss the properties of the chemicals. The "student" will be advance the game out of the chatroom, once they feel like they have a good understanding of the properties of the chemicals.
         <br>
         <br>
-        After the chatroom, you both will be provided a set of unseen creatures that you must classify as belonging to the  ` + speciesName + ` species or not. Your bonus will be the sum of your score and your partner's score on this task.
+        After the chatroom, you both will be asked questions about chemicals and properties. Your bonus will be the sum of your score and your partner's score on this task.
         <br>
         <br>
     `;
@@ -180,12 +182,12 @@ var drawTestCreatures = function(game, speciesName, pluralSpeciesName) {
         <br>      
         You can click on a selected creature a second time to un-select it.
         <br>
-        Once you are done selecting the ` + pluralSpeciesName + `, hit the Continue button.
+        Once you are done selecting the ` + pluralSpeciesName + `, hit the Continue beaker.
         </p>
     `
    $("#test_creatures_slide_header").html(instructions);
 
-   drawBoxTable(game.numButtons, game.numLights, game.numStars, false, game.roundProps);
+   drawBox(game.numBeakers, game.numReactions, false, game.roundProps);
    
     // Make visible
     $("#test_creatures_slide_continue_button").prop("disabled", false);

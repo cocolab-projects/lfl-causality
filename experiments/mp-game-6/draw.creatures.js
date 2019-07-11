@@ -5,159 +5,46 @@
 // Goal: Helper functions utilized in drawing creatures for 
 //       multiplayer game 6.
 // --------------------------------------------------------------------
-
-function drawBoxTable(numButtons, numLights, numStars, train, roundProps) {
-    var lights = []
-    for(var i = 1; i<=numLights; i++){
-        let ran_Num = Math.floor(Math.random()*lights.length)
-        var light = "<div id='light" + i + "' style='width:125px;padding:50px 0px;background-color:" + color(i) +"; margin:10px;" +
-                " opacity:0.5;text-align:center;font-size:25px;border-radius:50%;display:inline-block'>light " + i + "</div>";
-        lights.splice(ran_Num, 0, light)
+function drawBox(numBeakers, numReactions, train, roundProps) {
+    var reactions = []
+    for(var i = 1; i<=numReactions; i++){
+        reactions.push("<img id='reaction" + i + "'src = 'Reaction"+i+"On.svg' alt = 'Reaction"+i+"' class = 'beaker'>");
     }
-    var buttons = []
-    for(var j = 1; j<=numButtons; j++){
-        let ran_Num = Math.floor(Math.random()*buttons.length)
-        var button = "<div id='button" + j + "' style='width:125px;padding:50px 0px;background-color:" + color(j) +"; margin:10px;" +
-                " opacity:0.5;text-align:center;font-size:25px;display:inline-block'>button "+ j +"</div>"
-        buttons.splice(ran_Num, 0, button)
+    shuffle(reactions)
+    var beakers = []
+    for(var j = 1; j<=numBeakers; j++){
+        beakers.push("<img id='beaker" + j + "'src = '"+ color(j-1) + "_Beaker.svg' alt = '"+ color(j-1) + " Beaker' class = 'beaker'>")
     }
-    var stars = []
-    for(var j = 1; j<=numStars; j++){
-        let ran_Num = Math.floor(Math.random()*stars.length)
-        var star = "<div id='star" + j + "' style='width:125px;padding:50px 0px;background-color:" + color(j) +"; margin:10px;" +
-                "text-align:center;font-size:25px;border-radius:20%;display:inline-block'></div>"
-        stars.splice(ran_Num, 0, star)
-    }
-    let starsStr = stars.toString()
-    starsStr = starsStr.replace(/,/g, "")
-    let buttonsStr = buttons.toString()
-    buttonsStr = buttonsStr.replace(/,/g, "")
-    let lightsStr = lights.toString()
-    lightsStr = lightsStr.replace(/,/g, "")
+    shuffle(beakers)
+    beakers.push("<img id='mix_beaker 'src = 'Mix_Beaker.svg' alt = 'Mix Beaker' class = 'mixbeaker'>")
+    let beakersStr = beakers.join('')
+    let reactionsStr = reactions.join('')
     if (train === true) {
-        $("#train_creatures_slide_grid").append(starsStr + "<br></br>" + buttonsStr + "<br></br>" + lightsStr);
-    } else {
-        $("#test_creatures_slide_grid").append(buttons + lights);
-    }
-    for(var h = 1; h<=numButtons; h++){
-        drawTrainingScenario(roundProps, h)
-    }
-    roundProps.starsNotPresent = ""
-    for(var h = 1; h<=numStars; h++){
-        if(Math.random() < .5){
-            $("#star" + h).css({"opacity":0});
-            roundProps.starsNotPresent = roundProps.starsNotPresent + "0"
-        }else{
-            roundProps.starsNotPresent = roundProps.starsNotPresent + "1"
+        $("#train_creatures_slide_grid").append(beakersStr + "<br></br>" + reactionsStr);
+        for(var h = 1; h<=numBeakers; h++){
+            drawTrainingScenario(roundProps, h)
         }
+    } else {
+        $("#test_creatures_slide_grid").append(beakers + reactions);
     }
-    console.log("starsNotPresent:" + roundProps.starsNotPresent)
 }
-
-    /**
-    // Draw a table of creatures in a grid of numCols columns
-    var numRows = Math.ceil(creatures.length / numCols);
-    var table = "<table class='creatures_table'>";
-    var creatureInd = 0;
-
-    for(var i = 0; i < numRows; i++) {
-        table += "<tr>";
-        for(var j = 0; j < numCols; j++) {
-            if (creatureInd >= creatures.length) break;
-            if (train === true){
-                table += "<td class='train_creature_cell' id='train_cell_" + creatureInd + "'\">";
-            } else {
-                table += "<td class='test_creature_cell' id='test_cell_" + creatureInd + "'\">";
-            }
-            if (train === true) {
-                table += "<svg class='creature_svg' id='train_creature_" + creatureInd + "'>" +
-                    "</svg></td>";
-            } else {
-                table += "<svg class='creature_svg' id='test_creature_" + creatureInd + "'>" +
-                "</svg></td>";
-            }
-            creatureInd += 1;
-        }
-        table += "</tr>";
-    }
-    table += "</table>";
-
-    // Append table to appropriate table
-    if (train === true) {
-        $("#train_creatures_slide_grid").append(table);
-    } else {
-        $("#test_creatures_slide_grid").append(table);
-    }
-
-    // Draw the creatures
-    for (var i = 0; i < creatures.length; i++) {
-        var scale = 0.75;
-        var c = creatures[i];
-        if (train === true) {
-            var cell_id = "#train_cell_" + i;
-            $(cell_id).attr("belongs_to_concept", c.belongs_to_concept);
-        }
-        if (train) drawTrainCreature(c, speciesName, i, creatures.length, scale, roundProps);
-        else drawTestCreature(c, i, scale, roundProps);
-    }
-    */
   
-  function drawTrainingScenario(roundProps, i){
-      var id = "#button" + i
-      $(id).click(function(event) {
-          var event_id = event.target.id;
-          if(!roundProps.selected_train_stim.includes(id)){
-              darken(id)
-              roundProps.selected_train_stim.push(id)
-          }else {
-              lighten(id)
-              roundProps.selected_train_stim.splice(roundProps.selected_train_stim.indexOf(id), 1)
-          }
-          console.log("Currently selected buttons: " + roundProps.selected_train_stim)
-      })
-
-   /**
-      // Draw Creature
-    var id = "train_creature_" + creatureInd;
-    Ecosystem.draw(stim.creature, stim.props, id, scale);
-  
-    // Construct Label
-    var label = "";
-    if (stim.belongs_to_concept) {  
-        label = "<div class='species-label' id='train_cell_" + creatureInd + "_label'>" + speciesName + "</div>";
-    } else {
-        label = "<div class='species-label' id='train_cell_" + creatureInd + "_label'> </div>";
-    }
-    $(label).insertAfter("#" + id);
-  
-    // Add Click Handlers to Creature's Table Cell
-    $("#train_cell_" + creatureInd).click(function(event) {
+function drawTrainingScenario(roundProps, i){
+    var id = "#beaker" + i
+    $(id).click(function(event) {
         var event_id = event.target.id;
-        var creature_id_prefix = "train_creature_";
-        var cell_id_prefix = "train_cell_";
-        var id = "#train_cell_" + creatureInd;
-
-        // Visualize Changes (Post-Click)
-        darken(id);
-        showSpeciesIndicator(id, speciesName);
-  
-        if (!roundProps.selected_train_stim.includes(id)) {
-            // Clicked Creature Not Previously Selected
-            roundProps.selected_train_stim.push(id);
-            if (roundProps.selected_train_stim.length === num_creatures) {
-                // Show "Continue" button -- exploration complete
-                $("#train_creatures_slide_continue_button").prop("disabled", false);
-                $("#train_creatures_slide_continue_button").show();
-
-                alert(
-                    "Exploration Complete! " +
-                     "Please take a moment to review your findings before continuing to the chatroom."
-                );
-            }
+        if(!roundProps.selected_train_stim.includes(id)){
+            darken(id)
+            empty(id)
+            roundProps.selected_train_stim.push(id)
+        }else {
+            lighten(id)
+            fill(id)
+            roundProps.selected_train_stim.splice(roundProps.selected_train_stim.indexOf(id), 1)
         }
-    });
-    */
-  }
+        console.log("Currently selected beakers: " + roundProps.selected_train_stim)
+    })
+}
   
 function drawTestingScenario(stim, creatureInd, scale, roundProps){
     // Draw Creature
@@ -186,42 +73,43 @@ function darken(id) {
     $(id).css({"opacity":1.0});
 }
 function lighten(id){
-    $(id).css({"opacity":.5});
+    $(id).css({"opacity":0.5});
 }
+function empty(id){
+    $(id).addClass("empty");
+}
+function fill(id){
+    $(id).removeClass("empty");
+}
+
+function turnReactionsOff(numReactions, numBeakers){
+    for(var i = 1; i<=numReactions; i++){
+        lighten("#reaction" + i)
+    }
+    for(var i = 1; i<=numBeakers; i++){
+        lighten("#beaker" + i)
+    }
+}
+
   
-function turnLightsOn(buttonsOn, test1, numButtons, numLights, lightsPrev, stars) {
-    var lightsOn = [];
-    var dictOfButtons = "";
-    for(var i = 1; i<=numButtons; i++){
-        if(buttonsOn.includes("#button" + i)){
-            dictOfButtons = dictOfButtons + "1"
-        }
-        else {
-            dictOfButtons = dictOfButtons + "0"
-        }
-    }
-    dictOfButtons = dictOfButtons + stars
-    console.log("dictOfButtons with stars: " + dictOfButtons)
-    for(var j = 1; j<=numLights; j++){
-        $("#light" + j).css({"opacity":0.5});
-    }
-    for(var h = 0; h<test1[dictOfButtons].length; h++){
-        var id = "#light" + (h+1)
-        if(test1[dictOfButtons][h]){
-            $(id).css({"opacity":1.0});
-            lightsOn.push(id)
+function turnReactionsOn(beakersOn, reactionsDict, numBeakers, numReactions, numTotalTests, numReqTests) {
+    var reactionsOn = [];
+    var beakersKey = beakerStr(beakersOn, numBeakers)
+    for(var h = 0; h<reactionsDict[beakersKey].length; h++){
+        var id = "#reaction" + (h+1)
+        if(reactionsDict[beakersKey][h]){
+            darken(id)
+            reactionsOn.push(id)
+        } else {
+            lighten(id)
         }
     }
-    for(var k = 0; k<lightsOn.length; k++){
-        if(!lightsPrev.includes(lightsOn[k])){
-            lightsPrev.push(lightsOn[k]);
-        }
-    }
-    if(lightsPrev.length === numLights){
+    console.log("numTotalTests: " + numTotalTests)
+    console.log("numReqTests: " + numReqTests)
+    if(numTotalTests >= numReqTests){
+        console.log("click should enable")
         $("#train_creatures_slide_continue_button").prop("disabled", false);
-        $("#train_creatures_slide_continue_button").show();
     }
-    return lightsPrev
 }
   
 function markAsSpecies(id) {
@@ -231,25 +119,9 @@ function markAsSpecies(id) {
 function unmarkAsSpecies(id) {
     $(id).css({"background-color":"transparent"});
 }
+
+//returns a color based off of the number of the object
 function color(num){
-    switch(num){
-    case 1:
-        return "red"
-    case 2:
-        return "orange"
-    case 3:
-        return "yellow"
-    case 4:
-        return "green"
-    case 5:
-        return "blue"
-    case 6:
-        return "purple"
-    case 7:
-        return "pink"
-    case 8:
-        return "brown"
-    default:
-        return "black"
-    }
+    var colors = ['Red', 'Green', 'Blue', 'Yellow', 'Brown']
+    return colors[num]
 }

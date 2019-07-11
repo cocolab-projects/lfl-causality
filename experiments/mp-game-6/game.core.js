@@ -54,9 +54,10 @@ var game_core = function(options){
     // Round Info
     this.roundNum = -1;
     this.numRounds = 1;
-    this.numButtons = 3;
-    this.numLights = 4;
-    this.numStars = 3;
+    this.numBeakers = 3;
+    this.numReactions = 3;
+    this.numRules = 3;
+    this.numReqTests = 3;
     this.testScores = {};
     this.testScores[this.playerRoleNames.role1] = _.times(this.numRounds, _.constant({}));
     this.testScores[this.playerRoleNames.role2] = _.times(this.numRounds, _.constant({}));
@@ -230,15 +231,8 @@ game_core.prototype.makeTrialList = function (connection, callback) {
         "CONJUNCTION_DISJUNCTION",
         "DISJUNCTION_CONJUNCTION"
     ];
-    while(ruleTypes.length !== this.numRounds){
-        if(ruleTypes.length > this.numRounds){
-            let ran_Num = Math.floor(Math.random()*ruleTypes.length)
-            ruleTypes.splice(ran_Num, 1)
-        } else {
-            let ran_Num = Math.floor(Math.random()*ruleTypes.length)
-            ruleTypes.push(ruleTypes[ran_Num])
-        }
-    }
+    //shuffle(ruleTypes);
+    ruleTypes = ruleTypes.slice(0, this.numRounds)
     console.log(ruleTypes)
     _.forEach(ruleTypes,
         ruleType => {

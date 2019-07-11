@@ -136,11 +136,15 @@ var customSetup = function(globalGame) {
             drawProgressBar(globalGame.roundNum, globalGame.numRounds, 3, 8);
             globalGame.socket.send("enterSlide.train_creatures_slide.");
             drawTrainBox(globalGame, globalGame.trialInfo.speciesName);
-            var config = createRandomBox(globalGame.numButtons, globalGame.numStars, globalGame.numLights);
+            globalGame.rules = randomRuleTypes(globalGame.numRules)
+            var config = createRandomBox(globalGame.numBeakers, globalGame.numReactions, globalGame.rules);
             console.log(toString(config));
             globalGame.boxConfigDict = generateBox(config)();
             console.log("current boxConfigDict: " + globalGame.boxConfigDict);
-            globalGame.roundProps.lightsOnPrev = [];
+            globalGame.roundProps.reactionsOnPrev = [];
+            $("#train_creatures_slide_continue_button").show();
+            $("#train_creatures_slide_newtest_button").prop("disabled", true);
+            globalGame.roundProps.numTests = 0;
             // Start Time
             globalGame.roundProps[globalGame.my_role]['times']['train']['start'] = new Date();
         } else {
@@ -151,15 +155,34 @@ var customSetup = function(globalGame) {
         }
     });
     $("#train_creatures_slide_test_button").click(function(){
-        alert("Test button has been pressed. The following buttons are currently pressed " + globalGame.roundProps.selected_train_stim)
-        globalGame.roundProps.lightsOnPrev = turnLightsOn(globalGame.roundProps.selected_train_stim, globalGame.boxConfigDict,
-                     globalGame.numButtons, globalGame.numLights, globalGame.roundProps.lightsOnPrev, globalGame.roundProps.starsNotPresent);
-        console.log("The following lights have been turned on:" + globalGame.roundProps.lightsOnPrev)
+//        globalGame.roundProps[globalGame.my_role]['times'][beakerStr(globalGame.roundProps.previousSelection, globalGame.numBeakers)]['end'] = new Date();
+//        globalGame.roundProps[globalGame.my_role]['duration'][beakerStr(globalGame.roundProps.previousSelection, globalGame.numBeakers)] = (
+//            globalGame.roundProps[globalGame.my_role]['times'][beakerStr(globalGame.roundProps.previousSelection, globalGame.numBeakers)]['end'] -
+//            globalGame.roundProps[globalGame.my_role]['times'][beakerStr(globalGame.roundProps.previousSelection, globalGame.numBeakers)]['start']
+//        ) / 1000.0;
+//        globalGame.roundProps[globalGame.my_role]['times'][beakerStr(globalGame.roundProps.selected_train_stim)]['start'] = new Date();
+        globalGame.roundProps.numTests++
+        turnReactionsOn(globalGame.roundProps.selected_train_stim, globalGame.boxConfigDict,
+                     globalGame.numBeakers, globalGame.numReactions, globalGame.roundProps.numTests, globalGame.numReqTests);
+        console.log("The following reactions have been turned on:" + globalGame.roundProps.reactionsOnPrev)
+        globalGame.roundProps.previousSelection = globalGame.roundProps.selected_train_stim;
+        $("#train_creatures_slide_test_button").prop("disabled", true);
+        $("#train_creatures_slide_newtest_button").prop("disabled", false);
+        $("#train_creatures_slide_continue_button").show();
 
+    });
+
+    $("#train_creatures_slide_newtest_button").click(function(){
+        globalGame.roundProps.selected_train_stim = []
+        $("#train_creatures_slide_test_button").prop("disabled", false);
+        $("#train_creatures_slide_newtest_button").prop("disabled", true);
+        $("#train_creatures_slide_continue_button").show();
+        turnReactionsOff(globalGame.numReactions, globalGame.numBeakers)
     });
 
     $("#train_creatures_slide_continue_button").click(function(){
         // End Time
+        console.log("click")
         globalGame.roundProps[globalGame.my_role]['times']['train']['end'] = new Date();
         globalGame.roundProps[globalGame.my_role]['duration']['train'] = (
             globalGame.roundProps[globalGame.my_role]['times']['train']['end'] -
@@ -192,6 +215,7 @@ var customSetup = function(globalGame) {
         clearTestInstructions();
         drawProgressBar(globalGame.roundNum, globalGame.numRounds, 7, 8);
         globalGame.socket.send("enterSlide.test_creatures_slide.");
+        globalGame.reactionDict = reverseDict(globalGame.boxConfigDict)
         drawTestCreatures(globalGame, globalGame.trialInfo.speciesName, globalGame.trialInfo.pluralSpeciesName);
 
         // Start Time

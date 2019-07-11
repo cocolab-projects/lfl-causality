@@ -35,35 +35,55 @@ function SingObj(arg, comps){
 
 }
 
-//stores the configurations that will control (turn on) lights
-function Config(arg, numButtons, numStars){
+//for a^(bVc), comps=[a,b,c] or [a,c,b]
+function cdObj(arg, comps){
+    this.arg = arg
+    this.comps = comps
+    this.type = "cd"
+    this.eval = function(args){
+        if(arg[comps[0]] !== args[comps[0]]){
+            return false;
+        } else {
+            for(var i = 1; i < comps.length; i++){
+                if(arg[comps[i]] === args[comps[i]]) return true
+            }
+        }
+        return false;
+    }
+}
+
+//for aV(b^c), comps=[a,b,c] or [a,c,b]
+function dcObj(arg, comps){
+    this.arg = arg
+    this.comps = comps
+    this.type = "dc"
+    this.eval = function(args){
+        if(arg[comps[0]] === args[comps[0]]){
+            return true;
+        } else {
+            for(var i = 1; i < comps.length; i++){
+                if(arg[comps[i]] !== args[comps[i]]) return false
+            }
+        }
+        return true;
+    }
+}
+
+//stores the configurations that will control (turn on) reactions
+function Config(arg, numBeakers){
     this.controls = arg
-    this.numButtons = numButtons
-    this.numStars = numStars
+    this.numBeakers = numBeakers
 }
 
 //generate the box. Takes in a config (what turns on what) and returns a function that
-// determine what is turned on
+// determines what is turned on
 function generateBox(config){
     //function to return, which will take in a setting and return what is turned on
     function configDict(){
-        let dict = {} // keys: setting of buttons, values: lights
-        for(var i = 0; i < (Math.pow(2, (config.numButtons + config.numStars))); i++){
-            var set = ""
-            var setting = {}
-            for(var j = 1; j <= (config.numButtons + config.numStars); j++){
-                if((i%(Math.pow(2,j)) >= (Math.pow(2, j-1)))){
-                    set = set + "1"
-                }
-                else {
-                    set = set + "0"
-                }
-                if(j <= config.numButtons){
-                    setting[`button${j}`] = (i%(Math.pow(2,j)) >= (Math.pow(2, j-1)))
-                } else {
-                    setting[`star${j-config.numButtons}`] = (i%(Math.pow(2,j)) >= (Math.pow(2, j-1)))
-                }
-            }
+        let dict = {} // keys: setting of beakers, values: reactions
+        for(var i = 0; i < (Math.pow(2, config.numBeakers)); i++){
+            var set = i.toString(2).padStart(config.numBeakers,'0')
+            var setting = beakerDict(set)
             dict[set] = box(setting)
         }
         return dict
@@ -82,79 +102,144 @@ function generateBox(config){
 function toString(config){
     var dict = {}
     for(var i = 0; i < config.controls.length; i++){
-        dict[`Light ${i+1}`] = {
+        var actualControls = {}
+        for(var j = 0; j < config.controls[i].comps.length; j++){
+            actualControls[config.controls[i].comps[j]] = config.controls[i].arg[config.controls[i].comps[j]]
+        }
+        dict[`Reaction ${i+1}`] = {
             type: config.controls[i].type,
-            controls: config.controls[i].arg,
+            controls: actualControls
         }
     }
     return JSON.stringify(dict)
 }
 
-function createRandomBox(numButtons, numStars, numLights){
+function createRandomBox(numBeakers, numReactions, types){
     let configArray = []
-    // create a control for each light
-    for(let i = 0; i < numLights; i++){
-        let compsArray = [] //array of components that control the light
-        let compsDict = {} //dict of components and their settings
+    // create a control for each reaction
+    for(let i = 0; i < numReactions; i++){
+        var compsArray, compsDict //array and dict of components and their settings
         do{
             compsArray = []
             compsDict = {}
-            for(let j = 0; j < numButtons; j++){
-                if(Math.floor(Math.random()*2) === 1){
-                    compsDict[`button${j+1}`] = (Math.floor(Math.random()*2) === 1)
-                    compsArray.push(`button${j+1}`)
+            for(let j = 0; j < numBeakers; j++){
+                if(Math.random() < 0.5){
+                    compsDict[`beaker${j+1}`] = (Math.random() < 0.5)
+                    compsArray.push(`beaker${j+1}`)
                 }
             }
-            for(let j = 0; j < numStars; j++){
-                if(Math.floor(Math.random()*2) === 1){
-                    compsDict[`star${j+1}`] = (Math.floor(Math.random()*2) === 1)
-                    compsArray.push(`star${j+1}`)
-                }
-            }
-        } while(compsArray.length < 2 && numButtons >= 2); //keep going until there is at least one control
+        }while(compsArray.length !== 3 && numBeakers >= 3)
+        shuffle(compsArray)
         let control
-        switch(Math.floor(Math.random()*3)){
-            case 0: //singular object
-                var singCompsDict = {}
-                if(Math.random() < .5 || numStars === 0){
-                    let indexToChoose = Math.floor(Math.random()*numButtons)
-                    singCompsDict[`button${indexToChoose+1}`] = (Math.floor(Math.random()*2) === 1)
-                    compsArray = [`button${indexToChoose+1}`]
-                } else {
-                    let indexToChoose = Math.floor(Math.random()*numStars)
-                    singCompsDict[`star${indexToChoose+1}`] = (Math.floor(Math.random()*2) === 1)
-                    compsArray = [`star${indexToChoose+1}`]
-                }
-                control = new SingObj(singCompsDict, compsArray)
-                break
-            case 1: //and object
-                control = new AndObj(compsDict, compsArray)
-                break
-            case 2: //or object
-                control = new OrObj(compsDict, compsArray)
-                break
+        let valid = false;
+        while(!valid){
+            switch(Math.floor(Math.random()*5)){
+                case 0: //singular object
+                    control = new SingObj(compsDict, compsArray.slice(0,1));
+                    valid = types.includes("SINGLE_FEATURE");
+                    break
+                case 1: //and object
+                    control = new AndObj(compsDict, compsArray.slice(0,2))
+                    valid = types.includes("CONJUNCTION");
+                    break
+                case 2: //or object
+                    control = new OrObj(compsDict, compsArray.slice(0,2))
+                    valid = types.includes("DISJUNCTION");
+                    break
+                case 3: //cd
+                    control = new cdObj(compsDict, compsArray)
+                    valid = types.includes("CONJUNCTION_DISJUNCTION");
+                    break
+                case 4: // dc
+                    control = new dcObj(compsDict, compsArray)
+                    valid = types.includes("DISJUNCTION_CONJUNCTION");
+                    break
+            }
         }
         configArray.push(control)
     }
-    let config = new Config(configArray, numButtons, numStars)
+    let config = new Config(configArray, numBeakers)
     return config
+}
+
+function randomRuleTypes(numRules){
+    var ruleTypes = [
+        "SINGLE_FEATURE",
+        "CONJUNCTION",
+        "DISJUNCTION",
+        "CONJUNCTION_DISJUNCTION",
+        "DISJUNCTION_CONJUNCTION"
+    ];
+    ruleTypes = shuffle(ruleTypes)
+    ruleTypes = ruleTypes.slice(0,numRules)
+    return ruleTypes
+}
+
+//reverses a dict
+function reverseDict(dict){
+    var newDict = {}
+    for(var config in dict){
+        var stringOfReactions = ""
+        for(var i = 0; i < dict[config].length; i++){
+            stringOfReactions = stringOfReactions + ((dict[config][i] === true) ? "1":"0")
+        }      
+        if(!newDict.hasOwnProperty(stringOfReactions)){
+            newDict[stringOfReactions] = [config]
+        } else {
+            newDict[stringOfReactions].push(config)
+        }
+    }
+    return newDict
+}
+
+//Turns the list of beakersOn to a  binary string
+function beakerStr(beakersOn, numBeakers){
+    var beakers = ""
+    for(var i = 1; i<=numBeakers; i++){
+        beakers = beakers + (beakersOn.includes("#beaker" + i)? "1":"0")
+    }
+    return beakers
+}
+
+//Turns a binary string of beakers to a  dictionary  of beaker settings
+function beakerDict(str){
+    var beakers = {}
+    for(var i = 1; i<=str.length; i++){
+        beakers[`beaker${i}`] = (str[i-1] === '1');
+    }
+    return beakers
+}
+
+/**
+ * Shuffles array in place.
+ * @param {Array} arr items An array containing the items.
+ */
+function shuffle(arr) {
+    var j, x, i;
+    for (i = arr.length - 1; i > 0; i--) {
+        j = Math.floor(Math.random() * (i + 1));
+        x = arr[i];
+        arr[i] = arr[j];
+        arr[j] = x;
+    }
+    return arr;
 }
 
 
 //////////////////////// Just testing below:////////////////////////////////////
 
 ////test settings (Expected results: 1 true, 2 true, 3 false)
-//var L_1_need = new OrObj({'button1': true, 'button3': false}, ['button1', 'button3']); //First light needs either button 1 pressed or button 3 unpressed
-//var L_2_need = new SingObj({'button3': true},['button3']) //Second light needs the third button pressed
-//var L_3_need = new AndObj({'button1': true, 'button2': true},['button1', 'button2']) //Third light needs the first two buttons pressed
-//var config1 = new Config([L_1_need, L_2_need, L_3_need], numButtons) //creates the config
+//var L_1_need = new OrObj({'beaker1': true, 'beaker3': false}, ['beaker1', 'beaker3']); //First reaction needs either beaker 1 pressed or beaker 3 unpressed
+//var L_2_need = new SingObj({'beaker3': true},['beaker3']) //Second reaction needs the third beaker pressed
+//var L_3_need = new AndObj({'beaker1': true, 'beaker2': true},['beaker1', 'beaker2']) //Third reaction needs the first two beakers pressed
+//var config1 = new Config([L_1_need, L_2_need, L_3_need], numBeakers) //creates the config
 //var test1 = generateBox(config1) //generates a box
 //var B_1 = true
 //var B_2 = true
 //var B_3 = true
-//var setting1 = new Setting({'button1': B_1, 'button2': B_2, 'button3': B_3}) // creates setting of current button "setup"
-//var setting2 = new Setting({'button1': true, 'button2': true, 'button3': false})
-//var setting3 = new Setting({'button1': true, 'button2': false, 'button3': true})
+//var setting1 = new Setting({'beaker1': B_1, 'beaker2': B_2, 'beaker3': B_3}) // creates setting of current beaker "setup"
+//var setting2 = new Setting({'beaker1': true, 'beaker2': true, 'beaker3': false})
+//var setting3 = new Setting({'beaker1': true, 'beaker2': false, 'beaker3': true})
 ////enters setting into the box, and logs the resulting scenario
 //console.log("First test: " + test1(setting1) + " (Expected results: 1 true, 2 true, 3 true)")
 //console.log("")
@@ -166,9 +251,19 @@ function createRandomBox(numButtons, numStars, numLights){
 
 //console.log("Randomly generated boxes:")
 //console.log()
-//var ranBox = createRandomBox(3, 4)
+//var ranBox = createRandomBox(3, 4, ["cd", "dc", "sing"])
 //console.log(toString(ranBox))
 //console.log(generateBox(ranBox)())
-//console.log(toString(createRandomBox(4, 5)))
+//console.log(reverseDict(generateBox(ranBox)()))
+
+////needs beaker1 on and either beaker2 or beaker3 on
+//var L_1_need = new cdObj({'beaker1': true, 'beaker2': true, 'beaker3': true}, ['beaker1', 'beaker2', 'beaker3']);
+////needs either beaker1 off or beaker2 and beaker4 on
+//var L_2_need = new dcObj({'beaker1': false, 'beaker2': true, 'beaker4': true},['beaker1', 'beaker2', 'beaker4']) //Second reaction needs the third beaker pressed
+//var numBeakers = 4
+//var config1 = new Config([L_1_need, L_2_need], numBeakers) //creates the config
+//var test1 = generateBox(config1)()//generates a box
+//console.log(test1)
+//console.log(reverseDict(test1))
 
 
