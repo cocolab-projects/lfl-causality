@@ -126,12 +126,64 @@ var customSetup = function(globalGame) {
     $("#round_slide_continue_button").click(function(){
         clearRoundNumber();
         drawProgressBar(globalGame.roundNum, globalGame.numRounds, 2, 8);
-        globalGame.socket.send("enterSlide.train_instructions_slide.");
-        drawTrainInstructions(globalGame, globalGame.trialInfo.speciesName, globalGame.trialInfo.pluralSpeciesName);
+        globalGame.socket.send("enterSlide.tutorial_instructions_slide.");
+        drawTutorialInstructions(globalGame, globalGame.trialInfo.speciesName, globalGame.trialInfo.pluralSpeciesName);
     });
 
+    $("#tutorial_instructions_slide_continue_button").click(function() {
+        clearTutorialInstructions();
+        drawProgressBar(globalGame.roundNum, globalGame.numRounds, 3, 8);
+        globalGame.socket.send("enterSlide.train_creatures_tutorial.");
+        drawTutorialBox(globalGame, globalGame.trialInfo.speciesName);
+        $("#tutorial_slide_continue_button").show();
+        $("#tutorial_slide_continue_button").prop("disabled", true);
+        // Start Time
+        globalGame.roundProps[globalGame.my_role]['times']['tutorial'] = {}
+        globalGame.roundProps[globalGame.my_role]['times']['tutorial']['start'] = new Date();
+    });
+
+    $("#tutorial_slide_test_button").click(function(){
+        configDict = {
+            "110": [true, false, true],
+        }
+        turnReactionsOn(globalGame.roundProps.tutorial.beakersClicked, configDict,
+                     globalGame.numBeakers, globalGame.numReactions, true);
+
+        console.log("The following reactions have been turned on:" + globalGame.roundProps.reactionsOnPrev)
+        globalGame.roundProps.previousSelection = globalGame.roundProps.selected_train_stim;
+        $("#tutorial_slide_test_button").prop("disabled", true);
+        $("#tutorial_slide_newtest_button").prop("disabled", false);
+        $("#train_creatures_slide_continue_button").show();
+        $("#reactionInstruct").show();
+        unhighlight("#tutorial_slide_test_button")
+        unhighlight("#mixBoxTutorial")
+        highlight("#tutorial_slide_newtest_button")
+        highlight("#reactionstutorial")
+        darken("#reactionstutorial")
+        lighten("#mixBoxTutorial")
+        globalGame.testStage = false;
+
+    });
+
+    $("#tutorial_slide_newtest_button").click(function(){
+        $("#tutorial_slide_continue_button").show();
+        $("#tutorial_slide_continue_button").prop("disabled", false)
+        unhighlight("#tutorial_slide_newtest_button")
+        unhighlight("#reactionstutorial")
+        lighten("#reactionstutorial")
+        turnReactionsOff(globalGame.numReactions, globalGame.numBeakers, true)
+    });
+
+    $("#tutorial_slide_continue_button").click(function(){
+        clearTutorial();
+        drawTrainInstructions(globalGame)
+    });
+
+
     $("#train_instructions_slide_continue_button").click(function() {
+        console.log("is clicked")
         clearTrainInstructions();
+        globalGame.roundProps[globalGame.my_role]['times']['tutorial']['end'] = new Date();
         if (globalGame.my_role === "explorer") {
             drawProgressBar(globalGame.roundNum, globalGame.numRounds, 3, 8);
             globalGame.socket.send("enterSlide.train_creatures_slide.");
@@ -151,22 +203,21 @@ var customSetup = function(globalGame) {
             // Start Time
             globalGame.roundProps[globalGame.my_role]['times']['train']['start'] = new Date();
         } else {
-            globalGame.socket.send("enterSlide.chat_room_slide."); 
-            drawProgressBar(globalGame.roundNum, globalGame.numRounds, 5, 8); 
+            globalGame.socket.send("enterSlide.chat_room_slide.");
+            drawProgressBar(globalGame.roundNum, globalGame.numRounds, 5, 8);
             globalGame.socket.send("enterChatRoom.");
             drawChatRoom(globalGame);
         }
     });
     $("#train_creatures_slide_test_button").click(function(){
-        globalGame.roundProps.combosTried.push(beakerStr(globalGame.roundProps.selected_train_stim,
-                                                         globalGame.numBeakers))
-        globalGame.roundProps[globalGame.my_role]['times'][beakerStr(globalGame.roundProps.selected_train_stim,
-                                                                     globalGame.numBeakers)] = {}
-        globalGame.roundProps[globalGame.my_role]['times'][beakerStr(globalGame.roundProps.selected_train_stim,
-                                                                     globalGame.numBeakers)]['test'] = new Date();
+        var holderObject = {}
+        holderObject['config'] = beakerStr(globalGame.roundProps.selected_train_stim,
+                                           globalGame.numBeakers, false)
+        globalGame.roundProps.combosTried.push(holderObject)
+        globalGame.roundProps.combosTried[globalGame.roundProps.combosTried.length - 1]['testTime'] = new Date();
         globalGame.roundProps.numTests++
         turnReactionsOn(globalGame.roundProps.selected_train_stim, globalGame.boxConfigDict,
-                     globalGame.numBeakers, globalGame.numReactions);
+                     globalGame.numBeakers, globalGame.numReactions, false);
         console.log("The following reactions have been turned on:" + globalGame.roundProps.reactionsOnPrev)
         globalGame.roundProps.previousSelection = globalGame.roundProps.selected_train_stim;
         $("#train_creatures_slide_test_button").prop("disabled", true);
@@ -177,13 +228,12 @@ var customSetup = function(globalGame) {
     });
 
     $("#train_creatures_slide_newtest_button").click(function(){
-        globalGame.roundProps[globalGame.my_role]['times'][beakerStr(globalGame.roundProps.selected_train_stim,
-                                                                     globalGame.numBeakers)]['learn'] = new Date();
+        globalGame.roundProps.combosTried[globalGame.roundProps.combosTried.length - 1]['learnTime'] = new Date()
         globalGame.roundProps.selected_train_stim = []
         $("#train_creatures_slide_test_button").prop("disabled", false);
         $("#train_creatures_slide_newtest_button").prop("disabled", true);
         $("#train_creatures_slide_continue_button").show();
-        turnReactionsOff(globalGame.numReactions, globalGame.numBeakers)
+        turnReactionsOff(globalGame.numReactions, globalGame.numBeakers, false)
         globalGame.testStage = true;
     });
 

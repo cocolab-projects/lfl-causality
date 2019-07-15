@@ -193,10 +193,10 @@ function reverseDict(dict){
 }
 
 //Turns the list of beakersOn to a  binary string
-function beakerStr(beakersOn, numBeakers){
+function beakerStr(beakersOn, numBeakers, tutorial){
     var beakers = ""
     for(var i = 1; i<=numBeakers; i++){
-        beakers = beakers + (beakersOn.includes("#beaker" + i)? "1":"0")
+        beakers = beakers + (beakersOn.includes("#beaker" + i + (tutorial? "tutorial": ""))? "1":"0")
     }
     return beakers
 }
@@ -237,15 +237,49 @@ function generateBeakerQuestions(dict){
     return beakerQuestions;
 }
 
-//Dict of reactions to beakers and dict of reactions to beakers
-function generateReactionQuestions(dict){
+//Dict of reactions to beakers and total numbers of reactions
+function generateReactionQuestions(dict, numReactions){
     var questions = {};
-    var i = 0;
+    //Add three reaction configs
     for(var reactionConfig in dict){
         questions[reactionConfig] = {
-            q: "The following reactions are on: " + binReactionsToString(reactionConfig) + ". All other reactions are off. " +
-               "Click on a mixture of chemicals that will make this occur ",
+            q: "The following reactions are present: " + binReactionsToString(reactionConfig) +
+               ". Click on a mixture of chemicals that will make this occur ",
             a: dict[reactionConfig]
+        }
+    }
+    // Add single reaction configs
+    for(var i = 0; i < numReactions; i++){
+        var ZeroStr = ""
+        var OneStr = "";
+        for(var j = 0; j < numReactions; j++){
+            if(j !== i){
+                ZeroStr = ZeroStr + "x"
+                OneStr = OneStr + "x"
+            }
+            else{
+                ZeroStr = ZeroStr + "0"
+                OneStr = OneStr + "1"
+            }
+        }
+        questions[ZeroStr] = {
+            q: "The following reactions are present: " + binReactionsToString(OneStr) + ". All other reactions are unknown. " +
+               "Click on a mixture of chemicals that could make this occur ",
+            a: findConfigsForSingReac(dict, i, false)
+        }
+        questions[OneStr] = {
+            q: "The following reactions are present: " + binReactionsToString(OneStr) + ". All other reactions are unknown. " +
+               "Click on a mixture of chemicals that could make this occur ",
+            a: findConfigsForSingReac(dict, i, true)
+        }
+    }
+    //add doubles
+    doubles = findDoubles(dict, numReactions)
+    for(var i = 0; i<doubles.length; i++){
+        questions[doubles[i]] = {
+            q: "The following reactions are present: " + binReactionsToString(OneStr) + ". All other reactions are unknown. " +
+               "Click on a mixture of chemicals that could make this occur ",
+            a: findConfigsForDoubReac(dict, doubles[i])
         }
     }
     return questions;
@@ -265,12 +299,75 @@ function binBeakersToString(beakers){
 function binReactionsToString(str){
     var reactions = []
     for(var i = 0; i<str.length;  i++){
-        if(str[i] === '1'){
-            reactions.push(captions(i));
+        if(str[i] !== 'x'){
+            reactions.push(captions(i, str[i] === '1'));
         }
     }
-    if(reactions.length === 0) reactions.push("none")
     return reactions.toString();
+}
+
+function findConfigsForSingReac(reverseDict, i, onOrOff){
+    var beakers = []
+    for(var reactionsOn in reverseDict){
+        if(reactionsOn[i] === '1' && onOrOff){
+            beakers = beakers.concat(reverseDict[reactionsOn])
+        }
+        if(reactionsOn[i] === '0' && !onOrOff){
+            beakers = beakers.concat(reverseDict[reactionsOn])
+        }
+    }
+    return beakers
+}
+
+function findDoubles(reverseDict, numReactions){
+    doubles = []
+    for(var reactions in reverseDict){
+        for(var i = 0; i<numReactions; i++){
+            for(var j = 0; j < numReactions; j++){
+                if(i < j){
+                    var xStr = ""
+                    for(var k = 0; k < numReactions; k++){
+                        if(k === i) {
+                            xStr =  xStr + reactions[i];
+                        } else if(k === j){
+                            xStr =  xStr + reactions[j];
+                        } else {
+                            xStr = xStr + "x"
+                        }
+                    }
+                    if(!doubles.includes(xStr)) doubles.push(xStr)
+                }
+            }
+        }
+    }
+    return doubles
+}
+
+function findConfigsForDoubReac(reverseDict, double){
+    var configs = []
+    for(var reactions in reverseDict){
+        var isMatch = true;
+        for(var i  = 0; i < double.length; i++){
+            if(double[i] !== 'x' && double[i] !== reactions[i]) isMatch = false;
+        }
+        if(isMatch){
+            configs = configs.concat(reverseDict[reactions])
+        }
+    }
+    return configs
+}
+
+function doubleQuestion(double){
+    var reactionsOn = [];
+    var reactionsOff = [];
+    for(var i  = 0; i < double.length; i++){
+        if(double[i] !== 'x'){
+            reactionsOn.push(captions(i, (double[i] === '1')))
+        }
+    }
+    var q = "The following reactions are present: " + reactionsOn.toString() + ". ";
+    q = q + "All other reactions are unknown. What is a possible beaker mixture?"
+    return q
 }
 
 

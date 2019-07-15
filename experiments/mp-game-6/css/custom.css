@@ -253,25 +253,49 @@ ALOT...don't understand how to adjust that.*/
 
 .beaker{
    width:175px;
-   height:200px;
+   height:225px;
    opacity:1.0;
    padding:0px 10px;
 }
 
 .mixbeaker{
    width:200px;
-   height:200px;
+   height:250px;
    opacity:1.0;
    margin:auto;
-   display: block;
+   display: inline-block;
 }
 
 .reaction{
    width:150px;
    height:200px;
    opacity:0.5;
-   padding:0px 30px;
+   padding:0px 0px;
    margin: 10px;
+}
+.caption{
+   width:200px;
+   opacity:0.5;
+   padding:0px 0px;
+   margin: 10px;
+}
+.captionlong{
+   width:300px;
+   opacity:0.5;
+   padding:0px 0px;
+   margin: 10px;
+}
+.instruct {
+   width:200px;
+   padding:10px;
+   margin: 10px;
+   background-color: LemonChiffon;
+   display: inline-block;
+   float: left;
+}
+
+#mixInstruct{
+   width: 300px;
 }
 
 figure {

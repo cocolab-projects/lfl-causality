@@ -42,7 +42,28 @@ var drawRoundNumber = function(roundNum, game) {
     $("#round_slide").removeClass("hidden");
 };
 
-var drawTrainInstructions = function(game, speciesName, pluralSpeciesName) {
+var drawTutorialInstructions = function(game, speciesName, pluralSpeciesName) {
+    // Set instructions text
+    $("#tutorial_instructions_slide_header").html(
+        `
+            <br><br>
+            <h3>Instructions</h3>
+            <br>
+            <p>
+                On the next page, you will be shown a tutorial of the interface.
+                <br>
+                Press continue to start the tutorial
+            </p>
+        `
+    );
+    // Make visible
+    game.currentSlide[game.my_role] = "tutorial_instructions_slide";
+    $("#tutorial_instructions_slide_continue_button").prop("disabled", false);
+    $("#tutorial_instructions_slide").removeClass("hidden");
+};
+
+
+var drawTrainInstructions = function(game) {
     // Set instructions text and enable beaker
     if (game.my_role === "explorer") {
         $("#train_instructions_slide_header").html(
@@ -91,6 +112,28 @@ var drawTrainInstructions = function(game, speciesName, pluralSpeciesName) {
     $("#train_instructions_slide").removeClass("hidden");
 };
 
+var drawTutorialBox = function(game, speciesName) {
+    // Clear previous
+    $("#train_creatures_slide_header").empty();
+    $("#train_creatures_slide_grid").empty();
+
+    // Draw creatures
+    $("#tutorial_slide_header").html(
+        `
+            <p class="label_prompt">
+                This is a tutorial of the game interface. Click on different components to learn
+                about how they are used. Once you understand how the interface works, click the continue button.
+            </p>
+        `
+    );
+    drawBox(game.numBeakers, game.numReactions, true, true, game.roundProps, game);
+
+    // Make visible
+    game.currentSlide[game.my_role] = "tutorial_slide";
+    $("#tutorial_slide_continue_button").prop("disabled", false);
+    $("#train_creatures_tutorial").removeClass("hidden");
+};
+
 var drawTrainBox = function(game, speciesName) {
     // Clear previous
     $("#train_creatures_slide_header").empty();
@@ -106,11 +149,10 @@ var drawTrainBox = function(game, speciesName) {
             </p>
         `
     );
-    drawBox(game.numBeakers, game.numReactions, true, game.roundProps, game);
+    drawBox(game.numBeakers, game.numReactions, true, false, game.roundProps, game);
 
     // Make visible
     game.currentSlide[game.my_role] = "train_creatures_slide";    
-    $("#train_creatures_slide_continue_button").hide();
     $("#train_creatures_slide_continue_button").prop("disabled", true);
     $("#train_creatures_slide").removeClass("hidden");
 };
@@ -187,7 +229,7 @@ var drawTestCreatures = function(game, speciesName, pluralSpeciesName) {
     `
    $("#test_creatures_slide_header").html(instructions);
 
-   drawBox(game.numBeakers, game.numReactions, false, game.roundProps);
+   drawBox(game.numBeakers, game.numReactions, false, false, game.roundProps);
    
     // Make visible
     $("#test_creatures_slide_continue_button").prop("disabled", false);
@@ -236,6 +278,15 @@ var clearTrainInstructions = function() {
     $("#train_instructions_slide").addClass("hidden");
     $("#train_instructions_slide_continue_button").prop("disabled", true);
 };
+
+var clearTutorialInstructions = function() {
+    $("#tutorial_instructions_slide").addClass("hidden");
+    $("#tutorial_instructions_slide_continue_button").prop("disabled", true);
+};
+var clearTutorial = function(){
+    $("#train_creatures_tutorial").addClass("hidden");
+    $("#tutorial_slide_continue_button").prop("disabled", true);
+}
 
 var clearTrainCreatures = function() {
     $("#train_creatures_slide").addClass("hidden");
