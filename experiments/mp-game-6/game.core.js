@@ -22,6 +22,7 @@ if (typeof _ === "undefined" ) {
 }
 if (has_require) {
     utils = require(__base + "sharedUtils/sharedUtils.js");
+    var box = require(__base + "sharedUtils/BoxGenerator.js");
     assert = require("assert");
     sendPostRequest = require('request').post;
 }
@@ -53,7 +54,7 @@ var game_core = function(options){
 
     // Round Info
     this.roundNum = -1;
-    this.numRounds = 1;
+    this.numRounds = 2;
     this.numBeakers = 3;
     this.numReactions = 3;
     this.numRules = 3;
@@ -63,6 +64,7 @@ var game_core = function(options){
     this.testScores[this.playerRoleNames.role2] = _.times(this.numRounds, _.constant({}));
     this.roundSummaries = [];
     this.roundSelections = [];
+    this.roundConfigs = [];
 
 
     // Other info
@@ -73,7 +75,6 @@ var game_core = function(options){
     if(this.server) {
         this.trialList = [];
         this.numTrialsDefined = 0;
-
         this.id = options.id;
         this.players = [{
             id: options.player_instances[0].id,
@@ -87,30 +88,44 @@ var game_core = function(options){
         this.streams = {};
 
         var localThis = this;
-        this.makeTrialList(options.connection, function(trial){
-            localThis.trialList.push(trial);
-            localThis.numTrialsDefined += 1;
-            if (localThis.numTrialsDefined === localThis.numRounds) {
-                localThis.trialList = _.shuffle(localThis.trialList);
-                localThis.trialStimuli = [];
-                _.forEach(
-                    localThis.trialList,
-                    trialInfo => {
-                        localThis.trialStimuli.push({
-                            train: options.train_stimuli[trialInfo.fileName] ,
-                            test:  options.test_stimuli[trialInfo.fileName],
-                            ruleIdx: trialInfo.ruleIdx,
-                            ruleName: trialInfo.name,
-                            ruleFileName: trialInfo.fileName,
-                            speciesName: trialInfo.speciesName,
-                            pluralSpeciesName: trialInfo.pluralSpeciesName,
-                        });
-                    }
-                )
-                console.log(localThis.trialList);
-                localThis.server_send_update();
-            }
-        });
+        this.boxConfigs = [];
+        this.beakerQuestionsList = [];
+        this.reactionQuestionsList = [];
+        for(var i = 0; i< this.numRounds; i++){
+            this.rules = box.randomRuleTypes(this.numRules)
+            do{
+                var config = box.createRandomBox(this.numBeakers, this.numReactions, this.rules);
+                var boxConfig = box.generateBox(config)();
+            }while(boxConfig['000'].toString() !== [false, false, false].toString());
+            var beakerQs = box.generateBeakerQuestions(boxConfig)
+            var reactionQs = box.generateReactionQuestions(box.reverseDict(boxConfig), this.numReactions)
+            this.boxConfigs.push(boxConfig);
+            this.beakerQuestionsList.push(beakerQs);
+            this.reactionQuestionsList.push(reactionQs)
+        }
+//        this.makeTrialList(options.connection, function(trial){
+//            localThis.trialList.push(trial);
+//            localThis.numTrialsDefined += 1;
+//            if (localThis.numTrialsDefined === localThis.numRounds) {
+//                localThis.trialList = _.shuffle(localThis.trialList);
+//                localThis.trialStimuli = [];
+//                _.forEach(
+//                    localThis.trialList,
+//                    trialInfo => {
+//                        localThis.trialStimuli.push({
+//                            train: options.train_stimuli[trialInfo.fileName] ,
+//                            test:  options.test_stimuli[trialInfo.fileName],
+//                            ruleIdx: trialInfo.ruleIdx,
+//                            ruleName: trialInfo.name,
+//                            ruleFileName: trialInfo.fileName,
+//                        });
+//                    }
+//                )
+//                console.log(localThis.trialList);
+//                localThis.server_send_update();
+//            }
+//        });
+        this.server_send_update();
     } else {
         // If we're initializing a player's local game copy, create the player object
         // and the game object. We'll be copying real values into these items
@@ -205,11 +220,14 @@ game_core.prototype.server_send_update = function(){
         pc : this.player_count,
         roundNum : this.roundNum,
         numRounds : this.numRounds,
+        boxConfig : this.boxConfigs[this.roundNum],
+        beakerQs : this.beakerQuestionsList[this.roundNum],
+        reactionQs : this.reactionQuestionsList[this.roundNum],
     };
-    if (this.numTrialsDefined === this.numRounds) {
         state.trialList = this.trialList;
-        state.trialInfo = this.trialStimuli[this.roundNum];
-    }
+        // state.trialInfo = this.trialStimuli[this.roundNum];
+        state.trialInfo = this.trialList[1];
+    // }
 
     _.extend(state, {players: player_packet});
 
@@ -248,8 +266,6 @@ game_core.prototype.makeTrialList = function (connection, callback) {
                         fileName: result.file_name,
                         name: result.name,
                         ruleType: ruleType,
-                        speciesName: result.speciesName,
-                        pluralSpeciesName: result.speciesNamePlural,
                     };
                     callback(trial);
                 }

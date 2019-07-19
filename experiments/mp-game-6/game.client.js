@@ -55,6 +55,7 @@ var client_onserverupdate_received = function(data){
         });
     }
 
+    console.log('UPDATE RECEIVED');
     console.log(data);
 
     // Copy game parameters to local globalGame
@@ -66,6 +67,12 @@ var client_onserverupdate_received = function(data){
     globalGame.trialInfo = data.trialInfo;
     globalGame.isProd = data.isProd;
     globalGame.id = data.id;
+
+    globalGame.boxConfig = data.boxConfig;
+    globalGame.reactionQs = data.reactionQs;
+    globalGame.beakerQs = data.beakerQs;
+    globalGame.doTutorial = true;
+
 
     // update data object on first round, don't overwrite (FIXME)
     if(!_.has(globalGame, 'data')) {
@@ -85,7 +92,7 @@ var client_onMessage = function(data) {
     switch(subcommand) {
       
       case 'end' : // Redirect to exit survey only if it is not the last round
-        if(globalGame.roundNum < globalGame.numRounds || globalGame.numRounds == null) {
+        if(globalGame.roundNum < globalGame.numRounds || globalGame.numRounds === null) {
             $("#" + globalGame.currentSlide[globalGame.my_role]).addClass("hidden");
             clearProgressBar();
             onDisconnect();
@@ -127,76 +134,153 @@ var customSetup = function(globalGame) {
         clearRoundNumber();
         drawProgressBar(globalGame.roundNum, globalGame.numRounds, 2, 8);
         globalGame.socket.send("enterSlide.tutorial_instructions_slide.");
-        drawTutorialInstructions(globalGame, globalGame.trialInfo.speciesName, globalGame.trialInfo.pluralSpeciesName);
+        if(globalGame.roundNum === 0 && globalGame.doTutorial){
+            drawTutorialInstructions(globalGame);
+        }
+        else{
+            drawTrainInstructions(globalGame);
+        }
+
     });
 
     $("#tutorial_instructions_slide_continue_button").click(function() {
         clearTutorialInstructions();
         drawProgressBar(globalGame.roundNum, globalGame.numRounds, 3, 8);
         globalGame.socket.send("enterSlide.train_creatures_tutorial.");
-        drawTutorialBox(globalGame, globalGame.trialInfo.speciesName);
+        drawTutorial(globalGame);
         $("#tutorial_slide_continue_button").show();
         $("#tutorial_slide_continue_button").prop("disabled", true);
         // Start Time
-        globalGame.roundProps[globalGame.my_role]['times']['tutorial'] = {}
-        globalGame.roundProps[globalGame.my_role]['times']['tutorial']['start'] = new Date();
+        globalGame.roundProps[globalGame.my_role]['times']['tutorial'] = {
+            interface : {
+                first : {},
+                second : {},
+            },
+            first_question : {},
+            second_question : {},
+        }
+        globalGame.roundProps[globalGame.my_role]['times']['tutorial']['interface']['first']['start'] = new Date();
     });
 
     $("#tutorial_slide_test_button").click(function(){
         configDict = {
             "110": [true, false, true],
+            "001": [true, true, false],
         }
-        turnReactionsOn(globalGame.roundProps.tutorial.beakersClicked, configDict,
-                     globalGame.numBeakers, globalGame.numReactions, true);
+        if((globalGame.roundProps.tutorial.beakersClicked.includes("#beaker3tutorial") &&
+                !globalGame.roundProps.tutorial.beakersClicked.includes("#beaker2tutorial") &&
+                !globalGame.roundProps.tutorial.beakersClicked.includes("#beaker1tutorial")) ||
+            (!globalGame.roundProps.tutorial.beakersClicked.includes("#beaker3tutorial") &&
+                globalGame.roundProps.tutorial.beakersClicked.includes("#beaker2tutorial") &&
+                globalGame.roundProps.tutorial.beakersClicked.includes("#beaker1tutorial"))){
+            turnReactionsOn(globalGame.roundProps.tutorial.beakersClicked, configDict,
+                         globalGame.numBeakers, globalGame.numReactions, true);
 
-        console.log("The following reactions have been turned on:" + globalGame.roundProps.reactionsOnPrev)
-        globalGame.roundProps.previousSelection = globalGame.roundProps.selected_train_stim;
-        $("#tutorial_slide_test_button").prop("disabled", true);
-        $("#tutorial_slide_newtest_button").prop("disabled", false);
-        $("#train_creatures_slide_continue_button").show();
-        $("#reactionInstruct").show();
-        unhighlight("#tutorial_slide_test_button")
-        unhighlight("#mixBoxTutorial")
-        highlight("#tutorial_slide_newtest_button")
-        highlight("#reactionstutorial")
-        darken("#reactionstutorial")
-        lighten("#mixBoxTutorial")
-        globalGame.testStage = false;
+            $("#tutorial_slide_test_button").prop("disabled", true);
+            $("#train_creatures_slide_continue_button").show();
+            $("#reactionInstruct").show();
+            unhighlight("#tutorial_slide_test_button")
+            unhighlight("#mixBoxTutorial")
+            highlight("#reactionstutorial")
+            darken("#reactionstutorial")
+            lighten("#mixBoxTutorial")
+            globalGame.testStage = false;
+            if(globalGame.roundProps.tutorial.beakersClicked.includes("#beaker3tutorial") &&
+                    !globalGame.roundProps.tutorial.beakersClicked.includes("#beaker2tutorial") &&
+                    !globalGame.roundProps.tutorial.beakersClicked.includes("#beaker1tutorial")){
+                $('#reactionInstruct').text("These are the properties of bluease. You can now continue to the next part of the " +
+                                            "tutorial by pressing the continue button")
+                $("#tutorial_slide_continue_button").show();
+                $("#tutorial_slide_continue_button").prop("disabled", false)
+                highlight("#tutorial_slide_continue_button")
+            } else {
+                highlight("#tutorial_slide_newtest_button")
+                $("#tutorial_slide_newtest_button").prop("disabled", false);
+            }
+        }else{
+            alert("Check that you selected the right chemicals.")
+        }
+
+
 
     });
 
     $("#tutorial_slide_newtest_button").click(function(){
-        $("#tutorial_slide_continue_button").show();
-        $("#tutorial_slide_continue_button").prop("disabled", false)
+        globalGame.roundProps[globalGame.my_role]['times']['tutorial']['interface']['first']['end'] = new Date();
+        globalGame.roundProps[globalGame.my_role]['times']['tutorial']['interface']['second']['start'] = new Date();
         unhighlight("#tutorial_slide_newtest_button")
         unhighlight("#reactionstutorial")
-        lighten("#reactionstutorial")
+        darken("#mixBoxTutorial")
+        darken("#beakerstutorial")
+        lighten('#reactionstutorial')
+        $('#beakerInstruct').text("Try running a mixture with just bluease")
+        $('#mixInstruct').text("Currently, the mixing box contains only bluease. Scroll down and click " +
+                                  "the 'mix' button to see what happens.")
+        globalGame.testStage = true;
+        $("#tutorial_slide_test_button").prop("disabled", false)
+        $("#tutorial_slide_newtest_button").prop("disabled", true)
         turnReactionsOff(globalGame.numReactions, globalGame.numBeakers, true)
+        globalGame.roundProps.tutorial.beakersClicked = []
     });
 
     $("#tutorial_slide_continue_button").click(function(){
+        globalGame.roundProps[globalGame.my_role]['times']['tutorial']['interface']['second']['end'] = new Date();
         clearTutorial();
-        drawTrainInstructions(globalGame)
+        drawQuestionInstructions(globalGame)
     });
 
+    $("#question_instructions_slide_continue_button").click(function(){
+        globalGame.roundProps[globalGame.my_role]['times']['tutorial']['first_question']['start'] = new Date();
+        clearQuestionInstructions();
+        drawFirstQuestion(globalGame)
+    });
+    $("#first_question_slide_continue_button").click(function(){
+        if(globalGame.roundProps.tutorialFirst.reactionsClicked.includes("#reaction1question") &&
+            globalGame.roundProps.tutorialFirst.reactionsClicked.includes("#reaction2question") &&
+                !globalGame.roundProps.tutorialFirst.reactionsClicked.includes("#reaction3question") &&
+                globalGame.roundProps.tutorialFirst.reactionsInteractedWith.includes("#reaction3question")){
+            clearFirstQuestion();
+            drawSecondQuestion(globalGame)
+            globalGame.roundProps[globalGame.my_role]['times']['tutorial']['first_question']['end'] = new Date();
+            globalGame.roundProps[globalGame.my_role]['times']['tutorial']['second_question']['start'] = new Date();
+        } else if(!globalGame.roundProps.tutorialFirst.reactionsInteractedWith.includes("#reaction3question")){
+            alert("You must set all the measurements to a value.")
+        } else{
+            alert("That is not the right answer. Hint: in the tutorial, bluease glowed and bubbled.")
+        }
+
+
+    });
+    $("#second_question_slide_continue_button").click(function(){
+        if(globalGame.roundProps.tutorialSecond.beakersClicked.includes("#beaker1question") &&
+            globalGame.roundProps.tutorialSecond.beakersClicked.includes("#beaker2question") &&
+                !globalGame.roundProps.tutorialSecond.beakersClicked.includes("#beaker3question") ){
+            clearSecondQuestion();
+            drawTrainInstructions(globalGame)
+            globalGame.roundProps[globalGame.my_role]['times']['tutorial']['second_question']['end'] = new Date();
+        } else {
+            alert("That is not the right answer. Hint: in the tutorial, redase and yellowase glowed and conducted electricity.")
+        }
+    });
+
+    $("#second_question_slide_notPossible_button").click(function(){
+        alert("This button is for if there is no combination of chemicals that will create the needed measurements. However, "+
+              "in this tutorial we saw that redase and yellowase glowed and conducted electricity.")
+    });
 
     $("#train_instructions_slide_continue_button").click(function() {
         console.log("is clicked")
         clearTrainInstructions();
-        globalGame.roundProps[globalGame.my_role]['times']['tutorial']['end'] = new Date();
         if (globalGame.my_role === "explorer") {
             drawProgressBar(globalGame.roundNum, globalGame.numRounds, 3, 8);
             globalGame.socket.send("enterSlide.train_creatures_slide.");
-            drawTrainBox(globalGame, globalGame.trialInfo.speciesName);
-            globalGame.rules = randomRuleTypes(globalGame.numRules)
-            var config = createRandomBox(globalGame.numBeakers, globalGame.numReactions, globalGame.rules);
-            console.log(toString(config));
-            globalGame.boxConfigDict = generateBox(config)();
-            console.log("current boxConfigDict: " + globalGame.boxConfigDict);
+            drawTrainBox(globalGame);
+            console.log("current boxConfig: " + globalGame.boxConfig);
             globalGame.roundProps.reactionsOnPrev = [];
             $("#train_creatures_slide_continue_button").show();
             $("#train_creatures_slide_newtest_button").prop("disabled", true);
             $("#train_creatures_slide_continue_button").prop("disabled", false);
+            $("#train_creatures_slide_test_button").prop("disabled", false);
             globalGame.roundProps.numTests = 0;
             globalGame.testStage = true;
             globalGame.roundProps.combosTried = []
@@ -210,21 +294,24 @@ var customSetup = function(globalGame) {
         }
     });
     $("#train_creatures_slide_test_button").click(function(){
-        var holderObject = {}
-        holderObject['config'] = beakerStr(globalGame.roundProps.selected_train_stim,
-                                           globalGame.numBeakers, false)
-        globalGame.roundProps.combosTried.push(holderObject)
-        globalGame.roundProps.combosTried[globalGame.roundProps.combosTried.length - 1]['testTime'] = new Date();
-        globalGame.roundProps.numTests++
-        turnReactionsOn(globalGame.roundProps.selected_train_stim, globalGame.boxConfigDict,
-                     globalGame.numBeakers, globalGame.numReactions, false);
-        console.log("The following reactions have been turned on:" + globalGame.roundProps.reactionsOnPrev)
-        globalGame.roundProps.previousSelection = globalGame.roundProps.selected_train_stim;
-        $("#train_creatures_slide_test_button").prop("disabled", true);
-        $("#train_creatures_slide_newtest_button").prop("disabled", false);
-        $("#train_creatures_slide_continue_button").show();
-        globalGame.testStage = false;
-
+        if(globalGame.roundProps.selected_train_stim.length === 0){
+            alert("You must add at least one chemical");
+        }else {
+            var holderObject = {}
+            holderObject['config'] = beakerStr(globalGame.roundProps.selected_train_stim,
+                                               globalGame.numBeakers, false)
+            globalGame.roundProps.combosTried.push(holderObject)
+            globalGame.roundProps.combosTried[globalGame.roundProps.combosTried.length - 1]['testTime'] = new Date();
+            globalGame.roundProps.numTests++
+            turnReactionsOn(globalGame.roundProps.selected_train_stim, globalGame.boxConfig,
+                         globalGame.numBeakers, globalGame.numReactions, false);
+            console.log("The following reactions have been turned on:" + globalGame.roundProps.reactionsOnPrev)
+            globalGame.roundProps.previousSelection = globalGame.roundProps.selected_train_stim;
+            $("#train_creatures_slide_test_button").prop("disabled", true);
+            $("#train_creatures_slide_newtest_button").prop("disabled", false);
+            $("#train_creatures_slide_continue_button").show();
+            globalGame.testStage = false;
+        }
     });
 
     $("#train_creatures_slide_newtest_button").click(function(){
@@ -251,7 +338,7 @@ var customSetup = function(globalGame) {
             clearTrainCreatures();
             drawProgressBar(globalGame.roundNum, globalGame.numRounds, 4, 8);
             globalGame.socket.send("enterSlide.chat_instructions_slide.");
-            drawExplorerChatInstructions(globalGame, globalGame.trialInfo.speciesName);
+            drawExplorerChatInstructions(globalGame);
         }
     });
 
@@ -275,101 +362,260 @@ var customSetup = function(globalGame) {
         clearTestInstructions();
         drawProgressBar(globalGame.roundNum, globalGame.numRounds, 7, 8);
         globalGame.socket.send("enterSlide.test_creatures_slide.");
-        globalGame.reactionDict = reverseDict(globalGame.boxConfigDict)
-        drawTestCreatures(globalGame, globalGame.trialInfo.speciesName, globalGame.trialInfo.pluralSpeciesName);
-
+        globalGame.roundProps[globalGame.my_role]['testResults'] = {
+            beakerQs: {},
+            reactionQs: {},
+            reactionsInteractedWith : {},
+        }
+        if(globalGame.testNum < globalGame.bqKeys.length){
+            drawTestCreatures(globalGame, globalGame.beakerQs[globalGame.bqKeys[globalGame.testNum]], false,
+                              globalGame.bqKeys[globalGame.testNum], globalGame.testNum);
+        } else {
+            drawTestCreatures(globalGame, globalGame.reactionQs[globalGame.rqKeys
+                                                                [globalGame.testNum - globalGame.bqKeys.length]], true,
+                              globalGame.rqKeys[globalGame.testNum - globalGame.bqKeys.length], globalGame.testNum);
+        }
         // Start Time
-        globalGame.roundProps[globalGame.my_role]['times']['test']['start'] = new Date(); 
+        globalGame.roundProps[globalGame.my_role]['times']['test']['start'] = new Date();
+        globalGame.testNum++;
+    });
+
+    $("#test_creatures_slide_notPossible_button").click(function(){
+        //If there are still more questions, keep asking
+        var isSure = confirm("Are you sure there are no possible answers? Click OK if you are sure.")
+        if(isSure){
+            if(globalGame.testNum <= globalGame.bqKeys.length){
+                globalGame.roundProps[globalGame.my_role]['testResults']['beakerQs'][globalGame.bqKeys[globalGame.testNum - 1]] =
+                        ['Not Possible']
+            } else {
+                globalGame.roundProps[globalGame.my_role]['testResults']['reactionQs']
+                        [globalGame.rqKeys[globalGame.testNum - globalGame.bqKeys.length - 1]] = ['Not Possible']
+            }
+            if(globalGame.testNum < (globalGame.bqKeys.length + globalGame.rqKeys.length)){
+                if(globalGame.testNum < globalGame.bqKeys.length){
+                    drawTestCreatures(globalGame, globalGame.beakerQs[globalGame.bqKeys[globalGame.testNum]], false,
+                                      globalGame.bqKeys[globalGame.testNum], globalGame.testNum);
+                } else {
+                    drawTestCreatures(globalGame, globalGame.reactionQs[globalGame.rqKeys
+                                                                        [globalGame.testNum - globalGame.bqKeys.length]], true,
+                                      globalGame.rqKeys[globalGame.testNum - globalGame.bqKeys.length], globalGame.testNum);
+                }
+                globalGame.testNum++;
+            } else {
+                // End Time
+                globalGame.roundProps[globalGame.my_role]['times']['test']['end'] = new Date();
+                globalGame.roundProps[globalGame.my_role]['duration']['test'] = (
+                            globalGame.roundProps[globalGame.my_role]['times']['test']['end'] -
+                            globalGame.roundProps[globalGame.my_role]['times']['test']['start']
+                            ) / 1000.0;
+
+                // Summary of of times
+                roundTimes = {
+                    'train': -1,
+                    'test': globalGame.roundProps[globalGame.my_role]['duration']['test'],
+                    'chat': globalGame.roundProps[globalGame.my_role]['duration']['chat'],
+                };
+
+                if (globalGame.my_role === "explorer") {
+                    roundTimes.train = globalGame.roundProps[globalGame.my_role]['duration']['train'];
+                }
+
+                // Measure performance & log selections
+                var roundSelections = [];
+                var roundSummary = {
+                    hits: 0,
+                    misses: 0,
+                    score: 0,
+                }
+                for(var config in globalGame.roundProps[globalGame.my_role]['testResults']['beakerQs']){
+                    var turker_answer = globalGame.roundProps[globalGame.my_role]['testResults']['beakerQs'][config];
+                    var answer = globalGame.beakerQs[config]['a']
+                    var isRight = true;
+                    for(var i = 0; i < answer.length; i++){
+                        if(answer[i] && !turker_answer.includes("#reaction" + (i+1) + "test")) isRight = false;
+                        if(!answer[i] && turker_answer.includes("#reaction" + (i+1) + "test")) isRight = false;
+                    }
+                    isRight ? roundSummary.hits++ : roundSummary.misses++;
+                }
+                for(var config in globalGame.roundProps[globalGame.my_role]['testResults']['reactionQs']){
+                    var turker_answer = beakerStr(globalGame.roundProps[globalGame.my_role]['testResults']['reactionQs'][config],
+                                                  globalGame.numBeakers, false, false, false);
+                    var possible_answers = globalGame.reactionQs[config]['a']
+                    var isRight = possible_answers.includes(turker_answer)
+                    isRight ? roundSummary.hits++ : roundSummary.misses++;
+                }
+
+                //        for (var i = 0; i < globalGame.trialInfo.test.length; i++) {
+                //            var stim = globalGame.trialInfo.test[i];
+                //            var true_label = stim.belongs_to_concept;
+                //            var turker_label = globalGame.roundProps.selected_test_stim.includes("#test_cell_" + i);
+                //            var is_correct = (turker_label === true_label);
+
+                //            // Track turker's choice
+                //            roundSelections.push({
+                //                "stim_num" : i,
+                //                "turker_label": turker_label,
+                //                "true_label": true_label,
+                //                "is_correct": is_correct,
+                //            });
+
+                //            // Update round summary
+                //            if (turker_label === false && true_label === false) {
+                //                roundSummary.correct_rejections++;
+                //            } else if (turker_label === false && true_label === true){
+                //                roundSummary.misses++;
+                //            } else if (turker_label === true && true_label === false) {
+                //                roundSummary.false_alarms++;
+                //            } else {
+                //                roundSummary.hits++;
+                //            }
+                //        }
+                var playerScore = roundSummary.hits;
+                roundSummary.score = playerScore > 0 ? playerScore : 0;
+
+                // local copy of scores
+                globalGame.roundSelections.push(roundSelections);
+                globalGame.roundSummaries.push(roundSummary);
+
+                // Transmit performance info to server
+                var roundTimesJSON = _.toPairs(encodeData(roundTimes)).join('.');
+                globalGame.socket.send("logTimes.Complete." + roundTimesJSON);
+                console.log(roundTimesJSON);
+
+                var roundSelectionsObj= {
+                    "trials": roundSelections,
+                }
+                globalGame.socket.emit("multipleTrialResponses", roundSelectionsObj);
+
+                var roundSummaryJSON = _.toPairs(encodeData(roundSummary)).join('.');
+                globalGame.socket.send("logScores.TestCreatures." + roundSummaryJSON);
+                globalGame.socket.send("sendingTestScores." + roundSummaryJSON);
+
+                // Enter wait room until other user has completed quiz/test
+                clearTestCreatures();
+                globalGame.socket.send("enterSlide.wait_room_slide.")
+                drawProgressBar(globalGame.roundNum, globalGame.numRounds, 8, 8);
+                drawWaitingRoom("Waiting for the your partner to catch up ...", globalGame);
+            }
+        }
     });
 
     $("#test_creatures_slide_continue_button").click(function() {
-        // Prompt turker whether they are ready to proceed
-        var proceed = confirm(
-            "Have you selected all the creatures that believe that belong to the species?\n\n" +
-            "If yes, click \"OK\".\n If no, click \"CANCEL\"."
-        );
-        if (proceed === false) {
-          return;
-        }
-
-        // End Time
-        globalGame.roundProps[globalGame.my_role]['times']['test']['end'] = new Date();
-        globalGame.roundProps[globalGame.my_role]['duration']['test'] = (
-            globalGame.roundProps[globalGame.my_role]['times']['test']['end'] -
-            globalGame.roundProps[globalGame.my_role]['times']['test']['start']
-        ) / 1000.0;
-
-        // Summary of of times
-        roundTimes = {
-            'train': -1,
-            'test': globalGame.roundProps[globalGame.my_role]['duration']['test'],
-            'chat': globalGame.roundProps[globalGame.my_role]['duration']['chat'],
-        };
-
-        if (globalGame.my_role === "explorer") {
-            roundTimes.train = globalGame.roundProps[globalGame.my_role]['duration']['train'];
-        }
-
-        // Measure performance & log selections 
-        var roundSelections = [];
-        var roundSummary = {
-            hits: 0,
-            misses: 0,
-            correct_rejections: 0,
-            false_alarms: 0,
-            score: 0,
-        }
-        for (var i = 0; i < globalGame.trialInfo.test.length; i++) {
-            var stim = globalGame.trialInfo.test[i];
-            var true_label = stim.belongs_to_concept;
-            var turker_label = globalGame.roundProps.selected_test_stim.includes("#test_cell_" + i);
-            var is_correct = (turker_label === true_label);
-
-            // Track turker's choice
-            roundSelections.push({
-                "stim_num" : i,
-                "turker_label": turker_label,
-                "true_label": true_label,
-                "is_correct": is_correct,
-            });
-
-            // Update round summary
-            if (turker_label === false && true_label === false) {
-                roundSummary.correct_rejections++;
-            } else if (turker_label === false && true_label === true){
-                roundSummary.misses++;
-            } else if (turker_label === true && true_label === false) {
-                roundSummary.false_alarms++;
+        if((globalGame.testNum > globalGame.bqKeys.length) && globalGame.roundProps[globalGame.my_role]['testResults']
+                ['reactionQs'][globalGame.rqKeys[globalGame.testNum - 1 - globalGame.bqKeys.length]].length === 0){
+            alert("You must add at least one chemical")
+        } else if(globalGame.testNum < (globalGame.bqKeys.length + globalGame.rqKeys.length)){
+            if(globalGame.testNum <= globalGame.bqKeys.length &&
+                    globalGame.roundProps[globalGame.my_role]['testResults']
+                    ['reactionsInteractedWith'][globalGame.bqKeys[globalGame.testNum - 1]].length !== globalGame.numReactions){
+                alert("You must set all the measurements to a value.")
             } else {
-                roundSummary.hits++;
+                if(globalGame.testNum < globalGame.bqKeys.length){
+                    drawTestCreatures(globalGame, globalGame.beakerQs[globalGame.bqKeys[globalGame.testNum]], false,
+                                      globalGame.bqKeys[globalGame.testNum], globalGame.testNum);
+                } else {
+                    drawTestCreatures(globalGame, globalGame.reactionQs[globalGame.rqKeys
+                                                                        [globalGame.testNum - globalGame.bqKeys.length]], true,
+                                      globalGame.rqKeys[globalGame.testNum - globalGame.bqKeys.length], globalGame.testNum);
+                }
+                globalGame.testNum++;
             }
+        } else {
+            // End Time
+            globalGame.roundProps[globalGame.my_role]['times']['test']['end'] = new Date();
+            globalGame.roundProps[globalGame.my_role]['duration']['test'] = (
+                        globalGame.roundProps[globalGame.my_role]['times']['test']['end'] -
+                        globalGame.roundProps[globalGame.my_role]['times']['test']['start']
+                        ) / 1000.0;
+
+            // Summary of of times
+            roundTimes = {
+                'train': -1,
+                'test': globalGame.roundProps[globalGame.my_role]['duration']['test'],
+                'chat': globalGame.roundProps[globalGame.my_role]['duration']['chat'],
+            };
+
+            if (globalGame.my_role === "explorer") {
+                roundTimes.train = globalGame.roundProps[globalGame.my_role]['duration']['train'];
+            }
+
+            // Measure performance & log selections
+            var roundSelections = [];
+            var roundSummary = {
+                hits: 0,
+                misses: 0,
+                score: 0,
+            }
+            for(var config in globalGame.roundProps[globalGame.my_role]['testResults']['beakerQs']){
+                var turker_answer = globalGame.roundProps[globalGame.my_role]['testResults']['beakerQs'][config];
+                var answer = globalGame.beakerQs[config]['a']
+                var isRight = true;
+                for(var i = 0; i < answer.length; i++){
+                    if(answer[i] && !turker_answer.includes("#reaction" + (i+1) + "test")) isRight = false;
+                    if(!answer[i] && turker_answer.includes("#reaction" + (i+1) + "test")) isRight = false;
+                }
+                isRight ? roundSummary.hits++ : roundSummary.misses++;
+            }
+            for(var config in globalGame.roundProps[globalGame.my_role]['testResults']['reactionQs']){
+                var turker_answer = beakerStr(globalGame.roundProps[globalGame.my_role]['testResults']['reactionQs'][config],
+                                              globalGame.numBeakers, false, false, false);
+                var possible_answers = globalGame.reactionQs[config]['a']
+                var isRight = possible_answers.includes(turker_answer)
+                isRight ? roundSummary.hits++ : roundSummary.misses++;
+            }
+
+            //        for (var i = 0; i < globalGame.trialInfo.test.length; i++) {
+            //            var stim = globalGame.trialInfo.test[i];
+            //            var true_label = stim.belongs_to_concept;
+            //            var turker_label = globalGame.roundProps.selected_test_stim.includes("#test_cell_" + i);
+            //            var is_correct = (turker_label === true_label);
+
+            //            // Track turker's choice
+            //            roundSelections.push({
+            //                "stim_num" : i,
+            //                "turker_label": turker_label,
+            //                "true_label": true_label,
+            //                "is_correct": is_correct,
+            //            });
+
+            //            // Update round summary
+            //            if (turker_label === false && true_label === false) {
+            //                roundSummary.correct_rejections++;
+            //            } else if (turker_label === false && true_label === true){
+            //                roundSummary.misses++;
+            //            } else if (turker_label === true && true_label === false) {
+            //                roundSummary.false_alarms++;
+            //            } else {
+            //                roundSummary.hits++;
+            //            }
+            //        }
+            var playerScore = roundSummary.hits;
+            roundSummary.score = playerScore > 0 ? playerScore : 0;
+
+            // local copy of scores
+            globalGame.roundSelections.push(roundSelections);
+            globalGame.roundSummaries.push(roundSummary);
+
+            // Transmit performance info to server
+            var roundTimesJSON = _.toPairs(encodeData(roundTimes)).join('.');
+            globalGame.socket.send("logTimes.Complete." + roundTimesJSON);
+            console.log(roundTimesJSON);
+
+            var roundSelectionsObj= {
+                "trials": roundSelections,
+            }
+            globalGame.socket.emit("multipleTrialResponses", roundSelectionsObj);
+
+            var roundSummaryJSON = _.toPairs(encodeData(roundSummary)).join('.');
+            globalGame.socket.send("logScores.TestCreatures." + roundSummaryJSON);
+            globalGame.socket.send("sendingTestScores." + roundSummaryJSON);
+
+            // Enter wait room until other user has completed quiz/test
+            clearTestCreatures();
+            globalGame.socket.send("enterSlide.wait_room_slide.")
+            drawProgressBar(globalGame.roundNum, globalGame.numRounds, 8, 8);
+            drawWaitingRoom("Waiting for the your partner to catch up ...", globalGame);
         }
-        var playerScore = roundSummary.hits - roundSummary.false_alarms;
-        roundSummary.score = playerScore > 0 ? playerScore : 0;
-
-        // local copy of scores
-        globalGame.roundSelections.push(roundSelections);
-        globalGame.roundSummaries.push(roundSummary);
-
-        // Transmit performance info to server
-        var roundTimesJSON = _.toPairs(encodeData(roundTimes)).join('.');
-        globalGame.socket.send("logTimes.Complete." + roundTimesJSON);
-        console.log(roundTimesJSON);        
-
-        var roundSelectionsObj= {
-            "trials": roundSelections,
-        }
-        globalGame.socket.emit("multipleTrialResponses", roundSelectionsObj);
-        
-        var roundSummaryJSON = _.toPairs(encodeData(roundSummary)).join('.');
-        globalGame.socket.send("logScores.TestCreatures." + roundSummaryJSON);
-        globalGame.socket.send("sendingTestScores." + roundSummaryJSON);
-
-        // Enter wait room until other user has completed quiz/test
-        clearTestCreatures();
-        globalGame.socket.send("enterSlide.wait_room_slide.")
-        drawProgressBar(globalGame.roundNum, globalGame.numRounds, 8, 8);
-        drawWaitingRoom("Waiting for the your partner to catch up ...", globalGame);
     });
 
     $("#round_score_report_continue_button").click(function(){
@@ -508,7 +754,9 @@ var customSetup = function(globalGame) {
             globalGame.roundProps[globalGame.my_role]['times']['chat']['end'] -
             globalGame.roundProps[globalGame.my_role]['times']['chat']['start']
         ) / 1000.0;
-
+        globalGame.testNum = 0;
+        globalGame.rqKeys = Object.keys(globalGame.reactionQs);
+        globalGame.bqKeys = Object.keys(globalGame.beakerQs);
         flashConnected = false;
         clearChatRoom();
         globalGame.socket.send("enterSlide.test_instructions_slide.")  
@@ -535,13 +783,11 @@ var customSetup = function(globalGame) {
 
                 var hits = Number(data[role_index][globalGame.roundNum].hits);
                 var misses = Number(data[role_index][globalGame.roundNum].misses);
-                var correctRejections = Number(data[role_index][globalGame.roundNum].correct_rejections);
-                var falseAlarms = Number(data[role_index][globalGame.roundNum].false_alarms);
-                var playerScore =  hits - falseAlarms;
-                var positiveScore = playerScore > 0 ? playerScore : 0;
+                var playerScore =  hits;
+                var positiveScore = playerScore;
                 $('#'+score_role+'_score').html(positiveScore);
                 $('#'+score_role+'_hits').html("Correctly selected: " + hits+ " out of " + (hits + misses));
-                $('#'+score_role+'_falseAlarms').html("Selected incorrectly: " + falseAlarms + " out of "+ (falseAlarms + correctRejections));
+                $('#'+score_role+'_falseAlarms').html("Selected incorrectly: " + misses + " out of "+ (hits + misses));
                 $('#'+score_role+'_score').html("Round score: " + positiveScore);
             }
 

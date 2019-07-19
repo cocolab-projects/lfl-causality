@@ -88,6 +88,35 @@
             <button class="continuebutton" id="tutorial_slide_continue_button">Continue</button> 
         </div>
         
+        <!-- This is the slide in which users will be told about questions. -->
+        <div class="slide hidden" id="question_instructions_slide">
+            <div id="question_instructions_slide_header"></div>
+            <br>
+            <br>
+            <button class="continuebutton" id="question_instructions_slide_continue_button">Continue</button> 
+        </div>
+        
+        <!-- This is the slide in which users will learn to about beaker to reaction questions. -->
+        <div class="slide hidden" id="first_question_slide">
+            <div id="first_question_slide_header"></div>
+            <br>
+            <br>
+            <div id="first_question_slide_grid"></div>
+            <br>
+            <button class="continuebutton" id="first_question_slide_continue_button">Continue</button> 
+        </div>
+        
+        <!-- This is the slide in which users will learn to about reaction to beaker questions. -->
+        <div class="slide hidden" id="second_question_slide">
+            <div id="second_question_slide_header"></div>
+            <br>
+            <br>
+            <div id="second_question_slide_grid"></div>
+            <br>
+            <button class="continuebutton disabled" id="second_question_slide_notPossible_button">No Such Mixture</button>
+            <button class="continuebutton" id="second_question_slide_continue_button">Continue</button> 
+        </div>
+        
         <div class="slide hidden" id="train_instructions_slide">
             <div id="train_instructions_slide_header"></div>
             <br>
@@ -128,7 +157,7 @@
             </div>
             <div id="chat_room_slide_header">
                 <p id="chat_room_slide_instructions">
-                    Explorer, please talk to the student about the properties of the species.
+                    Explorer, please talk to the student about the properties of the chemicals.
                 </p>
             </div>
             <div id="main">
@@ -165,6 +194,7 @@
             <br>
             <div id="test_creatures_slide_grid"></div>
             <br>
+            <button class="continuebutton disabled" id="test_creatures_slide_notPossible_button">No Such Mixture</button>
             <button class="continuebutton disabled" id="test_creatures_slide_continue_button">Continue</button>
         </div>
       

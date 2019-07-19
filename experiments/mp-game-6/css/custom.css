@@ -294,6 +294,13 @@ ALOT...don't understand how to adjust that.*/
    float: left;
 }
 
+.question {
+   background-color: AliceBlue;
+   display: block;
+   padding: 15px;
+   margin-top: 10px;
+}
+
 #mixInstruct{
    width: 300px;
 }

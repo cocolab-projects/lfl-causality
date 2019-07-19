@@ -193,10 +193,11 @@ function reverseDict(dict){
 }
 
 //Turns the list of beakersOn to a  binary string
-function beakerStr(beakersOn, numBeakers, tutorial){
+function beakerStr(beakersOn, numBeakers, tutorial, question, train){
     var beakers = ""
     for(var i = 1; i<=numBeakers; i++){
-        beakers = beakers + (beakersOn.includes("#beaker" + i + (tutorial? "tutorial": ""))? "1":"0")
+        beakers = beakers + (beakersOn.includes("#beaker" + i + (tutorial? "tutorial": "") + (question? "question": "")
+                                                + (train? "": "test"))? "1":"0")
     }
     return beakers
 }
@@ -229,9 +230,15 @@ function shuffle(arr) {
 function generateBeakerQuestions(dict){
     var beakerQuestions = {};
     for(var beakerConfig in dict){
-        beakerQuestions[beakerConfig] = {
-            q: "The following chemicals are in the box: " + binBeakersToString(beakerConfig) + ". Click on the reactions that will occur ",
-            a: dict[beakerConfig]
+        if(beakerConfig !== '000'){
+            beakerQuestions[beakerConfig] = {
+                q1: "<div>" +
+                    "<p class='question'>ChemCo has mixed the following chemicals: " + binBeakersToString(beakerConfig) +
+                    ".</div>",
+                q2: "<div>" +
+                    "<p class='question'>Click on the measurements that ChemCo should expect to see.</p></div>",
+                a: dict[beakerConfig],
+            }
         }
     }
     return beakerQuestions;
@@ -240,11 +247,25 @@ function generateBeakerQuestions(dict){
 //Dict of reactions to beakers and total numbers of reactions
 function generateReactionQuestions(dict, numReactions){
     var questions = {};
+    var singKeys = [];
+    var trios = Object.keys(dict);
+    shuffle(trios);
+    var i = 0
+    var end = trios.length;
+    while(trios.length > 4 && i < end){
+        var reactionConfig = trios[trios.length - 1];
+        trios.pop();
+        if(dict[reactionConfig].length !== 1){
+            trios.splice(0, 0, reactionConfig)
+        }
+    }
     //Add three reaction configs
-    for(var reactionConfig in dict){
+    for(var i = 0; i<(trios.length >= 4? 4:trios.length); i++){
+        var reactionConfig = trios[i];
         questions[reactionConfig] = {
-            q: "The following reactions are present: " + binReactionsToString(reactionConfig) +
-               ". Click on a mixture of chemicals that will make this occur ",
+            q1: "<div><p class='question'>ChemCo wants to find a chemical that does the following: " +
+                binReactionsToString(reactionConfig) + "</p></div>",
+            q2: "<div><p class='question'>Click on a possible mixture ChemCo could use.</p></div>",
             a: dict[reactionConfig]
         }
     }
@@ -263,22 +284,32 @@ function generateReactionQuestions(dict, numReactions){
             }
         }
         questions[ZeroStr] = {
-            q: "The following reactions are present: " + binReactionsToString(OneStr) + ". All other reactions are unknown. " +
-               "Click on a mixture of chemicals that could make this occur ",
+            q1: "<div><p class='question'>ChemCo wants to find a chemical that does the following: " +
+                binReactionsToString(ZeroStr) + ". It doesn't care about any other properties.</p></div>",
+            q2: "<div><p class='question'>Click on a possible mixture ChemCo could use.</p></div>",
             a: findConfigsForSingReac(dict, i, false)
         }
         questions[OneStr] = {
-            q: "The following reactions are present: " + binReactionsToString(OneStr) + ". All other reactions are unknown. " +
-               "Click on a mixture of chemicals that could make this occur ",
+            q1: "<div><p class='question'>ChemCo wants to find a chemical that does the following: " +
+                binReactionsToString(OneStr) + ". It doesn't care about any other properties.</p></div>",
+            q2: "<div><p class='question'>Click on a possible mixture ChemCo could use.</p></div>",
             a: findConfigsForSingReac(dict, i, true)
         }
+        singKeys.push(ZeroStr);
     }
+    shuffle(singKeys)
+    for(var i = 0; i < 2; i++){
+        delete questions[singKeys[i]]
+    }
+
     //add doubles
-    doubles = findDoubles(dict, numReactions)
-    for(var i = 0; i<doubles.length; i++){
+    var doubles = findDoubles();
+    shuffle(doubles)
+    for(var i = 0; i<(doubles.length >= 4? 4:doubles.length); i++){
         questions[doubles[i]] = {
-            q: "The following reactions are present: " + binReactionsToString(OneStr) + ". All other reactions are unknown. " +
-               "Click on a mixture of chemicals that could make this occur ",
+            q1: "<div><p class='question'>ChemCo wants to find a chemical that does the following" +
+                binReactionsToString(doubles[i]) + ". It doesn't care about any other properties.</p></div>",
+            q2: "<div><p class='question'>Click on a possible mixture ChemCo could use.</p></div>",
             a: findConfigsForDoubReac(dict, doubles[i])
         }
     }
@@ -289,10 +320,10 @@ function binBeakersToString(beakers){
     var chemicals = []
     for(var i = 0; i<beakers.length;  i++){
         if(beakers[i] === '1'){
-            chemicals.push(color(i+1) + "ase");
+            chemicals.push(color(i) + "ase");
         }
     }
-    chemicals.push("alien water (as always)")
+    if(chemicals.length === 0) chemicals.push["no chemicals"]
     return chemicals.toString();
 }
 
@@ -319,25 +350,15 @@ function findConfigsForSingReac(reverseDict, i, onOrOff){
     return beakers
 }
 
-function findDoubles(reverseDict, numReactions){
-    doubles = []
-    for(var reactions in reverseDict){
-        for(var i = 0; i<numReactions; i++){
-            for(var j = 0; j < numReactions; j++){
-                if(i < j){
-                    var xStr = ""
-                    for(var k = 0; k < numReactions; k++){
-                        if(k === i) {
-                            xStr =  xStr + reactions[i];
-                        } else if(k === j){
-                            xStr =  xStr + reactions[j];
-                        } else {
-                            xStr = xStr + "x"
-                        }
-                    }
-                    if(!doubles.includes(xStr)) doubles.push(xStr)
-                }
-            }
+function findDoubles(){
+    const pairs = [['0', '1'], ['1', '1'], ['1', '0'], ['0', '0']]
+    var doubles = []
+    for(var i = 0; i < 4; i++){
+        for(var j = 0; j < 3; j++){
+            var pair = pairs[i].slice()
+            pair.splice(j,0,'x')
+            console.log(pair);
+            doubles.push(pair.join(""))
         }
     }
     return doubles
@@ -354,6 +375,9 @@ function findConfigsForDoubReac(reverseDict, double){
             configs = configs.concat(reverseDict[reactions])
         }
     }
+    if(configs.length === 0){
+        configs.push("Not Possible")
+    }
     return configs
 }
 
@@ -368,6 +392,33 @@ function doubleQuestion(double){
     var q = "The following reactions are present: " + reactionsOn.toString() + ". ";
     q = q + "All other reactions are unknown. What is a possible beaker mixture?"
     return q
+}
+
+function testBG(){
+    console.log("BoxGenerator reached")
+}
+
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined'){
+    module.exports = {
+        createRandomBox,
+        generateBox,
+        randomRuleTypes,
+        generateReactionQuestions,
+        generateBeakerQuestions,
+        reverseDict,
+    }
+}
+
+//returns a color based off of the number of the object
+function color(num){
+    var colors = ['Red', 'Yellow', 'Blue', 'Green', 'Brown']
+    return colors[num]
+}
+
+function captions(num, isOn){
+    var onCaps = ['Glows', 'Bubbles', 'Conducts Electricity']
+    var offCaps = ['Does not Glow', 'Does not Bubble', 'Does Not Conduct Electricity']
+    return isOn? onCaps[num]:offCaps[num]
 }
 
 
