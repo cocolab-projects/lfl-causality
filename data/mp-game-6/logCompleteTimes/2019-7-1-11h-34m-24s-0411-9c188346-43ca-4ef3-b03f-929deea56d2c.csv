@@ -1,0 +1,7 @@
+experimentName	iterationName	gameid	time	role	rule_idx	rule_name	rule_file_name	round_num	train	test	chat	eventType
+rns	0	32.451	7.744	11.323	logTimes
+mp-game-6	pilot	0411-9c188346-43ca-4ef3-b03f-929deea56d2c	1562006071455	student	1	"flowers with thorns"	flowers_thorns	0	-1	18.392	11.006	logTimes
+mp-game-6	pilot	0411-9c188346-43ca-4ef3-b03f-929deea56d2c	1562006143080	student	11	"fish with white stripes and whiskers"	fish_white_stripes_whiskers	1	-1	2.661	0.895	logTimes
+mp-game-6	pilot	0411-9c188346-43ca-4ef3-b03f-929deea56d2c	1562006147160	explorer	11	"fish with white stripes and whiskers"	fish_white_stripes_whiskers	1	33.169	2.357	4.259	logTimes
+mp-game-6	pilot	0411-9c188346-43ca-4ef3-b03f-929deea56d2c	1562006193769	student	21	"bugs with purple wings or white legs"	bugs_purple_wings_or_white_legs	2	-1	2.847	0.42	logTimes
+mp-game-6	pilot	0411-9c188346-43ca-4ef3-b03f-929deea56d2c	1562006199495	explorer	21	"bugs with purple wings or white legs"	bugs_purple_wings_or_white_legs	2	30.369	3.435	3.168	logTimes

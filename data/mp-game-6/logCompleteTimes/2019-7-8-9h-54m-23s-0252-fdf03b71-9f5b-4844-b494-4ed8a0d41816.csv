@@ -1,0 +1,2 @@
+experimentName	iterationName	gameid	time	role	rule_idx	rule_name	rule_file_name	round_num	train	test	chat	eventType
+mp-game-6	pilot	0252-fdf03b71-9f5b-4844-b494-4ed8a0d41816	1562604863965	student	26	"flowers with purple petals or thorns"	flowers_purple_petals_or_thorns	0	-1	5.931	11.648	logTimes

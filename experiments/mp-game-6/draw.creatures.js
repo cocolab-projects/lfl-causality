@@ -6,7 +6,14 @@
 //       multiplayer game 6.
 // --------------------------------------------------------------------
 function drawBox(numBeakers, numReactions, train, roundProps, game, beakersManip, config, questionObj) {
-    console.log("drawBox: " + config)
+    var clickRecord = {
+        config: train ? "" : config,
+        clicks: []
+    }
+    if(!train){
+        clickRecord.type = beakersManip ? "reaction" : "beaker"
+    }
+    roundProps[game.my_role]['clicks'][train? 'training' : 'testing'].push(clickRecord)
     var reactions = ["<div id='reactions"+ (!train ? "test": "") + "'>"]
     var beakers = ["<div id='beakers"+ (!train ? "test": "") + "'>"]
     for(var i = 1; i<=numReactions; i++){
@@ -15,9 +22,9 @@ function drawBox(numBeakers, numReactions, train, roundProps, game, beakersManip
                            "'src = 'Graphics/Reaction"+i+"Off.svg' "+
                            "alt = 'Reaction"+i+"' class = 'reaction'><figcaption id='cap_reaction" + i +
                             (train? "": "test") + "Off' class = 'caption" + ((i===3)?"long":"") +
-                           "'>"+ captions(i-1, false) + "</figcaption><figcaption id='cap_reaction" + i +
+                           "'>"+ reaction(i-1, false) + "</figcaption><figcaption id='cap_reaction" + i +
                            (train? "": "test") + "On' class = 'caption" + ((i===3)?"long":"") +
-                          "'>" + captions(i-1, true) + "</figcaption></figure>");
+                          "'>" + reaction(i-1, true) + "</figcaption></figure>");
         }
     } 
     if(train || beakersManip){
@@ -95,9 +102,9 @@ function drawTutorialBox(numBeakers, numReactions, question, roundProps, game, b
                            "'src = 'Graphics/Reaction"+i+"Off.svg' "+
                            "alt = 'Reaction"+i+"' class = 'reaction'><figcaption id='cap_reaction" + i +
                             (question? "question": "tutorial") + "Off' class = 'caption" + ((i===3)?"long":"") +
-                           "'>"+ captions(i-1, false) + "</figcaption><figcaption id='cap_reaction" + i +
+                           "'>"+ reaction(i-1, false) + "</figcaption><figcaption id='cap_reaction" + i +
                            (question? "question": "tutorial") + "On' class = 'caption" + ((i===3)?"long":"") +
-                          "'>" + captions(i-1, true) + "</figcaption></figure>");
+                          "'>" + reaction(i-1, true) + "</figcaption></figure>");
         }
     }
     let mixBox;
@@ -181,9 +188,10 @@ function drawTutorialBox(numBeakers, numReactions, question, roundProps, game, b
   
 function drawTrainingScenario(roundProps, i, game){
     var id = "#beaker" + i
-    console.log("adding click function for id: " + id)
     $(id).click(function(event) {
         var event_id = event.target.id;
+        roundProps[game.my_role]['clicks']['training']
+                [roundProps[game.my_role]['clicks']['training'].length - 1]['clicks'].push(id)
         if(game.testStage){
             if(!roundProps.selected_train_stim.includes(id)){
                 lighten(id)
@@ -195,16 +203,13 @@ function drawTrainingScenario(roundProps, i, game){
                 roundProps.selected_train_stim.splice(roundProps.selected_train_stim.indexOf(id), 1)
             }
             var img = "Graphics/Box_" + beakerStr(roundProps.selected_train_stim, game.numBeakers, false, false, true) + ".svg"
-            console.log(img);
             $("#mix_box").attr("src", img);
         }
-        console.log("Currently selected beakers: " + roundProps.selected_train_stim)
     })
 }
 
 function drawTutorialScenario(roundProps, i, game, beakersManip, question){
     var id = "#" + (beakersManip ? "beaker" : "reaction") + i + (question? "question":"tutorial");
-    console.log(id)
     $(id).click(function(event) {
         if(!question){
             roundProps.tutorial.numBeakerClicks++;
@@ -218,9 +223,7 @@ function drawTutorialScenario(roundProps, i, game, beakersManip, question){
                 roundProps.tutorial.beakersClicked.splice(roundProps.tutorial.beakersClicked.indexOf(id), 1)
             }
             var img = "Graphics/Box_" + beakerStr(roundProps.tutorial.beakersClicked, game.numBeakers, true, false, true) + ".svg"
-            console.log(img);
             $("#mix_boxtutorial").attr("src", img);
-            console.log("Currently selected beakers: " + roundProps.tutorial.beakersClicked)
             if(roundProps.tutorial.beakersClicked.includes("#beaker1tutorial") &&
                     roundProps.tutorial.beakersClicked.includes("#beaker2tutorial")  &&
                     !roundProps.tutorial.beakersClicked.includes("#beaker3tutorial")){
@@ -241,7 +244,6 @@ function drawTutorialScenario(roundProps, i, game, beakersManip, question){
                 roundProps.tutorialSecond.beakersClicked.splice(roundProps.tutorialSecond.beakersClicked.indexOf(id), 1)
             }
             var img = "Graphics/Box_" + beakerStr(roundProps.tutorialSecond.beakersClicked, game.numBeakers, false, true, true) + ".svg"
-            console.log(img)
             $("#mix_boxquestion").attr("src", img);
         } else {
             roundProps.tutorialFirst.reactionsInteractedWith.push(id)
@@ -281,8 +283,9 @@ function drawTestingScenario(roundProps, i, beakers, config, role, numBeakers){
     //globalGame.roundProps[globalGame.my_role]['testResults']['beakerQs'][config];
     if(beakers){
         var id = "#beaker" + i + "test"
-        console.log("creating a test for reactions: " + beakers)
         $(id).click(function(event) {
+            roundProps[role]['clicks']['testing']
+                    [roundProps[role]['clicks']['testing'].length - 1]['clicks'].push(id)
             if(!roundProps[role]['testResults']['reactionQs'][config].includes(id)){
                 lighten(id)
                 empty(id)
@@ -294,14 +297,13 @@ function drawTestingScenario(roundProps, i, beakers, config, role, numBeakers){
             }
             var img = "Graphics/Box_" + beakerStr(roundProps[role]['testResults']['reactionQs'][config], numBeakers, false, false, false)
                     + ".svg"
-            console.log(img);
             $("#mix_boxtest").attr("src", img);
-            console.log("Currently selected beakers: " + roundProps[role]['testResults']['reactionQs'][config])
         })
     }else{
-        console.log("creating a test for beakers: " + beakers)
         var id = "#reaction" + i + "test"
         $(id).click(function(event) {
+            roundProps[role]['clicks']['testing']
+                    [roundProps[role]['clicks']['testing'].length - 1]['clicks'].push(id)
             var event_id = event.target.id;
             if(!roundProps[role]['testResults']['reactionsInteractedWith'][config].includes(id)){
                 roundProps[role]['testResults']['reactionsInteractedWith'][config].push(id)
@@ -313,7 +315,6 @@ function drawTestingScenario(roundProps, i, beakers, config, role, numBeakers){
                 turnOff(i, false, false, false, false)
                 roundProps[role]['testResults']['beakerQs'][config].splice(roundProps[role]['testResults']['beakerQs'][config].indexOf(id), 1)
             }
-            console.log("Currently selected reactions: " + roundProps[role]['testResults']['beakerQs'][config])
         })
     }
 }

@@ -111,20 +111,31 @@ function toString(config){
             controls: actualControls
         }
     }
-    return JSON.stringify(dict)
+    var result = ""
+    for(var reaction in dict){
+        result = result + reaction + ": "+ dict[reaction]['type'] + ""
+        result = result + "(controls: "
+        for(var beaker in dict[reaction]['controls']){
+            result = result + beaker + "("+ dict[reaction]['controls'][beaker] +")"
+        }
+        result = result + ")"
+    }
+    return result;
 }
 
+//creates a random configuration
 function createRandomBox(numBeakers, numReactions, types){
     let configArray = []
+    let rulesUsed = []
     // create a control for each reaction
-    for(let i = 0; i < numReactions; i++){
+    for(var i = 0; i < numReactions; i++){
         var compsArray, compsDict //array and dict of components and their settings
         do{
             compsArray = []
             compsDict = {}
-            for(let j = 0; j < numBeakers; j++){
+            for(var j = 0; j < numBeakers; j++){
                 if(Math.random() < 0.5){
-                    compsDict[`beaker${j+1}`] = (Math.random() < 0.5)
+                    compsDict[`beaker${j+1}`] = (Math.random() < 0.5);
                     compsArray.push(`beaker${j+1}`)
                 }
             }
@@ -136,23 +147,43 @@ function createRandomBox(numBeakers, numReactions, types){
             switch(Math.floor(Math.random()*5)){
                 case 0: //singular object
                     control = new SingObj(compsDict, compsArray.slice(0,1));
-                    valid = types.includes("SINGLE_FEATURE");
+                    valid = types.includes("SINGLE_FEATURE") &&
+                            (!rulesUsed.includes("sing") || rulesUsed.length >= types.length);
+                    if(valid){
+                        rulesUsed.push("sing")
+                    }
                     break
                 case 1: //and object
                     control = new AndObj(compsDict, compsArray.slice(0,2))
-                    valid = types.includes("CONJUNCTION");
+                    valid = types.includes("CONJUNCTION") &&
+                            (!rulesUsed.includes("and") || rulesUsed.length >= types.length);
+                    if(valid){
+                        rulesUsed.push("and")
+                    }
                     break
                 case 2: //or object
                     control = new OrObj(compsDict, compsArray.slice(0,2))
-                    valid = types.includes("DISJUNCTION");
+                    valid = types.includes("DISJUNCTION") &&
+                            (!rulesUsed.includes("or") || rulesUsed.length >= types.length);
+                    if(valid){
+                        rulesUsed.push("or")
+                    }
                     break
                 case 3: //cd
                     control = new cdObj(compsDict, compsArray)
-                    valid = types.includes("CONJUNCTION_DISJUNCTION");
+                    valid = types.includes("CONJUNCTION_DISJUNCTION") &&
+                            (!rulesUsed.includes("cd") || rulesUsed.length >= types.length);
+                    if(valid){
+                        rulesUsed.push("cd")
+                    }
                     break
                 case 4: // dc
                     control = new dcObj(compsDict, compsArray)
-                    valid = types.includes("DISJUNCTION_CONJUNCTION");
+                    valid = types.includes("DISJUNCTION_CONJUNCTION") &&
+                            (!rulesUsed.includes("dc") || rulesUsed.length >= types.length);
+                    if(valid){
+                        rulesUsed.push("dc")
+                    }
                     break
             }
         }
@@ -162,20 +193,37 @@ function createRandomBox(numBeakers, numReactions, types){
     return config
 }
 
-function randomRuleTypes(numRules){
-    var ruleTypes = [
+//randomly selects a given number of rules
+function randomRuleTypes(numRules, roundNum){
+    var difficultRuleTypes = [
         "SINGLE_FEATURE",
         "CONJUNCTION",
         "DISJUNCTION",
         "CONJUNCTION_DISJUNCTION",
         "DISJUNCTION_CONJUNCTION"
     ];
-    ruleTypes = shuffle(ruleTypes)
-    ruleTypes = ruleTypes.slice(0,numRules)
-    return ruleTypes
+    var easyRuleTypes = [
+        "SINGLE_FEATURE",
+        "CONJUNCTION",
+        "DISJUNCTION",
+    ];
+    if(roundNum > 1){
+        difficultRuleTypes = shuffle(difficultRuleTypes)
+        difficultRuleTypes = difficultRuleTypes.slice(0,numRules)
+        return difficultRuleTypes
+    } else {
+        easyRuleTypes = shuffle(easyRuleTypes)
+        easyRuleTypes = easyRuleTypes.slice(0, roundNum+1)
+        return easyRuleTypes
+    }
+
+
 }
 
-//reverses a dict
+/*
+  Parameter: dictionary: keys: beakers --> values: reactions
+  Return: dictionary: keys: reactions --> values: array of beakers
+*/
 function reverseDict(dict){
     var newDict = {}
     for(var config in dict){
@@ -192,17 +240,42 @@ function reverseDict(dict){
     return newDict
 }
 
-//Turns the list of beakersOn to a  binary string
+/*
+  Parameters: array of beakers that are selected, total number of beakers,
+              boolean value of current configuration
+  Return: Binary string representation of beakers
+*/
 function beakerStr(beakersOn, numBeakers, tutorial, question, train){
     var beakers = ""
-    for(var i = 1; i<=numBeakers; i++){
-        beakers = beakers + (beakersOn.includes("#beaker" + i + (tutorial? "tutorial": "") + (question? "question": "")
-                                                + (train? "": "test"))? "1":"0")
+    if(beakersOn.includes("Not Possible")){
+        beakers = "Not Possible"
+    }else {
+        for(var i = 1; i<=numBeakers; i++){
+            beakers = beakers + (beakersOn.includes("#beaker" + i + (tutorial? "tutorial": "") + (question? "question": "")
+                                                    + (train? "": "test"))? "1":"0")
+        }
     }
     return beakers
 }
 
-//Turns a binary string of beakers to a  dictionary  of beaker settings
+/*
+  Parameters: array of reactions that are selected, total number of reactions,
+              boolean value of current configuration
+  Return: Binary string representation of reactions
+*/
+function reactionStr(reactionsOn, numReactions, tutorial, question, train){
+    var reactions = ""
+    for(var i = 1; i<=numReactions; i++){
+        reactions = reactions + (reactionsOn.includes("#reaction" + i + (tutorial? "tutorial": "") + (question? "question": "")
+                                                + (train? "": "test"))? "1":"0")
+    }
+    return reactions
+}
+
+/*
+  Parameters: binary string of beakers
+  Return: Dictionary: keys: beakers --> values: booleans
+*/
 function beakerDict(str){
     var beakers = {}
     for(var i = 1; i<=str.length; i++){
@@ -226,7 +299,22 @@ function shuffle(arr) {
     return arr;
 }
 
-//Dict of beakers to reactions
+/*
+  Parameters: array of bools
+  Return: Binary string representation of array
+*/
+function boolsToBin(bools){
+    var stringRep = '';
+    for(var i = 0; i < bools.length; i++){
+        stringRep = stringRep +(bools[i] ? "1" : "0")
+    }
+    return stringRep
+}
+
+/*
+  Parameters: dictionary: keys: beakers --> values: reactions
+  Return: dictionary: keys: beaker configurations --> values: dictionary of answers [a], and questions [q1, q2]
+*/
 function generateBeakerQuestions(dict){
     var beakerQuestions = {};
     for(var beakerConfig in dict){
@@ -237,14 +325,18 @@ function generateBeakerQuestions(dict){
                     ".</div>",
                 q2: "<div>" +
                     "<p class='question'>Click on the measurements that ChemCo should expect to see.</p></div>",
-                a: dict[beakerConfig],
+                a: boolsToBin(dict[beakerConfig]),
             }
         }
     }
     return beakerQuestions;
 }
 
-//Dict of reactions to beakers and total numbers of reactions
+
+/*
+  Parameters: dictionary: keys: reactions --> values: beakers , number of Reactions
+  Return: dictionary: keys: reaction configurations --> values: dictionary of answers [a], and questions [q1, q2]
+*/
 function generateReactionQuestions(dict, numReactions){
     var questions = {};
     var singKeys = [];
@@ -307,7 +399,7 @@ function generateReactionQuestions(dict, numReactions){
     shuffle(doubles)
     for(var i = 0; i<(doubles.length >= 4? 4:doubles.length); i++){
         questions[doubles[i]] = {
-            q1: "<div><p class='question'>ChemCo wants to find a chemical that does the following" +
+            q1: "<div><p class='question'>ChemCo wants to find a chemical that does the following: " +
                 binReactionsToString(doubles[i]) + ". It doesn't care about any other properties.</p></div>",
             q2: "<div><p class='question'>Click on a possible mixture ChemCo could use.</p></div>",
             a: findConfigsForDoubReac(dict, doubles[i])
@@ -316,6 +408,10 @@ function generateReactionQuestions(dict, numReactions){
     return questions;
 }
 
+/*
+  Parameters: binary string of beakers present
+  Return: array of chemical names
+*/
 function binBeakersToString(beakers){
     var chemicals = []
     for(var i = 0; i<beakers.length;  i++){
@@ -327,16 +423,24 @@ function binBeakersToString(beakers){
     return chemicals.toString();
 }
 
+/*
+  Parameters: binary string of reactions present
+  Return: array of reaction names
+*/
 function binReactionsToString(str){
     var reactions = []
     for(var i = 0; i<str.length;  i++){
         if(str[i] !== 'x'){
-            reactions.push(captions(i, str[i] === '1'));
+            reactions.push(reaction(i, str[i] === '1'));
         }
     }
     return reactions.toString();
 }
 
+/*
+  Parameters: Dictionary: keys: binary reactions string --> values: arrays of beakers, i is reaction number, onOrOff: is reaction on
+  Return: Array of possible beaker configurations
+*/
 function findConfigsForSingReac(reverseDict, i, onOrOff){
     var beakers = []
     for(var reactionsOn in reverseDict){
@@ -350,6 +454,10 @@ function findConfigsForSingReac(reverseDict, i, onOrOff){
     return beakers
 }
 
+/*
+  Parameters: None
+  Return: Array of all possible doubles
+*/
 function findDoubles(){
     const pairs = [['0', '1'], ['1', '1'], ['1', '0'], ['0', '0']]
     var doubles = []
@@ -357,13 +465,16 @@ function findDoubles(){
         for(var j = 0; j < 3; j++){
             var pair = pairs[i].slice()
             pair.splice(j,0,'x')
-            console.log(pair);
             doubles.push(pair.join(""))
         }
     }
     return doubles
 }
 
+/*
+  Parameters: Dictionary: keys: binary reactions string --> values: arrays of beakers, string of desired double
+  Return: Array of all possible answers
+*/
 function findConfigsForDoubReac(reverseDict, double){
     var configs = []
     for(var reactions in reverseDict){
@@ -375,29 +486,14 @@ function findConfigsForDoubReac(reverseDict, double){
             configs = configs.concat(reverseDict[reactions])
         }
     }
-    if(configs.length === 0){
+    if(configs.length === 0 || (configs.length === 1 && configs.includes("000"))){
+        configs = [];
         configs.push("Not Possible")
     }
     return configs
 }
 
-function doubleQuestion(double){
-    var reactionsOn = [];
-    var reactionsOff = [];
-    for(var i  = 0; i < double.length; i++){
-        if(double[i] !== 'x'){
-            reactionsOn.push(captions(i, (double[i] === '1')))
-        }
-    }
-    var q = "The following reactions are present: " + reactionsOn.toString() + ". ";
-    q = q + "All other reactions are unknown. What is a possible beaker mixture?"
-    return q
-}
-
-function testBG(){
-    console.log("BoxGenerator reached")
-}
-
+// Exports functions for use on server side
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined'){
     module.exports = {
         createRandomBox,
@@ -406,60 +502,21 @@ if (typeof module !== 'undefined' && typeof module.exports !== 'undefined'){
         generateReactionQuestions,
         generateBeakerQuestions,
         reverseDict,
+        toString,
     }
 }
 
-//returns a color based off of the number of the object
+//returns correct color
 function color(num){
     var colors = ['Red', 'Yellow', 'Blue', 'Green', 'Brown']
     return colors[num]
 }
 
-function captions(num, isOn){
+//returns correct reaction
+function reaction(num, isOn){
     var onCaps = ['Glows', 'Bubbles', 'Conducts Electricity']
     var offCaps = ['Does not Glow', 'Does not Bubble', 'Does Not Conduct Electricity']
     return isOn? onCaps[num]:offCaps[num]
 }
-
-
-//////////////////////// Just testing below:////////////////////////////////////
-
-////test settings (Expected results: 1 true, 2 true, 3 false)
-//var L_1_need = new OrObj({'beaker1': true, 'beaker3': false}, ['beaker1', 'beaker3']); //First reaction needs either beaker 1 pressed or beaker 3 unpressed
-//var L_2_need = new SingObj({'beaker3': true},['beaker3']) //Second reaction needs the third beaker pressed
-//var L_3_need = new AndObj({'beaker1': true, 'beaker2': true},['beaker1', 'beaker2']) //Third reaction needs the first two beakers pressed
-//var config1 = new Config([L_1_need, L_2_need, L_3_need], numBeakers) //creates the config
-//var test1 = generateBox(config1) //generates a box
-//var B_1 = true
-//var B_2 = true
-//var B_3 = true
-//var setting1 = new Setting({'beaker1': B_1, 'beaker2': B_2, 'beaker3': B_3}) // creates setting of current beaker "setup"
-//var setting2 = new Setting({'beaker1': true, 'beaker2': true, 'beaker3': false})
-//var setting3 = new Setting({'beaker1': true, 'beaker2': false, 'beaker3': true})
-////enters setting into the box, and logs the resulting scenario
-//console.log("First test: " + test1(setting1) + " (Expected results: 1 true, 2 true, 3 true)")
-//console.log("")
-//console.log("Second test: " + test1(setting2) + " (Expected results: 1 true, 2 false, 3 true)")
-//console.log("")
-//console.log("Third test: " + test1(setting3) + " (Expected results: 1 true, 2 true, 3 false)")
-
-//console.log("String representation of configuration: " + toString(config1))
-
-//console.log("Randomly generated boxes:")
-//console.log()
-//var ranBox = createRandomBox(3, 4, ["cd", "dc", "sing"])
-//console.log(toString(ranBox))
-//console.log(generateBox(ranBox)())
-//console.log(reverseDict(generateBox(ranBox)()))
-
-////needs beaker1 on and either beaker2 or beaker3 on
-//var L_1_need = new cdObj({'beaker1': true, 'beaker2': true, 'beaker3': true}, ['beaker1', 'beaker2', 'beaker3']);
-////needs either beaker1 off or beaker2 and beaker4 on
-//var L_2_need = new dcObj({'beaker1': false, 'beaker2': true, 'beaker4': true},['beaker1', 'beaker2', 'beaker4']) //Second reaction needs the third beaker pressed
-//var numBeakers = 4
-//var config1 = new Config([L_1_need, L_2_need], numBeakers) //creates the config
-//var test1 = generateBox(config1)()//generates a box
-//console.log(test1)
-//console.log(reverseDict(test1))
 
 

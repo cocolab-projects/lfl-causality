@@ -1,0 +1,11 @@
+experimentName	iterationName	gameid	time	role	rule_idx	rule_name	rule_file_name	round_num	train	test	chat	eventType
+mp-game-6	pilot	3831-c7299f5a-351b-4d20-aa4c-38958f203307	1561747956768	student	32	"Tree with (orange berries and purple trunks) or white leaves"	trees_orange_berries_purple_trunks_or_white_leaves	0	-1	110.785	18.695	logTimes
+mp-game-6	pilot	3831-c7299f5a-351b-4d20-aa4c-38958f203307	1561747961360	explorer	32	"Tree with (orange berries and purple trunks) or white leaves"	trees_orange_berries_purple_trunks_or_white_leaves	0	143.345	112.878	19.008	logTimes
+mp-game-6	pilot	3831-c7299f5a-351b-4d20-aa4c-38958f203307	1561748396583	explorer	42	"flowers with (purple centers or orange stems) and thorns"	flowers_purple_centers_or_orange_stems_with_thorns	1	147.856	196.155	26.62	logTimes
+mp-game-6	pilot	3831-c7299f5a-351b-4d20-aa4c-38958f203307	1561748400527	student	42	"flowers with (purple centers or orange stems) and thorns"	flowers_purple_centers_or_orange_stems_with_thorns	1	-1	202.589	20.567	logTimes
+mp-game-6	pilot	3831-c7299f5a-351b-4d20-aa4c-38958f203307	1561748772336	explorer	2	"fish with white fangs"	fish_fangs	2	55.208	167.218	12.431	logTimes
+mp-game-6	pilot	3831-c7299f5a-351b-4d20-aa4c-38958f203307	1561748802854	student	2	"fish with white fangs"	fish_fangs	2	-1	199.482	8.823	logTimes
+mp-game-6	pilot	3831-c7299f5a-351b-4d20-aa4c-38958f203307	1561749083159	explorer	22	"birds with orange tails or white wings"	birds_orange_tails_or_white_wings	3	85.172	132.871	15.596	logTimes
+mp-game-6	pilot	3831-c7299f5a-351b-4d20-aa4c-38958f203307	1561749132528	student	22	"birds with orange tails or white wings"	birds_orange_tails_or_white_wings	3	-1	184.089	15.287	logTimes
+mp-game-6	pilot	3831-c7299f5a-351b-4d20-aa4c-38958f203307	1561749276998	student	12	"bugs with purple legs and white heads"	bugs_purple_legs_white_heads	4	-1	47.947	16.332	logTimes
+mp-game-6	pilot	3831-c7299f5a-351b-4d20-aa4c-38958f203307	1561749318035	explorer	12	"bugs with purple legs and white heads"	bugs_purple_legs_white_heads	4	52.695	37.681	20.777	logTimes

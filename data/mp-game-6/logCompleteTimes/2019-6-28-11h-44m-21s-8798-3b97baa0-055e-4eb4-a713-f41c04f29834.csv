@@ -1,0 +1,3 @@
+experimentName	iterationName	gameid	time	role	rule_idx	rule_name	rule_file_name	round_num	train	test	chat	eventType
+mp-game-6	pilot	8798-3b97baa0-055e-4eb4-a713-f41c04f29834	1561747461723	student	31	"birds with (purple crests and purple tails) or orange wings"	birds_purple_crests_purple_tails_or_orange_wings	0	-1	113.043	20.836	logTimes
+mp-game-6	pilot	8798-3b97baa0-055e-4eb4-a713-f41c04f29834	1561747500735	explorer	31	"birds with (purple crests and purple tails) or orange wings"	birds_purple_crests_purple_tails_or_orange_wings	0	95.766	36.709	24.692	logTimes

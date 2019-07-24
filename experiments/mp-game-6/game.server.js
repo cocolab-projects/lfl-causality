@@ -126,7 +126,17 @@ var onMessage = function(client, message) {
     }
 };
 
-var commonOutput = function (client) {
+var commonOutputBeg = function (client) {
+    var roundNum = client.game.roundNum;
+    var trialInfo = client.game.trialList[roundNum];
+
+    return {
+        round_num: roundNum,
+        role: client.role,
+    };
+}
+
+var commonOutputEnd = function (client) {
     var roundNum = client.game.roundNum;
     var trialInfo = client.game.trialList[roundNum];
 
@@ -134,12 +144,21 @@ var commonOutput = function (client) {
         experimentName: client.game.experimentName,
         iterationName: client.game.iterationName,
         gameid: client.game.id,
-        time: Date.now(),
-        role: client.role,
-//        rule_idx: trialInfo.ruleIdx,
-//        rule_name: '"' + trialInfo.name + '"',
-//        rule_file_name: trialInfo.fileName,
+        logTime: Date.now(),
+    };
+}
+
+var commonOutput = function (client) {
+    var roundNum = client.game.roundNum;
+    var trialInfo = client.game.trialList[roundNum];
+
+    return {
         round_num: roundNum,
+        role: client.role,
+        experimentName: client.game.experimentName,
+        iterationName: client.game.iterationName,
+        gameid: client.game.id,
+        time: Date.now(),
     };
 }
 
@@ -172,8 +191,9 @@ var dataOutput = function() {
   var logResponseOutput = function(client, message_data) {
     // message_data constrains the flattened JSON object with training/test trial info.
     var result = _.extend(
-      commonOutput(client),
-      decodeData(flattenedArrayToObj(message_data.slice(2)))
+      commonOutputBeg(client),
+      decodeData(flattenedArrayToObj(message_data.slice(2))),
+      commonOutputEnd(client)
     );
     console.log(result);
     return result;
@@ -197,7 +217,9 @@ var dataOutput = function() {
     'logTrain': logResponseOutput,
     'logScores': logResponseOutput,
     'logSubjInfo': logResponseOutput,
-    'logTimes': logResponseOutput,
+    'logCompleteTimes': logResponseOutput,
+    'logSimpleTimes' : logResponseOutput,
+    'logClicks' : logResponseOutput,
   };
 }();
 

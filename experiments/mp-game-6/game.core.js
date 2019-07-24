@@ -54,7 +54,7 @@ var game_core = function(options){
 
     // Round Info
     this.roundNum = -1;
-    this.numRounds = 2;
+    this.numRounds = 5;
     this.numBeakers = 3;
     this.numReactions = 3;
     this.numRules = 3;
@@ -89,20 +89,25 @@ var game_core = function(options){
 
         var localThis = this;
         this.boxConfigs = [];
+        this.configs = [];
+        this.ruleTypes = [];
         this.beakerQuestionsList = [];
         this.reactionQuestionsList = [];
         for(var i = 0; i< this.numRounds; i++){
-            this.rules = box.randomRuleTypes(this.numRules)
+            this.rules = box.randomRuleTypes(this.numRules, i)
+            this.ruleTypes.push(this.rules)
             do{
                 var config = box.createRandomBox(this.numBeakers, this.numReactions, this.rules);
                 var boxConfig = box.generateBox(config)();
             }while(boxConfig['000'].toString() !== [false, false, false].toString());
             var beakerQs = box.generateBeakerQuestions(boxConfig)
             var reactionQs = box.generateReactionQuestions(box.reverseDict(boxConfig), this.numReactions)
+            this.configs.push(box.toString(config))
             this.boxConfigs.push(boxConfig);
             this.beakerQuestionsList.push(beakerQs);
             this.reactionQuestionsList.push(reactionQs)
         }
+        console.log(this.configs)
 //        this.makeTrialList(options.connection, function(trial){
 //            localThis.trialList.push(trial);
 //            localThis.numTrialsDefined += 1;
@@ -221,6 +226,8 @@ game_core.prototype.server_send_update = function(){
         roundNum : this.roundNum,
         numRounds : this.numRounds,
         boxConfig : this.boxConfigs[this.roundNum],
+        config : this.configs[this.roundNum],
+        ruleTypes : this.ruleTypes[this.roundNum],
         beakerQs : this.beakerQuestionsList[this.roundNum],
         reactionQs : this.reactionQuestionsList[this.roundNum],
     };

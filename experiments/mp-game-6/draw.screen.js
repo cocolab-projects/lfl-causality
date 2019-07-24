@@ -105,7 +105,7 @@ var drawQuestionInstructions = function(game) {
             <h3>Instructions</h3>
             <br>
             <p>
-                You are will now see samples of questions you may be asked in the assessment. These are just some types of
+                You will now see samples of questions you may be asked in the assessment. These are just some types of
                 questions you may be asked.
                 <br>
                 <br>
@@ -131,8 +131,7 @@ var drawFirstQuestion = function(game) {
     $("#first_question_slide_header").html(
         `
             <p class="label_prompt">
-                Question 1:
-
+                Question 1: Click on reactions once to indicate they will occur, and click again to turn them off.
             </p>
         `
     );
@@ -153,7 +152,7 @@ var drawSecondQuestion = function(game) {
     $("#second_question_slide_header").html(
         `
             <p class="label_prompt">
-                Question 2:
+                Question 2: Click on chemicals once to add them, and again to remove them.
             </p>
         `
     );
@@ -193,7 +192,7 @@ var drawTrainInstructions = function(game) {
                 <p>
                     Your partner is now exploring <strong>new</strong> chemicals with <strong>different properties</strong>.
                     After they are done exploring, they will teach you about them in the chatroom.
-                    <br>
+                    <br><br>
                     While your partner explores, please please stay at the computer and DO NOT CLOSE THIS TAB.
                     Otherwise, you will be disconnected from the game and we will not be able to reward you for the HIT.
                     Please keep checking the chat window, as the status will update when the other player has also entered the room.
@@ -312,7 +311,6 @@ var drawTestInstructions = function(game) {
 };
 
 var drawTestCreatures = function(game, question, beakers, config, questionNum) {
-    console.log("drawTestCreatures: " + config)
     // Clear previous
     $("#test_creatures_slide_header").empty();
     $("#test_creatures_slide_grid").empty();

@@ -8,6 +8,8 @@
 // ----------------
 // GLOBAL VARIABLES
 // ----------------
+var fullTest = false;
+
 var globalGame = {},
     enterScoreReport = 0,
     timeout = 1000 * 60 * 15 // 15 minutes,
@@ -56,7 +58,6 @@ var client_onserverupdate_received = function(data){
     }
 
     console.log('UPDATE RECEIVED');
-    console.log(data);
 
     // Copy game parameters to local globalGame
     globalGame.start_time = data.gs;
@@ -71,7 +72,10 @@ var client_onserverupdate_received = function(data){
     globalGame.boxConfig = data.boxConfig;
     globalGame.reactionQs = data.reactionQs;
     globalGame.beakerQs = data.beakerQs;
-    globalGame.doTutorial = true;
+    globalGame.config = data.config;
+    globalGame.ruleTypes = data.ruleTypes;
+    globalGame.doTutorial = false;
+    globalGame.currentPage = ""
 
 
     // update data object on first round, don't overwrite (FIXME)
@@ -121,6 +125,15 @@ var client_onMessage = function(data) {
 var customSetup = function(globalGame) {
     // customSetup is automatically triggered by window.on_load()
     // in the shared clientBase.js code
+    $(document).on('mousedown', function (event) {
+        var click = {
+            x : event.screenX,
+            y : event.screenY,
+            page : globalGame.currentPage,
+        }
+        var clickJSON = _.toPairs(encodeData(click)).join('.');
+        globalGame.socket.send("logClicks.Complete." + clickJSON);
+    });
 
     // Initial setup -- draw the waiting room.
     drawWaitingRoom("Waiting for another player to join the game ...", globalGame);
@@ -131,6 +144,7 @@ var customSetup = function(globalGame) {
     // --------------
 
     $("#round_slide_continue_button").click(function(){
+        globalGame.currentPage = "tutorial_instructions_slide"
         clearRoundNumber();
         drawProgressBar(globalGame.roundNum, globalGame.numRounds, 2, 8);
         globalGame.socket.send("enterSlide.tutorial_instructions_slide.");
@@ -147,6 +161,7 @@ var customSetup = function(globalGame) {
         clearTutorialInstructions();
         drawProgressBar(globalGame.roundNum, globalGame.numRounds, 3, 8);
         globalGame.socket.send("enterSlide.train_creatures_tutorial.");
+        globalGame.currentPage = "train_creatures_tutorial"
         drawTutorial(globalGame);
         $("#tutorial_slide_continue_button").show();
         $("#tutorial_slide_continue_button").prop("disabled", true);
@@ -225,12 +240,14 @@ var customSetup = function(globalGame) {
 
     $("#tutorial_slide_continue_button").click(function(){
         globalGame.roundProps[globalGame.my_role]['times']['tutorial']['interface']['second']['end'] = new Date();
+        globalGame.currentPage = "question_instructions_slide"
         clearTutorial();
         drawQuestionInstructions(globalGame)
     });
 
     $("#question_instructions_slide_continue_button").click(function(){
         globalGame.roundProps[globalGame.my_role]['times']['tutorial']['first_question']['start'] = new Date();
+        globalGame.currentPage = "first_question_slide"
         clearQuestionInstructions();
         drawFirstQuestion(globalGame)
     });
@@ -239,6 +256,7 @@ var customSetup = function(globalGame) {
             globalGame.roundProps.tutorialFirst.reactionsClicked.includes("#reaction2question") &&
                 !globalGame.roundProps.tutorialFirst.reactionsClicked.includes("#reaction3question") &&
                 globalGame.roundProps.tutorialFirst.reactionsInteractedWith.includes("#reaction3question")){
+            globalGame.currentPage = "second_question_slide"
             clearFirstQuestion();
             drawSecondQuestion(globalGame)
             globalGame.roundProps[globalGame.my_role]['times']['tutorial']['first_question']['end'] = new Date();
@@ -255,6 +273,7 @@ var customSetup = function(globalGame) {
         if(globalGame.roundProps.tutorialSecond.beakersClicked.includes("#beaker1question") &&
             globalGame.roundProps.tutorialSecond.beakersClicked.includes("#beaker2question") &&
                 !globalGame.roundProps.tutorialSecond.beakersClicked.includes("#beaker3question") ){
+            globalGame.currentPage = "train_instructions_slide"
             clearSecondQuestion();
             drawTrainInstructions(globalGame)
             globalGame.roundProps[globalGame.my_role]['times']['tutorial']['second_question']['end'] = new Date();
@@ -269,13 +288,16 @@ var customSetup = function(globalGame) {
     });
 
     $("#train_instructions_slide_continue_button").click(function() {
-        console.log("is clicked")
         clearTrainInstructions();
+        globalGame.roundProps[globalGame.my_role]['clicks'] = {
+            training : [],
+            testing : [],
+        }
         if (globalGame.my_role === "explorer") {
+            globalGame.currentPage = "train_creatures_slide"
             drawProgressBar(globalGame.roundNum, globalGame.numRounds, 3, 8);
             globalGame.socket.send("enterSlide.train_creatures_slide.");
             drawTrainBox(globalGame);
-            console.log("current boxConfig: " + globalGame.boxConfig);
             globalGame.roundProps.reactionsOnPrev = [];
             $("#train_creatures_slide_continue_button").show();
             $("#train_creatures_slide_newtest_button").prop("disabled", true);
@@ -287,26 +309,30 @@ var customSetup = function(globalGame) {
             // Start Time
             globalGame.roundProps[globalGame.my_role]['times']['train']['start'] = new Date();
         } else {
+            globalGame.currentPage = "chat_room_slide"
             globalGame.socket.send("enterSlide.chat_room_slide.");
             drawProgressBar(globalGame.roundNum, globalGame.numRounds, 5, 8);
             globalGame.socket.send("enterChatRoom.");
             drawChatRoom(globalGame);
-        }
+        }       
     });
     $("#train_creatures_slide_test_button").click(function(){
         if(globalGame.roundProps.selected_train_stim.length === 0){
             alert("You must add at least one chemical");
         }else {
-            var holderObject = {}
-            holderObject['config'] = beakerStr(globalGame.roundProps.selected_train_stim,
-                                               globalGame.numBeakers, false)
+            var holderObject = {
+                config : beakerStr(globalGame.roundProps.selected_train_stim,
+                                   globalGame.numBeakers, false, false, true),
+                testTime: new Date()
+            }
             globalGame.roundProps.combosTried.push(holderObject)
-            globalGame.roundProps.combosTried[globalGame.roundProps.combosTried.length - 1]['testTime'] = new Date();
+            globalGame.roundProps['explorer']['clicks']['training']
+                    [globalGame.roundProps['explorer']['clicks']['training'].length - 1]['config'] =
+                                beakerStr(globalGame.roundProps.selected_train_stim,
+                                          globalGame.numBeakers, false, false, true)
             globalGame.roundProps.numTests++
             turnReactionsOn(globalGame.roundProps.selected_train_stim, globalGame.boxConfig,
                          globalGame.numBeakers, globalGame.numReactions, false);
-            console.log("The following reactions have been turned on:" + globalGame.roundProps.reactionsOnPrev)
-            globalGame.roundProps.previousSelection = globalGame.roundProps.selected_train_stim;
             $("#train_creatures_slide_test_button").prop("disabled", true);
             $("#train_creatures_slide_newtest_button").prop("disabled", false);
             $("#train_creatures_slide_continue_button").show();
@@ -322,11 +348,16 @@ var customSetup = function(globalGame) {
         $("#train_creatures_slide_continue_button").show();
         turnReactionsOff(globalGame.numReactions, globalGame.numBeakers, false)
         globalGame.testStage = true;
+        var clickRecord = {
+            config: "",
+            clicks: []
+        }
+        globalGame.roundProps['explorer']['clicks']['training'].push(clickRecord)
     });
 
     $("#train_creatures_slide_continue_button").click(function(){
         // End Time
-        if(globalGame.roundProps.numTests < globalGame.numReqTests){
+        if(fullTest && globalGame.roundProps.numTests < globalGame.numReqTests){
             alert("You need to keep experimenting")
         } else {
             globalGame.roundProps[globalGame.my_role]['times']['train']['end'] = new Date();
@@ -334,7 +365,7 @@ var customSetup = function(globalGame) {
                 globalGame.roundProps[globalGame.my_role]['times']['train']['end'] -
                 globalGame.roundProps[globalGame.my_role]['times']['train']['start']
             ) / 1000.0;
-
+            globalGame.currentPage = "chat_room_slide"
             clearTrainCreatures();
             drawProgressBar(globalGame.roundNum, globalGame.numRounds, 4, 8);
             globalGame.socket.send("enterSlide.chat_instructions_slide.");
@@ -356,6 +387,7 @@ var customSetup = function(globalGame) {
     $("#chat_room_slide_continue_button").click(function(){
         drawProgressBar(globalGame.roundNum, globalGame.numRounds, 6, 8);
         globalGame.socket.send("proceedToTestInstructions.");
+        globalGame.currentPage = "test_instructions_slide"
     });
 
     $("#test_instructions_slide_continue_button").click(function(){
@@ -367,254 +399,108 @@ var customSetup = function(globalGame) {
             reactionQs: {},
             reactionsInteractedWith : {},
         }
+        // Start Time
+        globalGame.roundProps[globalGame.my_role]['times']['test']['start'] = new Date();
+        globalGame.roundProps[globalGame.my_role]['times']['test']['trials'] = []
         if(globalGame.testNum < globalGame.bqKeys.length){
             drawTestCreatures(globalGame, globalGame.beakerQs[globalGame.bqKeys[globalGame.testNum]], false,
                               globalGame.bqKeys[globalGame.testNum], globalGame.testNum);
+            globalGame.roundProps[globalGame.my_role]['times']
+                    ['test']['trials'].push({
+                                                config : globalGame.bqKeys[globalGame.testNum],
+                                                type : "beaker",
+                                                start : new Date(),
+                                            })
         } else {
             drawTestCreatures(globalGame, globalGame.reactionQs[globalGame.rqKeys
                                                                 [globalGame.testNum - globalGame.bqKeys.length]], true,
                               globalGame.rqKeys[globalGame.testNum - globalGame.bqKeys.length], globalGame.testNum);
+            globalGame.roundProps[globalGame.my_role]['times']
+                    ['test']['trials'].push({
+                                                config : globalGame.rqKeys[globalGame.testNum - globalGame.bqKeys.length],
+                                                type: "reaction",
+                                                start : new Date(),
+                                            })
         }
-        // Start Time
-        globalGame.roundProps[globalGame.my_role]['times']['test']['start'] = new Date();
+        globalGame.currentPage = "test_slide_num_" + globalGame.testNum
         globalGame.testNum++;
     });
 
     $("#test_creatures_slide_notPossible_button").click(function(){
         //If there are still more questions, keep asking
         var isSure = confirm("Are you sure there are no possible answers? Click OK if you are sure.")
+        globalGame.roundProps[globalGame.my_role]['clicks']['testing']
+                [globalGame.roundProps[globalGame.my_role]['clicks']['testing'].length - 1]['clicks'].push("Not Possible: " + isSure)
         if(isSure){
-            if(globalGame.testNum <= globalGame.bqKeys.length){
-                globalGame.roundProps[globalGame.my_role]['testResults']['beakerQs'][globalGame.bqKeys[globalGame.testNum - 1]] =
-                        ['Not Possible']
-            } else {
-                globalGame.roundProps[globalGame.my_role]['testResults']['reactionQs']
-                        [globalGame.rqKeys[globalGame.testNum - globalGame.bqKeys.length - 1]] = ['Not Possible']
-            }
+            globalGame.roundProps[globalGame.my_role]['testResults']['reactionQs']
+                    [globalGame.rqKeys[globalGame.testNum - globalGame.bqKeys.length - 1]] = ['Not Possible']
+            globalGame.roundProps[globalGame.my_role]['times']['test']['trials']
+                    [globalGame.testNum - 1]['end'] = new Date()
+            globalGame.roundProps[globalGame.my_role]['times']['test']['trials']
+                    [globalGame.testNum - 1]['duration'] =
+                    (globalGame.roundProps[globalGame.my_role]['times']['test']['trials'][globalGame.testNum - 1]['end'] -
+                    globalGame.roundProps[globalGame.my_role]['times']['test']['trials']
+                    [globalGame.testNum - 1]['start']) / 1000
+            globalGame.currentPage = "test_slide_num_" + globalGame.testNum
             if(globalGame.testNum < (globalGame.bqKeys.length + globalGame.rqKeys.length)){
-                if(globalGame.testNum < globalGame.bqKeys.length){
-                    drawTestCreatures(globalGame, globalGame.beakerQs[globalGame.bqKeys[globalGame.testNum]], false,
-                                      globalGame.bqKeys[globalGame.testNum], globalGame.testNum);
-                } else {
-                    drawTestCreatures(globalGame, globalGame.reactionQs[globalGame.rqKeys
-                                                                        [globalGame.testNum - globalGame.bqKeys.length]], true,
-                                      globalGame.rqKeys[globalGame.testNum - globalGame.bqKeys.length], globalGame.testNum);
-                }
+                drawTestCreatures(globalGame, globalGame.reactionQs[globalGame.rqKeys
+                                                                    [globalGame.testNum - globalGame.bqKeys.length]], true,
+                                  globalGame.rqKeys[globalGame.testNum - globalGame.bqKeys.length], globalGame.testNum);
+                globalGame.roundProps[globalGame.my_role]['times']
+                        ['test']['trials'].push({
+                                                    config : globalGame.rqKeys[globalGame.testNum - globalGame.bqKeys.length],
+                                                    type: "reaction",
+                                                    start : new Date(),
+                                                });
                 globalGame.testNum++;
             } else {
-                // End Time
-                globalGame.roundProps[globalGame.my_role]['times']['test']['end'] = new Date();
-                globalGame.roundProps[globalGame.my_role]['duration']['test'] = (
-                            globalGame.roundProps[globalGame.my_role]['times']['test']['end'] -
-                            globalGame.roundProps[globalGame.my_role]['times']['test']['start']
-                            ) / 1000.0;
-
-                // Summary of of times
-                roundTimes = {
-                    'train': -1,
-                    'test': globalGame.roundProps[globalGame.my_role]['duration']['test'],
-                    'chat': globalGame.roundProps[globalGame.my_role]['duration']['chat'],
-                };
-
-                if (globalGame.my_role === "explorer") {
-                    roundTimes.train = globalGame.roundProps[globalGame.my_role]['duration']['train'];
-                }
-
-                // Measure performance & log selections
-                var roundSelections = [];
-                var roundSummary = {
-                    hits: 0,
-                    misses: 0,
-                    score: 0,
-                }
-                for(var config in globalGame.roundProps[globalGame.my_role]['testResults']['beakerQs']){
-                    var turker_answer = globalGame.roundProps[globalGame.my_role]['testResults']['beakerQs'][config];
-                    var answer = globalGame.beakerQs[config]['a']
-                    var isRight = true;
-                    for(var i = 0; i < answer.length; i++){
-                        if(answer[i] && !turker_answer.includes("#reaction" + (i+1) + "test")) isRight = false;
-                        if(!answer[i] && turker_answer.includes("#reaction" + (i+1) + "test")) isRight = false;
-                    }
-                    isRight ? roundSummary.hits++ : roundSummary.misses++;
-                }
-                for(var config in globalGame.roundProps[globalGame.my_role]['testResults']['reactionQs']){
-                    var turker_answer = beakerStr(globalGame.roundProps[globalGame.my_role]['testResults']['reactionQs'][config],
-                                                  globalGame.numBeakers, false, false, false);
-                    var possible_answers = globalGame.reactionQs[config]['a']
-                    var isRight = possible_answers.includes(turker_answer)
-                    isRight ? roundSummary.hits++ : roundSummary.misses++;
-                }
-
-                //        for (var i = 0; i < globalGame.trialInfo.test.length; i++) {
-                //            var stim = globalGame.trialInfo.test[i];
-                //            var true_label = stim.belongs_to_concept;
-                //            var turker_label = globalGame.roundProps.selected_test_stim.includes("#test_cell_" + i);
-                //            var is_correct = (turker_label === true_label);
-
-                //            // Track turker's choice
-                //            roundSelections.push({
-                //                "stim_num" : i,
-                //                "turker_label": turker_label,
-                //                "true_label": true_label,
-                //                "is_correct": is_correct,
-                //            });
-
-                //            // Update round summary
-                //            if (turker_label === false && true_label === false) {
-                //                roundSummary.correct_rejections++;
-                //            } else if (turker_label === false && true_label === true){
-                //                roundSummary.misses++;
-                //            } else if (turker_label === true && true_label === false) {
-                //                roundSummary.false_alarms++;
-                //            } else {
-                //                roundSummary.hits++;
-                //            }
-                //        }
-                var playerScore = roundSummary.hits;
-                roundSummary.score = playerScore > 0 ? playerScore : 0;
-
-                // local copy of scores
-                globalGame.roundSelections.push(roundSelections);
-                globalGame.roundSummaries.push(roundSummary);
-
-                // Transmit performance info to server
-                var roundTimesJSON = _.toPairs(encodeData(roundTimes)).join('.');
-                globalGame.socket.send("logTimes.Complete." + roundTimesJSON);
-                console.log(roundTimesJSON);
-
-                var roundSelectionsObj= {
-                    "trials": roundSelections,
-                }
-                globalGame.socket.emit("multipleTrialResponses", roundSelectionsObj);
-
-                var roundSummaryJSON = _.toPairs(encodeData(roundSummary)).join('.');
-                globalGame.socket.send("logScores.TestCreatures." + roundSummaryJSON);
-                globalGame.socket.send("sendingTestScores." + roundSummaryJSON);
-
-                // Enter wait room until other user has completed quiz/test
-                clearTestCreatures();
-                globalGame.socket.send("enterSlide.wait_room_slide.")
-                drawProgressBar(globalGame.roundNum, globalGame.numRounds, 8, 8);
-                drawWaitingRoom("Waiting for the your partner to catch up ...", globalGame);
+                endRound();
             }
         }
     });
 
     $("#test_creatures_slide_continue_button").click(function() {
-        if((globalGame.testNum > globalGame.bqKeys.length) && globalGame.roundProps[globalGame.my_role]['testResults']
+        if(fullTest && (globalGame.testNum > globalGame.bqKeys.length) && globalGame.roundProps[globalGame.my_role]['testResults']
                 ['reactionQs'][globalGame.rqKeys[globalGame.testNum - 1 - globalGame.bqKeys.length]].length === 0){
             alert("You must add at least one chemical")
         } else if(globalGame.testNum < (globalGame.bqKeys.length + globalGame.rqKeys.length)){
-            if(globalGame.testNum <= globalGame.bqKeys.length &&
+            if(fullTest && globalGame.testNum <= globalGame.bqKeys.length &&
                     globalGame.roundProps[globalGame.my_role]['testResults']
                     ['reactionsInteractedWith'][globalGame.bqKeys[globalGame.testNum - 1]].length !== globalGame.numReactions){
                 alert("You must set all the measurements to a value.")
             } else {
+                globalGame.roundProps[globalGame.my_role]['times']['test']['trials']
+                        [globalGame.testNum - 1]['end'] = new Date()
+                globalGame.roundProps[globalGame.my_role]['times']['test']['trials']
+                        [globalGame.testNum - 1]['duration'] =
+                        (globalGame.roundProps[globalGame.my_role]['times']['test']['trials'][globalGame.testNum - 1]['end'] -
+                        globalGame.roundProps[globalGame.my_role]['times']['test']['trials']
+                        [globalGame.testNum - 1]['start']) / 1000
                 if(globalGame.testNum < globalGame.bqKeys.length){
                     drawTestCreatures(globalGame, globalGame.beakerQs[globalGame.bqKeys[globalGame.testNum]], false,
                                       globalGame.bqKeys[globalGame.testNum], globalGame.testNum);
+                    globalGame.roundProps[globalGame.my_role]['times']
+                            ['test']['trials'].push({
+                                                        config : globalGame.bqKeys[globalGame.testNum],
+                                                        type : "beaker",
+                                                        start : new Date(),
+                                                    })
                 } else {
                     drawTestCreatures(globalGame, globalGame.reactionQs[globalGame.rqKeys
                                                                         [globalGame.testNum - globalGame.bqKeys.length]], true,
                                       globalGame.rqKeys[globalGame.testNum - globalGame.bqKeys.length], globalGame.testNum);
+                    globalGame.roundProps[globalGame.my_role]['times']
+                            ['test']['trials'].push({
+                                                        config : globalGame.rqKeys[globalGame.testNum - globalGame.bqKeys.length],
+                                                        type: "reaction",
+                                                        start : new Date(),
+                                                    })
                 }
+                globalGame.currentPage = "test_slide_num_" + globalGame.testNum
                 globalGame.testNum++;
             }
         } else {
-            // End Time
-            globalGame.roundProps[globalGame.my_role]['times']['test']['end'] = new Date();
-            globalGame.roundProps[globalGame.my_role]['duration']['test'] = (
-                        globalGame.roundProps[globalGame.my_role]['times']['test']['end'] -
-                        globalGame.roundProps[globalGame.my_role]['times']['test']['start']
-                        ) / 1000.0;
-
-            // Summary of of times
-            roundTimes = {
-                'train': -1,
-                'test': globalGame.roundProps[globalGame.my_role]['duration']['test'],
-                'chat': globalGame.roundProps[globalGame.my_role]['duration']['chat'],
-            };
-
-            if (globalGame.my_role === "explorer") {
-                roundTimes.train = globalGame.roundProps[globalGame.my_role]['duration']['train'];
-            }
-
-            // Measure performance & log selections
-            var roundSelections = [];
-            var roundSummary = {
-                hits: 0,
-                misses: 0,
-                score: 0,
-            }
-            for(var config in globalGame.roundProps[globalGame.my_role]['testResults']['beakerQs']){
-                var turker_answer = globalGame.roundProps[globalGame.my_role]['testResults']['beakerQs'][config];
-                var answer = globalGame.beakerQs[config]['a']
-                var isRight = true;
-                for(var i = 0; i < answer.length; i++){
-                    if(answer[i] && !turker_answer.includes("#reaction" + (i+1) + "test")) isRight = false;
-                    if(!answer[i] && turker_answer.includes("#reaction" + (i+1) + "test")) isRight = false;
-                }
-                isRight ? roundSummary.hits++ : roundSummary.misses++;
-            }
-            for(var config in globalGame.roundProps[globalGame.my_role]['testResults']['reactionQs']){
-                var turker_answer = beakerStr(globalGame.roundProps[globalGame.my_role]['testResults']['reactionQs'][config],
-                                              globalGame.numBeakers, false, false, false);
-                var possible_answers = globalGame.reactionQs[config]['a']
-                var isRight = possible_answers.includes(turker_answer)
-                isRight ? roundSummary.hits++ : roundSummary.misses++;
-            }
-
-            //        for (var i = 0; i < globalGame.trialInfo.test.length; i++) {
-            //            var stim = globalGame.trialInfo.test[i];
-            //            var true_label = stim.belongs_to_concept;
-            //            var turker_label = globalGame.roundProps.selected_test_stim.includes("#test_cell_" + i);
-            //            var is_correct = (turker_label === true_label);
-
-            //            // Track turker's choice
-            //            roundSelections.push({
-            //                "stim_num" : i,
-            //                "turker_label": turker_label,
-            //                "true_label": true_label,
-            //                "is_correct": is_correct,
-            //            });
-
-            //            // Update round summary
-            //            if (turker_label === false && true_label === false) {
-            //                roundSummary.correct_rejections++;
-            //            } else if (turker_label === false && true_label === true){
-            //                roundSummary.misses++;
-            //            } else if (turker_label === true && true_label === false) {
-            //                roundSummary.false_alarms++;
-            //            } else {
-            //                roundSummary.hits++;
-            //            }
-            //        }
-            var playerScore = roundSummary.hits;
-            roundSummary.score = playerScore > 0 ? playerScore : 0;
-
-            // local copy of scores
-            globalGame.roundSelections.push(roundSelections);
-            globalGame.roundSummaries.push(roundSummary);
-
-            // Transmit performance info to server
-            var roundTimesJSON = _.toPairs(encodeData(roundTimes)).join('.');
-            globalGame.socket.send("logTimes.Complete." + roundTimesJSON);
-            console.log(roundTimesJSON);
-
-            var roundSelectionsObj= {
-                "trials": roundSelections,
-            }
-            globalGame.socket.emit("multipleTrialResponses", roundSelectionsObj);
-
-            var roundSummaryJSON = _.toPairs(encodeData(roundSummary)).join('.');
-            globalGame.socket.send("logScores.TestCreatures." + roundSummaryJSON);
-            globalGame.socket.send("sendingTestScores." + roundSummaryJSON);
-
-            // Enter wait room until other user has completed quiz/test
-            clearTestCreatures();
-            globalGame.socket.send("enterSlide.wait_room_slide.")
-            drawProgressBar(globalGame.roundNum, globalGame.numRounds, 8, 8);
-            drawWaitingRoom("Waiting for the your partner to catch up ...", globalGame);
+            endRound();
         }
     });
 
@@ -811,7 +697,7 @@ function encodeData(dataObj){
     }
 
     // Encode real numbers  
-    return _.mapValues(dataObj, function(val, key) {
+    return _.mapValues(dataObj, function(val) {
         if (isNumeric(val)) {
             if (Number.isInteger(val)) {
                 return val.toString();
@@ -823,3 +709,115 @@ function encodeData(dataObj){
         }
     });
   }
+
+function endRound(){
+    // End Time
+    globalGame.roundProps[globalGame.my_role]['times']['test']['trials']
+            [globalGame.testNum - 1]['end'] = new Date()
+    globalGame.roundProps[globalGame.my_role]['times']['test']['trials']
+            [globalGame.testNum - 1]['duration'] =
+            (globalGame.roundProps[globalGame.my_role]['times']['test']['trials'][globalGame.testNum - 1]['end'] -
+            globalGame.roundProps[globalGame.my_role]['times']['test']['trials']
+            [globalGame.testNum - 1]['start']) / 1000
+    globalGame.roundProps[globalGame.my_role]['times']['test']['end'] = new Date();
+    globalGame.roundProps[globalGame.my_role]['duration']['test'] = (
+                globalGame.roundProps[globalGame.my_role]['times']['test']['end'] -
+                globalGame.roundProps[globalGame.my_role]['times']['test']['start']
+                ) / 1000.0;
+
+    // Summary of of times
+    var roundSimpleTimes = {
+        'Total Train Time': -1,
+        'Total Test Time': globalGame.roundProps[globalGame.my_role]['duration']['test'],
+        'chat': globalGame.roundProps[globalGame.my_role]['duration']['chat'],
+    };
+    var roundTimes = [];
+    for(var i = 0; i < (globalGame.bqKeys.length + globalGame.rqKeys.length); i++){
+        var trial = globalGame.roundProps[globalGame.my_role]['times']['test']['trials'][i];
+        roundTimes.push ({
+                             type : trial.type + "question",
+                             config : trial.config,
+                             duration : trial.duration,
+                         })
+    }
+    if (globalGame.my_role === "explorer") {
+        roundSimpleTimes['Total Train Time'] = globalGame.roundProps[globalGame.my_role]['duration']['train'];
+        for(var i = 0; i < (globalGame.roundProps.combosTried.length); i++){
+            var combo = globalGame.roundProps.combosTried[i];
+            roundTimes.push ({
+                                 type : "test",
+                                 config : combo.config,
+                                 duration : (combo.learnTime - combo.testTime)/1000,
+                             })
+        }
+    }
+    // Measure performance & log selections
+    var roundSelections = [];
+    var configForCSV = globalGame.config
+    var roundSummary = {
+        hits: 0,
+        misses: 0,
+        score: 0,
+        rules : globalGame.ruleTypes.join("/"),
+        config : "\"" + configForCSV + "\""
+    }
+    console.log("rules: " + roundSummary.rules)
+    for(var config in globalGame.roundProps[globalGame.my_role]['testResults']['beakerQs']){
+        var turker_answer = reactionStr(globalGame.roundProps[globalGame.my_role]['testResults']['beakerQs'][config],
+                                        globalGame.numReactions, false, false, false);
+        var answer = globalGame.beakerQs[config]['a']
+        var isRight = (turker_answer === answer)
+        isRight ? roundSummary.hits++ : roundSummary.misses++;
+        roundSelections.push({
+            "fixed" : "beakers",
+            "config" : config,
+            "turker_answer": turker_answer,
+            "true_answer": answer,
+            "is_correct": isRight,
+            });
+    }
+    for(var config in globalGame.roundProps[globalGame.my_role]['testResults']['reactionQs']){
+        var turker_answer = beakerStr(globalGame.roundProps[globalGame.my_role]['testResults']['reactionQs'][config],
+                                      globalGame.numBeakers, false, false, false);
+        var possible_answers = globalGame.reactionQs[config]['a']
+        var isRight = possible_answers.includes(turker_answer)
+        isRight ? roundSummary.hits++ : roundSummary.misses++;
+        roundSelections.push({
+            "fixed" : "reactions",
+            "config" : config,
+            "turker_answer": turker_answer,
+            "true_answers": possible_answers,
+            "is_correct": isRight,
+            });
+    }
+    var playerScore = roundSummary.hits;
+    roundSummary.score = playerScore > 0 ? playerScore : 0;
+
+    // local copy of scores
+    globalGame.roundSelections.push(roundSelections);
+    globalGame.roundSummaries.push(roundSummary);
+
+    // Transmit performance info to server
+    for(var i = 0; i < roundTimes.length; i++){
+        var roundTimesJSON = _.toPairs(encodeData(roundTimes[i])).join('.');
+        globalGame.socket.send("logCompleteTimes.Complete." + roundTimesJSON);
+    }
+    var roundSimpleTimesJSON = _.toPairs(encodeData(roundSimpleTimes)).join('.');
+    globalGame.socket.send("logSimpleTimes.Complete." + roundSimpleTimesJSON);
+    var roundSelectionsObj= {
+        "trials": roundSelections,
+    }
+    globalGame.socket.emit("multipleTrialResponses", roundSelectionsObj);
+
+    var roundSummaryJSON = _.toPairs(encodeData(roundSummary)).join('.');
+    console.log(roundSummaryJSON)
+    globalGame.socket.send("logScores.TestCreatures." + roundSummaryJSON);
+    globalGame.socket.send("sendingTestScores." + roundSummaryJSON);
+
+    // Enter wait room until other user has completed quiz/test
+    clearTestCreatures();
+    globalGame.socket.send("enterSlide.wait_room_slide.")
+    drawProgressBar(globalGame.roundNum, globalGame.numRounds, 8, 8);
+    drawWaitingRoom("Waiting for the your partner to catch up ...", globalGame);
+    globalGame.currentPage = "results_slide"
+}
