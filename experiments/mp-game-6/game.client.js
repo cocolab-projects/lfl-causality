@@ -75,7 +75,7 @@ var client_onserverupdate_received = function(data){
     globalGame.config = data.config;
     globalGame.ruleTypes = data.ruleTypes;
     globalGame.doTutorial = false;
-    globalGame.currentPage = ""
+    globalGame.currentPage = "PreRound" + globalGame.roundNum + "_slide"
 
 
     // update data object on first round, don't overwrite (FIXME)
@@ -365,7 +365,7 @@ var customSetup = function(globalGame) {
                 globalGame.roundProps[globalGame.my_role]['times']['train']['end'] -
                 globalGame.roundProps[globalGame.my_role]['times']['train']['start']
             ) / 1000.0;
-            globalGame.currentPage = "chat_room_slide"
+            globalGame.currentPage = "chat_instructions_slide"
             clearTrainCreatures();
             drawProgressBar(globalGame.roundNum, globalGame.numRounds, 4, 8);
             globalGame.socket.send("enterSlide.chat_instructions_slide.");
@@ -379,7 +379,7 @@ var customSetup = function(globalGame) {
         globalGame.socket.send("enterSlide.chat_room_slide.");
         globalGame.socket.send("enterChatRoom.");
         drawChatRoom(globalGame);
-
+        globalGame.currentPage = "chat_room_slide"
         // Start Time
         globalGame.roundProps[globalGame.my_role]['times']['chat']['start'] = new Date();
     });
@@ -512,6 +512,7 @@ var customSetup = function(globalGame) {
     });
 
     $("#total_score_report_continue_button").click(function(){
+        globalGame.currentPage = "subj_info_slide"
         clearTotalScoreReport();
         globalGame.socket.send("enterSlide.subj_info");
         drawSubjInfo();
@@ -526,6 +527,7 @@ var customSetup = function(globalGame) {
             age : $("#age").val(),
             gender : $("#gender").val(),
             education : $("#education").val(),
+            chemistry : $("#chemistry").val(),
             comments : $("#comments").val(),
             problems: $("#problems").val(),
             fairprice: $("#fairprice").val(),
@@ -645,7 +647,8 @@ var customSetup = function(globalGame) {
         globalGame.bqKeys = Object.keys(globalGame.beakerQs);
         flashConnected = false;
         clearChatRoom();
-        globalGame.socket.send("enterSlide.test_instructions_slide.")  
+        globalGame.socket.send("enterSlide.test_instructions_slide.")
+        globalGame.currentPage = "test_instructions_slide"
         drawTestInstructions(globalGame);
     });
 
@@ -800,6 +803,7 @@ function endRound(){
     // Transmit performance info to server
     for(var i = 0; i < roundTimes.length; i++){
         var roundTimesJSON = _.toPairs(encodeData(roundTimes[i])).join('.');
+        console.log(roundTimesJSON)
         globalGame.socket.send("logCompleteTimes.Complete." + roundTimesJSON);
     }
     var roundSimpleTimesJSON = _.toPairs(encodeData(roundSimpleTimes)).join('.');

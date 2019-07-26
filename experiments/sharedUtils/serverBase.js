@@ -151,6 +151,14 @@ class ReferenceGameServer {
         var messageParts = message.split('.');
         this.customServer.onMessage(client, message);
         if(!_.isEmpty(client.game.dataStore)) {
+            if (messageParts[0] === 'logScores') {
+                // debugger;
+            }
+
+            if (messageParts[0] === 'sendingTestScores') {
+                // debugger;
+            }
+
             this.writeData(client, messageParts[0], messageParts);
         }
     };
@@ -161,6 +169,8 @@ class ReferenceGameServer {
         var game = client.game;
         if(_.has(output, eventType)) {
         var dataPoint = _.extend(output[eventType](client, messageParts), {eventType});
+            console.log('writeData');
+            console.log(dataPoint);
         if(_.includes(game.dataStore, 'csv'))
             utils.writeDataToCSV(game, dataPoint);
         if(_.includes(game.dataStore, 'mongo'))

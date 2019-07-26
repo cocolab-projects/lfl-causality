@@ -519,4 +519,60 @@ function reaction(num, isOn){
     return isOn? onCaps[num]:offCaps[num]
 }
 
+/*
+function findAllConfigs(){
+    var configs = [];
+    for(var i = 0; i < 75000; i++){
+        var rules = randomRuleTypes(3, 0)
+        var box = createRandomBox(3, 3, rules)
+        var config = generateBox(box)()
+        if(config['000'].toString() !== [false, false, false].toString()){
+            var reverse = reverseDict(config)
+            var first = findConfigsForSingReac(reverse, 0, true).toString();
+            var second = findConfigsForSingReac(reverse, 1, true).toString();
+            var third = findConfigsForSingReac(reverse, 2, true).toString();
+//            var singDict ={
+//                "1": (first.length < second.length && first.length < third.length) ? first :
+//                                                                                     (second.length < third.length ? second : third),
+//                "2": ((first.length < second.length && first.length > third.length) ||
+//                      (first.length > second.length && first.length < third.length)) ? first :
+//                                                                                       ((second.length < third.length || second.length > first.length) ? second : third),
+//                "3": (first.length > second.length && first.length > third.length) ? first :
+//                                                                                     (second.length > third.length ? second : third),
+//            }
+            if(!containsEquiv(configs, [first, second, third])){
+                configs.push([first, second, third])
+            }
+        }
+    }
+    return configs.length
+}
 
+function arraysEqual(arr1, arr2){
+    if(arr1.length !== arr2.length){
+        return false
+    } else {
+        for (var i = 0; i < arr1.length; i++){
+            if(!arr2.includes(arr1[i])) return false;
+        }
+    }
+    return true
+}
+
+function containsEquiv(bigArr, smallArr){
+    for(var i = 0; i < bigArr.length; i++){
+        if(arraysEqual(bigArr[i], smallArr)) return true;
+    }
+    return false
+}
+
+function runManyTimes(){
+    var max
+    for(var i = 0; i < 25; i++){
+        var test = findAllConfigs()
+        test > max ? max = test : max = max;
+        console.log(test)
+    }
+    return max;
+}
+*/

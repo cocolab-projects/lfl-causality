@@ -54,7 +54,7 @@ var game_core = function(options){
 
     // Round Info
     this.roundNum = -1;
-    this.numRounds = 5;
+    this.numRounds = 2;
     this.numBeakers = 3;
     this.numReactions = 3;
     this.numRules = 3;

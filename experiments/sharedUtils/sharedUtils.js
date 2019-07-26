@@ -89,11 +89,15 @@ var writeDataToCSV = function(game, _dataPoint) {
     dataPoint = _.omit(dataPoint, ['workerId', 'assignmentId']);
 
   // Establish stream to file if it doesn't already exist
-  if(!_.has(game.streams, eventType))
-    establishStream(game, dataPoint);
-
+  if(!_.has(game.streams, eventType)){
+      console.log("creatingStream")
+      establishStream(game, dataPoint);
+  }
   var line = _.values(dataPoint).join('\t') + "\n";
-  game.streams[eventType].write(line, err => {if(err) throw err;});
+  console.log('writeDataToCSV');
+  console.log(line)
+  fs.appendFileSync(game.streams[eventType], line, err => {if(err) throw err;})
+  //game.streams[eventType].write(line, err => {if(err) throw err;});
 };
 
 var writeDataToMongo = function(game, line) {
@@ -220,11 +224,12 @@ var establishStream = function(game, dataPoint) {
 
     // Write header
     var header = _.keys(dataPoint).join('\t') + '\n';
-    fs.writeFile(filePath, header, err => {if(err) console.error(err);});
+    fs.writeFileSync(filePath, header, err => {if(err) throw(err);});
+    game.streams[dataPoint.eventType] = filePath;
 
-    // Create stream
-    var stream = fs.createWriteStream(filePath, {'flags' : 'a'});
-    game.streams[dataPoint.eventType] = stream;
+//    // Create stream
+//    var stream = fs.createWriteStream(filePath, {'flags' : 'a'});
+//    game.streams[dataPoint.eventType] = stream;
 };
 
 var getObjectLocHeader = function() {
