@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Learning about Critters</title>
+        <title>Learning about Chemicals</title>
 
         <!-- Load style sheet -->
         <link href="../_shared/css/shared.css" media="screen" rel="stylesheet" type="text/css">
@@ -28,7 +28,7 @@
         <script type="text/javascript" src="../sharedUtils/clientBase.js"></script>
         <script type="text/javascript" src="../sharedUtils/boxGenerator.js"></script>
         <script type="text/javascript" src="game.client.js"></script>
-        <script type="text/javascript" src="draw.creatures.js"></script>
+        <script type="text/javascript" src="draw.chemicals.js"></script>
         <script type="text/javascript" src="draw.screen.js"></script>
 
         <script type="text/javascript" src="../_shared/js/mmturkey.js"></script>
@@ -76,7 +76,7 @@
         </div> -->
         
         <!-- This is the slide in which users will learn to play the game through a tutorial. -->
-        <div class="slide hidden" id="train_creatures_tutorial">
+        <div class="slide hidden" id="train_chemicals_tutorial">
             <div id="tutorial_slide_header"></div>
             <br>
             <br>
@@ -124,17 +124,17 @@
         </div>
 
         <!-- This is the learning slide in which users will uncover information about the critters. -->
-        <div class="slide hidden" id="train_creatures_slide">
-            <div id="train_creatures_slide_header"></div>
+        <div class="slide hidden" id="train_chemicals_slide">
+            <div id="train_chemicals_slide_header"></div>
             <br>
             <br>
-            <div id="train_creatures_slide_grid"></div>
+            <div id="train_chemicals_slide_grid"></div>
             <br>
-            <button class="continuebutton" id="train_creatures_slide_test_button">Mix</button> 
-            <button class="continuebutton" id="train_creatures_slide_newtest_button">New Test</button> 
+            <button class="continuebutton" id="train_chemicals_slide_test_button">Mix</button> 
+            <button class="continuebutton" id="train_chemicals_slide_newtest_button">New Test</button> 
             <br>
             <br>
-            <button class="continuebutton" id="train_creatures_slide_continue_button">Continue</button> 
+            <button class="continuebutton" id="train_chemicals_slide_continue_button">Continue</button> 
         </div>
 
         <!-- This is the slide in which users will learn about the chatroom. -->
@@ -188,14 +188,14 @@
             </div>
 
         <!-- Generates critters that the partner learned about and tests the user -->
-        <div class="slide hidden" id="test_creatures_slide">
-            <div id="test_creatures_slide_header"></div>
+        <div class="slide hidden" id="test_chemicals_slide">
+            <div id="test_chemicals_slide_header"></div>
             <br>
             <br>
-            <div id="test_creatures_slide_grid"></div>
+            <div id="test_chemicals_slide_grid"></div>
             <br>
-            <button class="continuebutton disabled" id="test_creatures_slide_notPossible_button">No Such Mixture</button>
-            <button class="continuebutton disabled" id="test_creatures_slide_continue_button">Continue</button>
+            <button class="continuebutton disabled" id="test_chemicals_slide_notPossible_button">No Such Mixture</button>
+            <button class="continuebutton disabled" id="test_chemicals_slide_continue_button">Continue</button>
         </div>
       
        <!-- Shows score report before allowing player to move on to next block -->
@@ -348,7 +348,7 @@
             <br/>
 
             <p> Note: Clicking this button should automatically submit the HIT and close this tab. There is no need to input a code.<p>
-            <p> If you experience a problem submitting, please contact schopra8@stanford.edu for compensation. </p>
+            <p> If you experience a problem submitting, please contact cmacavoy@stanford.edu for compensation. </p>
             <button class="continuebutton" id="subj_info_button">Submit Hit</button>
           </div>
         </div>

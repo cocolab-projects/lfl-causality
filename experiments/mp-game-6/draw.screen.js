@@ -55,8 +55,7 @@ var drawTutorialInstructions = function(game) {
                     discovered several beakers of alien chemicals. <strong>ChemCo wants to know more about these chemicals to see
                     if they can create any new substances with useful properties from them.</strong>
                     <br><br>
-                    Your goal is to understand what new chemicals can be created by mixing the chemicals.
-                    You can produce new chemicals by adding them to a test container. After you are done
+                    Your goal is to understand what new chemicals can be created by mixing the chemicals. After you are done
                     exploring, you will teach a student about the properties you have discovered. You and your partner
                     will then be <strong>tested on your understanding of the properties of mixtures of chemicals.</strong>
                     <br><br>
@@ -127,7 +126,7 @@ var drawFirstQuestion = function(game) {
     /// Clear previous
     $("#question_instructions_slide_header").empty();
 
-    // Draw creatures
+    // Draw chemicals
     $("#first_question_slide_header").html(
         `
             <p class="label_prompt">
@@ -148,7 +147,7 @@ var drawSecondQuestion = function(game) {
     $("#first_question_slide_header").empty();
     $("#first_question_slide_grid").empty();
 
-    // Draw creatures
+    // Draw chemicals
     $("#second_question_slide_header").html(
         `
             <p class="label_prompt">
@@ -174,8 +173,9 @@ var drawTrainInstructions = function(game) {
                 <br>
                 <p>
                     You will now enter the exploration phase of the game.
-                    These chemicals are <strong>different chemicals </strong> from the tutorial, with <strong>different properties</strong>.
-                    Try out different combinations to learn what properties different chemicals have.
+                    <br><br>
+                    These chemicals are <strong>new chemicals</strong>, with <strong>different properties</strong>.
+                    Try out different combinations to learn what properties the chemicals have.
                     You should <strong>explore until you completely understand the combinations</strong>.
                     <br><br>
                     Press continue to start exploring.
@@ -212,10 +212,10 @@ var drawTrainInstructions = function(game) {
 
 var drawTutorial = function(game) {
     // Clear previous
-    $("#train_creatures_slide_header").empty();
-    $("#train_creatures_slide_grid").empty();
+    $("#train_chemicals_slide_header").empty();
+    $("#train_chemicals_slide_grid").empty();
 
-    // Draw creatures
+    // Draw chemicals
     $("#tutorial_slide_header").html(
         `
             <p class="label_prompt">
@@ -229,16 +229,16 @@ var drawTutorial = function(game) {
     // Make visible
     game.currentSlide[game.my_role] = "tutorial_slide";
     $("#tutorial_slide_continue_button").prop("disabled", false);
-    $("#train_creatures_tutorial").removeClass("hidden");
+    $("#train_chemicals_tutorial").removeClass("hidden");
 };
 
 var drawTrainBox = function(game) {
     // Clear previous
-    $("#train_creatures_slide_header").empty();
-    $("#train_creatures_slide_grid").empty();
+    $("#train_chemicals_slide_header").empty();
+    $("#train_chemicals_slide_grid").empty();
 
-    // Draw creatures
-    $("#train_creatures_slide_header").html(
+    // Draw chemicals
+    $("#train_chemicals_slide_header").html(
         `
             <p class="label_prompt">
                 Click on beakers to add them to the mixture, and click again to remove them from the test.
@@ -250,9 +250,9 @@ var drawTrainBox = function(game) {
     drawBox(game.numBeakers, game.numReactions, true, game.roundProps, game);
 
     // Make visible
-    game.currentSlide[game.my_role] = "train_creatures_slide";    
-    $("#train_creatures_slide_continue_button").prop("disabled", true);
-    $("#train_creatures_slide").removeClass("hidden");
+    game.currentSlide[game.my_role] = "train_chemicals_slide";
+    $("#train_chemicals_slide_continue_button").prop("disabled", true);
+    $("#train_chemicals_slide").removeClass("hidden");
 };
 
 var drawExplorerChatInstructions = function(game) {
@@ -310,10 +310,10 @@ var drawTestInstructions = function(game) {
     game.currentSlide[game.my_role] = "test_instructions_slide";                
 };
 
-var drawTestCreatures = function(game, question, beakers, config, questionNum) {
+var drawTestChemicals = function(game, question, beakers, config, questionNum) {
     // Clear previous
-    $("#test_creatures_slide_header").empty();
-    $("#test_creatures_slide_grid").empty();
+    $("#test_chemicals_slide_header").empty();
+    $("#test_chemicals_slide_grid").empty();
     var instructions = `
             <p class="label_prompt">
             Question: ${questionNum}
@@ -321,14 +321,14 @@ var drawTestCreatures = function(game, question, beakers, config, questionNum) {
         `
 
 
-   $("#test_creatures_slide_header").html(instructions);
+   $("#test_chemicals_slide_header").html(instructions);
 
    drawBox(game.numBeakers, game.numReactions, false, game.roundProps, game, beakers, config, question);
    
     // Make visible
-    $("#test_creatures_slide_continue_button").prop("disabled", false);
-    $("#test_creatures_slide").removeClass("hidden");
-    game.currentSlide[game.my_role] = "test_creatures_slide";    
+    $("#test_chemicals_slide_continue_button").prop("disabled", false);
+    $("#test_chemicals_slide").removeClass("hidden");
+    game.currentSlide[game.my_role] = "test_chemicals_slide";
 };
 
 var drawRoundScoreReport = function(game) {
@@ -378,7 +378,7 @@ var clearTutorialInstructions = function() {
     $("#tutorial_instructions_slide_continue_button").prop("disabled", true);
 };
 var clearTutorial = function(){
-    $("#train_creatures_tutorial").addClass("hidden");
+    $("#train_chemicals_tutorial").addClass("hidden");
     $("#tutorial_slide_continue_button").prop("disabled", true);
 }
 var clearQuestionInstructions = function(){
@@ -397,9 +397,9 @@ var clearQuestionsInstructions = function(){
     $("#question_instructions_slide").addClass("hidden");
     $("#question_instructions_slide_continue_button").prop("disabled", true);
 }
-var clearTrainCreatures = function() {
-    $("#train_creatures_slide").addClass("hidden");
-    $("#train_creatures_slide_continue_button").prop("disabled", true);
+var clearTrainChemicals = function() {
+    $("#train_chemicals_slide").addClass("hidden");
+    $("#train_chemicals_slide_continue_button").prop("disabled", true);
 };
 
 var clearExplorerChatInstructions = function() {
@@ -417,9 +417,9 @@ var clearTestInstructions = function() {
     $("#test_instructions_slide_continue_button").prop("disabled", true);
 };
 
-var clearTestCreatures = function() {
-    $("#test_creatures_slide").addClass("hidden");
-    $("#test_creatures_slide_continue_button").prop("disabled", true);
+var clearTestChemicals = function() {
+    $("#test_chemicals_slide").addClass("hidden");
+    $("#test_chemicals_slide_continue_button").prop("disabled", true);
 };
 
 var clearRoundScoreReport = function() {

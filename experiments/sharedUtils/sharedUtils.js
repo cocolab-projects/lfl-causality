@@ -90,14 +90,10 @@ var writeDataToCSV = function(game, _dataPoint) {
 
   // Establish stream to file if it doesn't already exist
   if(!_.has(game.streams, eventType)){
-      console.log("creatingStream")
       establishStream(game, dataPoint);
   }
   var line = _.values(dataPoint).join('\t') + "\n";
-  console.log('writeDataToCSV');
-  console.log(line)
   fs.appendFileSync(game.streams[eventType], line, err => {if(err) throw err;})
-  //game.streams[eventType].write(line, err => {if(err) throw err;});
 };
 
 var writeDataToMongo = function(game, line) {
@@ -112,7 +108,7 @@ var writeDataToMongo = function(game, line) {
       if (!error && res.statusCode === 200) {
         console.log(`sent data to store`);
       } else {
-	console.log(`error sending data to store: ${error} ${body}`);
+    console.log(`error sending data to store: ${error} ${body}`);
       }
     }
   );

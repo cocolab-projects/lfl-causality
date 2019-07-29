@@ -111,16 +111,10 @@ function toString(config){
             controls: actualControls
         }
     }
-    var result = ""
-    for(var reaction in dict){
-        result = result + reaction + ": "+ dict[reaction]['type'] + ""
-        result = result + "(controls: "
-        for(var beaker in dict[reaction]['controls']){
-            result = result + beaker + "("+ dict[reaction]['controls'][beaker] +")"
-        }
-        result = result + ")"
-    }
-    return result;
+    var stringWithCommas = JSON.stringify(dict);
+    var stringWithoutCommas = stringWithCommas
+    stringWithoutCommas = stringWithoutCommas.replace(/,/g, "%")
+    return stringWithoutCommas;
 }
 
 //creates a random configuration
@@ -358,7 +352,7 @@ function generateReactionQuestions(dict, numReactions){
             q1: "<div><p class='question'>ChemCo wants to find a chemical that does the following: " +
                 binReactionsToString(reactionConfig) + "</p></div>",
             q2: "<div><p class='question'>Click on a possible mixture ChemCo could use.</p></div>",
-            a: dict[reactionConfig]
+            a: (dict[reactionConfig].length === 1 && dict[reactionConfig].includes('000')) ? ['Not Possible'] : dict[reactionConfig]
         }
     }
     // Add single reaction configs

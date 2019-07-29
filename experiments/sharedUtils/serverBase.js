@@ -14,18 +14,7 @@ class ReferenceGameServer {
         this.games = {};
         this.game_count = 0;
 
-        if (expName == 'mp-game-5') {
-            // Track rule indices
-            this.rule_by_round = [10, 11, 12, 13, 14];
-
-            // Pilot 1:
-            // options.possibleSpecies = ['wudsy', 'morseth', 'kwep', 'zorb', 'luzak'];
-            // options.possibleSpeciesPlural = ['wudsies', 'morseths', 'kweps', 'zorbs', 'luzaks'];
-            
-            //   Pilot 2:
-            this.possibleSpecies = ['dorb', 'jav', 'lorch', 'grink', 'thup'];
-            this.possibleSpeciesPlural = ['dorbs', 'javs', 'lorchs', 'grinks', 'thups'];
-        } else if (expName == 'mp-game-6') {
+        if (expName == 'mp-game-6') {
             // Connect to Mongo
             const mongoCreds = require(__base + 'auth.json');
             const mongoURL = `mongodb://${mongoCreds.user}:${mongoCreds.password}@localhost:27017/`;
@@ -33,20 +22,6 @@ class ReferenceGameServer {
             utils.mongoConnectWithRetry(mongoURL, 2000, (connection) => {
                 this.connection = connection;
             });
-
-            // Load all files
-            var file_path = __base + 'mp-game-6/stimuli/fifty_rules/';
-            this.train_stimuli = {};
-            this.test_stimuli = {};
-            var concept_rule_summary = require(file_path + 'concept_summary.json');
-            for (var key in concept_rule_summary) {
-                if (concept_rule_summary.hasOwnProperty(key)) {
-                    var name = concept_rule_summary[key]['name'];
-                    this.train_stimuli[name] = require(file_path + 'train/' + name + '.json');
-                    this.test_stimuli[name] = require(file_path + 'test/' + name + '.json');
-                }
-            }
-
         }
     };
 
@@ -106,16 +81,9 @@ class ReferenceGameServer {
             id : utils.UUID(),
             player_instances: [{id: player.userid, player: player}],
         };
-        if (this.expName === 'mp-game-5') {
-            options.rule_by_round = this.rule_by_round;
-            options.possibleSpecies = this.possibleSpecies;
-            options.possibleSpeciesPlural = this.possibleSpeciesPlural;
-        } else if (this.expName === 'mp-game-6') {
-            options.train_stimuli = this.train_stimuli;
-            options.test_stimuli = this.test_stimuli;
+        if (this.expName === 'mp-game-6') {
             options.connection = this.connection;
         }
-
         var game = new this.core(options);
 
         // Assign a role to the player
@@ -151,14 +119,6 @@ class ReferenceGameServer {
         var messageParts = message.split('.');
         this.customServer.onMessage(client, message);
         if(!_.isEmpty(client.game.dataStore)) {
-            if (messageParts[0] === 'logScores') {
-                // debugger;
-            }
-
-            if (messageParts[0] === 'sendingTestScores') {
-                // debugger;
-            }
-
             this.writeData(client, messageParts[0], messageParts);
         }
     };
@@ -169,8 +129,6 @@ class ReferenceGameServer {
         var game = client.game;
         if(_.has(output, eventType)) {
         var dataPoint = _.extend(output[eventType](client, messageParts), {eventType});
-            console.log('writeData');
-            console.log(dataPoint);
         if(_.includes(game.dataStore, 'csv'))
             utils.writeDataToCSV(game, dataPoint);
         if(_.includes(game.dataStore, 'mongo'))

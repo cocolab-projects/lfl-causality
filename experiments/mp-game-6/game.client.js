@@ -8,7 +8,7 @@
 // ----------------
 // GLOBAL VARIABLES
 // ----------------
-var fullTest = false;
+var fullTest = true;
 
 var globalGame = {},
     enterScoreReport = 0,
@@ -74,7 +74,7 @@ var client_onserverupdate_received = function(data){
     globalGame.beakerQs = data.beakerQs;
     globalGame.config = data.config;
     globalGame.ruleTypes = data.ruleTypes;
-    globalGame.doTutorial = false;
+    globalGame.doTutorial = fullTest;
     globalGame.currentPage = "PreRound" + globalGame.roundNum + "_slide"
 
 
@@ -130,6 +130,7 @@ var customSetup = function(globalGame) {
             x : event.screenX,
             y : event.screenY,
             page : globalGame.currentPage,
+            element : event.target.id,
         }
         var clickJSON = _.toPairs(encodeData(click)).join('.');
         globalGame.socket.send("logClicks.Complete." + clickJSON);
@@ -160,8 +161,8 @@ var customSetup = function(globalGame) {
     $("#tutorial_instructions_slide_continue_button").click(function() {
         clearTutorialInstructions();
         drawProgressBar(globalGame.roundNum, globalGame.numRounds, 3, 8);
-        globalGame.socket.send("enterSlide.train_creatures_tutorial.");
-        globalGame.currentPage = "train_creatures_tutorial"
+        globalGame.socket.send("enterSlide.train_chemicals_tutorial.");
+        globalGame.currentPage = "train_chemicals_tutorial"
         drawTutorial(globalGame);
         $("#tutorial_slide_continue_button").show();
         $("#tutorial_slide_continue_button").prop("disabled", true);
@@ -192,7 +193,7 @@ var customSetup = function(globalGame) {
                          globalGame.numBeakers, globalGame.numReactions, true);
 
             $("#tutorial_slide_test_button").prop("disabled", true);
-            $("#train_creatures_slide_continue_button").show();
+            $("#train_chemicals_slide_continue_button").show();
             $("#reactionInstruct").show();
             unhighlight("#tutorial_slide_test_button")
             unhighlight("#mixBoxTutorial")
@@ -294,15 +295,15 @@ var customSetup = function(globalGame) {
             testing : [],
         }
         if (globalGame.my_role === "explorer") {
-            globalGame.currentPage = "train_creatures_slide"
+            globalGame.currentPage = "train_chemicals_slide"
             drawProgressBar(globalGame.roundNum, globalGame.numRounds, 3, 8);
-            globalGame.socket.send("enterSlide.train_creatures_slide.");
+            globalGame.socket.send("enterSlide.train_chemicals_slide.");
             drawTrainBox(globalGame);
             globalGame.roundProps.reactionsOnPrev = [];
-            $("#train_creatures_slide_continue_button").show();
-            $("#train_creatures_slide_newtest_button").prop("disabled", true);
-            $("#train_creatures_slide_continue_button").prop("disabled", false);
-            $("#train_creatures_slide_test_button").prop("disabled", false);
+            $("#train_chemicals_slide_continue_button").show();
+            $("#train_chemicals_slide_newtest_button").prop("disabled", true);
+            $("#train_chemicals_slide_continue_button").prop("disabled", false);
+            $("#train_chemicals_slide_test_button").prop("disabled", false);
             globalGame.roundProps.numTests = 0;
             globalGame.testStage = true;
             globalGame.roundProps.combosTried = []
@@ -316,7 +317,7 @@ var customSetup = function(globalGame) {
             drawChatRoom(globalGame);
         }       
     });
-    $("#train_creatures_slide_test_button").click(function(){
+    $("#train_chemicals_slide_test_button").click(function(){
         if(globalGame.roundProps.selected_train_stim.length === 0){
             alert("You must add at least one chemical");
         }else {
@@ -333,19 +334,19 @@ var customSetup = function(globalGame) {
             globalGame.roundProps.numTests++
             turnReactionsOn(globalGame.roundProps.selected_train_stim, globalGame.boxConfig,
                          globalGame.numBeakers, globalGame.numReactions, false);
-            $("#train_creatures_slide_test_button").prop("disabled", true);
-            $("#train_creatures_slide_newtest_button").prop("disabled", false);
-            $("#train_creatures_slide_continue_button").show();
+            $("#train_chemicals_slide_test_button").prop("disabled", true);
+            $("#train_chemicals_slide_newtest_button").prop("disabled", false);
+            $("#train_chemicals_slide_continue_button").show();
             globalGame.testStage = false;
         }
     });
 
-    $("#train_creatures_slide_newtest_button").click(function(){
+    $("#train_chemicals_slide_newtest_button").click(function(){
         globalGame.roundProps.combosTried[globalGame.roundProps.combosTried.length - 1]['learnTime'] = new Date()
         globalGame.roundProps.selected_train_stim = []
-        $("#train_creatures_slide_test_button").prop("disabled", false);
-        $("#train_creatures_slide_newtest_button").prop("disabled", true);
-        $("#train_creatures_slide_continue_button").show();
+        $("#train_chemicals_slide_test_button").prop("disabled", false);
+        $("#train_chemicals_slide_newtest_button").prop("disabled", true);
+        $("#train_chemicals_slide_continue_button").show();
         turnReactionsOff(globalGame.numReactions, globalGame.numBeakers, false)
         globalGame.testStage = true;
         var clickRecord = {
@@ -355,7 +356,7 @@ var customSetup = function(globalGame) {
         globalGame.roundProps['explorer']['clicks']['training'].push(clickRecord)
     });
 
-    $("#train_creatures_slide_continue_button").click(function(){
+    $("#train_chemicals_slide_continue_button").click(function(){
         // End Time
         if(fullTest && globalGame.roundProps.numTests < globalGame.numReqTests){
             alert("You need to keep experimenting")
@@ -366,7 +367,7 @@ var customSetup = function(globalGame) {
                 globalGame.roundProps[globalGame.my_role]['times']['train']['start']
             ) / 1000.0;
             globalGame.currentPage = "chat_instructions_slide"
-            clearTrainCreatures();
+            clearTrainChemicals();
             drawProgressBar(globalGame.roundNum, globalGame.numRounds, 4, 8);
             globalGame.socket.send("enterSlide.chat_instructions_slide.");
             drawExplorerChatInstructions(globalGame);
@@ -393,7 +394,7 @@ var customSetup = function(globalGame) {
     $("#test_instructions_slide_continue_button").click(function(){
         clearTestInstructions();
         drawProgressBar(globalGame.roundNum, globalGame.numRounds, 7, 8);
-        globalGame.socket.send("enterSlide.test_creatures_slide.");
+        globalGame.socket.send("enterSlide.test_chemicals_slide.");
         globalGame.roundProps[globalGame.my_role]['testResults'] = {
             beakerQs: {},
             reactionQs: {},
@@ -403,7 +404,7 @@ var customSetup = function(globalGame) {
         globalGame.roundProps[globalGame.my_role]['times']['test']['start'] = new Date();
         globalGame.roundProps[globalGame.my_role]['times']['test']['trials'] = []
         if(globalGame.testNum < globalGame.bqKeys.length){
-            drawTestCreatures(globalGame, globalGame.beakerQs[globalGame.bqKeys[globalGame.testNum]], false,
+            drawTestChemicals(globalGame, globalGame.beakerQs[globalGame.bqKeys[globalGame.testNum]], false,
                               globalGame.bqKeys[globalGame.testNum], globalGame.testNum);
             globalGame.roundProps[globalGame.my_role]['times']
                     ['test']['trials'].push({
@@ -412,7 +413,7 @@ var customSetup = function(globalGame) {
                                                 start : new Date(),
                                             })
         } else {
-            drawTestCreatures(globalGame, globalGame.reactionQs[globalGame.rqKeys
+            drawTestChemicals(globalGame, globalGame.reactionQs[globalGame.rqKeys
                                                                 [globalGame.testNum - globalGame.bqKeys.length]], true,
                               globalGame.rqKeys[globalGame.testNum - globalGame.bqKeys.length], globalGame.testNum);
             globalGame.roundProps[globalGame.my_role]['times']
@@ -426,7 +427,7 @@ var customSetup = function(globalGame) {
         globalGame.testNum++;
     });
 
-    $("#test_creatures_slide_notPossible_button").click(function(){
+    $("#test_chemicals_slide_notPossible_button").click(function(){
         //If there are still more questions, keep asking
         var isSure = confirm("Are you sure there are no possible answers? Click OK if you are sure.")
         globalGame.roundProps[globalGame.my_role]['clicks']['testing']
@@ -443,7 +444,7 @@ var customSetup = function(globalGame) {
                     [globalGame.testNum - 1]['start']) / 1000
             globalGame.currentPage = "test_slide_num_" + globalGame.testNum
             if(globalGame.testNum < (globalGame.bqKeys.length + globalGame.rqKeys.length)){
-                drawTestCreatures(globalGame, globalGame.reactionQs[globalGame.rqKeys
+                drawTestChemicals(globalGame, globalGame.reactionQs[globalGame.rqKeys
                                                                     [globalGame.testNum - globalGame.bqKeys.length]], true,
                                   globalGame.rqKeys[globalGame.testNum - globalGame.bqKeys.length], globalGame.testNum);
                 globalGame.roundProps[globalGame.my_role]['times']
@@ -459,7 +460,7 @@ var customSetup = function(globalGame) {
         }
     });
 
-    $("#test_creatures_slide_continue_button").click(function() {
+    $("#test_chemicals_slide_continue_button").click(function() {
         if(fullTest && (globalGame.testNum > globalGame.bqKeys.length) && globalGame.roundProps[globalGame.my_role]['testResults']
                 ['reactionQs'][globalGame.rqKeys[globalGame.testNum - 1 - globalGame.bqKeys.length]].length === 0){
             alert("You must add at least one chemical")
@@ -477,7 +478,7 @@ var customSetup = function(globalGame) {
                         globalGame.roundProps[globalGame.my_role]['times']['test']['trials']
                         [globalGame.testNum - 1]['start']) / 1000
                 if(globalGame.testNum < globalGame.bqKeys.length){
-                    drawTestCreatures(globalGame, globalGame.beakerQs[globalGame.bqKeys[globalGame.testNum]], false,
+                    drawTestChemicals(globalGame, globalGame.beakerQs[globalGame.bqKeys[globalGame.testNum]], false,
                                       globalGame.bqKeys[globalGame.testNum], globalGame.testNum);
                     globalGame.roundProps[globalGame.my_role]['times']
                             ['test']['trials'].push({
@@ -486,7 +487,7 @@ var customSetup = function(globalGame) {
                                                         start : new Date(),
                                                     })
                 } else {
-                    drawTestCreatures(globalGame, globalGame.reactionQs[globalGame.rqKeys
+                    drawTestChemicals(globalGame, globalGame.reactionQs[globalGame.rqKeys
                                                                         [globalGame.testNum - globalGame.bqKeys.length]], true,
                                       globalGame.rqKeys[globalGame.testNum - globalGame.bqKeys.length], globalGame.testNum);
                     globalGame.roundProps[globalGame.my_role]['times']
@@ -698,7 +699,6 @@ function encodeData(dataObj){
     var isNumeric = function(n) {
         return !isNaN(parseFloat(n)) && isFinite(n);
     }
-
     // Encode real numbers  
     return _.mapValues(dataObj, function(val) {
         if (isNumeric(val)) {
@@ -762,9 +762,10 @@ function endRound(){
         misses: 0,
         score: 0,
         rules : globalGame.ruleTypes.join("/"),
-        config : "\"" + configForCSV + "\""
+        config : configForCSV
     }
     console.log("rules: " + roundSummary.rules)
+    console.log("config:" + roundSummary.config)
     for(var config in globalGame.roundProps[globalGame.my_role]['testResults']['beakerQs']){
         var turker_answer = reactionStr(globalGame.roundProps[globalGame.my_role]['testResults']['beakerQs'][config],
                                         globalGame.numReactions, false, false, false);
@@ -803,7 +804,6 @@ function endRound(){
     // Transmit performance info to server
     for(var i = 0; i < roundTimes.length; i++){
         var roundTimesJSON = _.toPairs(encodeData(roundTimes[i])).join('.');
-        console.log(roundTimesJSON)
         globalGame.socket.send("logCompleteTimes.Complete." + roundTimesJSON);
     }
     var roundSimpleTimesJSON = _.toPairs(encodeData(roundSimpleTimes)).join('.');
@@ -814,12 +814,11 @@ function endRound(){
     globalGame.socket.emit("multipleTrialResponses", roundSelectionsObj);
 
     var roundSummaryJSON = _.toPairs(encodeData(roundSummary)).join('.');
-    console.log(roundSummaryJSON)
-    globalGame.socket.send("logScores.TestCreatures." + roundSummaryJSON);
+    globalGame.socket.send("logScores.TestChemicals." + roundSummaryJSON);
     globalGame.socket.send("sendingTestScores." + roundSummaryJSON);
 
     // Enter wait room until other user has completed quiz/test
-    clearTestCreatures();
+    clearTestChemicals();
     globalGame.socket.send("enterSlide.wait_room_slide.")
     drawProgressBar(globalGame.roundNum, globalGame.numRounds, 8, 8);
     drawWaitingRoom("Waiting for the your partner to catch up ...", globalGame);

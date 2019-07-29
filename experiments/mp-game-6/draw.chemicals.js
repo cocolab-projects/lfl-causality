@@ -1,8 +1,8 @@
 // --------------------------------------------------------------------
-// draw.creatures.js
-// Author: Sahil Chopra
-// Date: December 21, 2018
-// Goal: Helper functions utilized in drawing creatures for 
+// draw.chemicals.js
+// Author: Clara MacAvoy
+// Date: July 2019
+// Goal: Helper functions utilized in drawing chemicals for
 //       multiplayer game 6.
 // --------------------------------------------------------------------
 function drawBox(numBeakers, numReactions, train, roundProps, game, beakersManip, config, questionObj) {
@@ -43,7 +43,7 @@ function drawBox(numBeakers, numReactions, train, roundProps, game, beakersManip
     let beakersStr = beakers.join('')
     let reactionsStr = reactions.join('')
     if (train) {
-        $("#train_creatures_slide_grid").append(beakersStr + reactionsStr);
+        $("#train_chemicals_slide_grid").append(beakersStr + reactionsStr);
         for(var h = 1; h<=numBeakers; h++){
             drawTrainingScenario(roundProps, h, game)
         }
@@ -55,8 +55,8 @@ function drawBox(numBeakers, numReactions, train, roundProps, game, beakersManip
         let instruct = questionObj['q2'];
         //roundProps.[game.my_role]testSelections[config] = [];
         if(beakersManip){
-            $("#test_creatures_slide_grid").append(questionStr + reactionsStr + instruct + beakersStr);
-            $('#test_creatures_slide_notPossible_button').show();
+            $("#test_chemicals_slide_grid").append(questionStr + reactionsStr + instruct + beakersStr);
+            $('#test_chemicals_slide_notPossible_button').show();
             roundProps[game.my_role]['testResults']['reactionQs'][config] = []
             for(var i = 1; i<=numBeakers; i++){
                 drawTestingScenario(roundProps, i, beakersManip, config, game.my_role, numBeakers)
@@ -67,8 +67,8 @@ function drawBox(numBeakers, numReactions, train, roundProps, game, beakersManip
                 }
             }
         }else{
-            $("#test_creatures_slide_grid").append(questionStr + beakersStr + instruct + reactionsStr);
-            $('#test_creatures_slide_notPossible_button').hide();
+            $("#test_chemicals_slide_grid").append(questionStr + beakersStr + instruct + reactionsStr);
+            $('#test_chemicals_slide_notPossible_button').hide();
             roundProps[game.my_role]['testResults']['beakerQs'][config] = []
             roundProps[game.my_role]['testResults']['reactionsInteractedWith'][config] = []
             for(var i = 1; i<=numReactions; i++){
@@ -417,5 +417,3 @@ function highlight(id) {
 function unhighlight(id) {
     $(id).css({"background-color":"transparent"});
 }
-
-

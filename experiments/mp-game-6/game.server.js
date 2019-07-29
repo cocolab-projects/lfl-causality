@@ -170,8 +170,11 @@ var commonOutput = function (client) {
   Note: If no function provided for an event, no data will be written
 */
 var dataOutput = function() {
-  function decodeData(dataObj){
+  function decodeData(dataObj, type){
     var result = _.mapValues(dataObj, function(val){
+      if(type === 'logScores'){
+        val = val.replace(/%/g, "\",\"")
+      }
       if (val == undefined) {
         return '';
       } else if (utils.isNumeric(val)) {
@@ -192,10 +195,9 @@ var dataOutput = function() {
     // message_data constrains the flattened JSON object with training/test trial info.
     var result = _.extend(
       commonOutputBeg(client),
-      decodeData(flattenedArrayToObj(message_data.slice(2))),
+      decodeData(flattenedArrayToObj(message_data.slice(2)), message_data[0]),
       commonOutputEnd(client)
     );
-    console.log(result);
     return result;
   };
 

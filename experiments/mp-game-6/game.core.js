@@ -34,7 +34,7 @@ var game_core = function(options){
     this.isProd = options.isProd;
 
     // Some config settings
-    this.email = "schopra8@stanford.edu";
+    this.email = "cmacavoy@stanford.edu";
     this.projectName = "cultural_ratchet";
     this.experimentName = "mp-game-6";
     this.iterationName = "pilot";
@@ -108,28 +108,6 @@ var game_core = function(options){
             this.reactionQuestionsList.push(reactionQs)
         }
         console.log(this.configs)
-//        this.makeTrialList(options.connection, function(trial){
-//            localThis.trialList.push(trial);
-//            localThis.numTrialsDefined += 1;
-//            if (localThis.numTrialsDefined === localThis.numRounds) {
-//                localThis.trialList = _.shuffle(localThis.trialList);
-//                localThis.trialStimuli = [];
-//                _.forEach(
-//                    localThis.trialList,
-//                    trialInfo => {
-//                        localThis.trialStimuli.push({
-//                            train: options.train_stimuli[trialInfo.fileName] ,
-//                            test:  options.test_stimuli[trialInfo.fileName],
-//                            ruleIdx: trialInfo.ruleIdx,
-//                            ruleName: trialInfo.name,
-//                            ruleFileName: trialInfo.fileName,
-//                        });
-//                    }
-//                )
-//                console.log(localThis.trialList);
-//                localThis.server_send_update();
-//            }
-//        });
         this.server_send_update();
     } else {
         // If we're initializing a player's local game copy, create the player object
@@ -232,7 +210,6 @@ game_core.prototype.server_send_update = function(){
         reactionQs : this.reactionQuestionsList[this.roundNum],
     };
         state.trialList = this.trialList;
-        // state.trialInfo = this.trialStimuli[this.roundNum];
         state.trialInfo = this.trialList[1];
     // }
 
@@ -243,41 +220,4 @@ game_core.prototype.server_send_update = function(){
     _.map(this.get_active_players(), function(p){
         p.player.instance.emit('onserverupdate', state);
     });
-};
-
-game_core.prototype.makeTrialList = function (connection, callback) {
-    col_prefix = "fifty_rules_";
-    console.log("Loading from: " + col_prefix);
-    var gameId = this.id;
-    var ruleTypes = [
-        "SINGLE_FEATURE",
-        "CONJUNCTION",
-        "DISJUNCTION",
-        "CONJUNCTION_DISJUNCTION",
-        "DISJUNCTION_CONJUNCTION"
-    ];
-    //shuffle(ruleTypes);
-    ruleTypes = ruleTypes.slice(0, this.numRounds)
-    console.log(ruleTypes)
-    _.forEach(ruleTypes,
-        ruleType => {
-            utils.getStims(
-                connection,
-                "genGames",
-                col_prefix + ruleType,
-                gameId,
-                function(result) {
-                    var trial = {
-                        gameid: gameId,
-                        ruleIdx: result.rule_idx,
-                        fileName: result.file_name,
-                        name: result.name,
-                        ruleType: ruleType,
-                    };
-                    callback(trial);
-                }
-            );
-        }
-    );
-
 };
