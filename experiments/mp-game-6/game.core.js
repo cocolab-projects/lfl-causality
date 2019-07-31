@@ -41,8 +41,8 @@ var game_core = function(options){
     this.anonymizeCSV = true;
     this.bonusAmt = 1; // in cents
 
-    // save data to the following locations (allowed: "csv", "mongo")
-    this.dataStore = ["csv", "mongo"];
+    // save data to the following locations (allowed: "csv")
+    this.dataStore = ["csv"];
 
     // Player parameters
     this.player_count = 1;

@@ -10,9 +10,6 @@ const mkdirp = require('mkdirp');
 const sendPostRequest = require('request').post;
 
 
-const mongodb = require('mongodb');
-const MongoClient = mongodb.MongoClient;
-const ObjectID = mongodb.ObjectID;
 const colors = require('colors/safe');
 
 // ----------------
@@ -96,28 +93,6 @@ var writeDataToCSV = function(game, _dataPoint) {
   fs.appendFileSync(game.streams[eventType], line, err => {if(err) throw err;})
 };
 
-var writeDataToMongo = function(game, line) {
-  var postData = _.extend({
-    dbname: game.projectName,
-    colname: game.experimentName
-  }, line);
-  sendPostRequest(
-    'http://localhost:27018/db/insert',
-    { json: postData },
-    (error, res, body) => {
-      if (!error && res.statusCode === 200) {
-        console.log(`sent data to store`);
-      } else {
-    console.log(`error sending data to store: ${error} ${body}`);
-      }
-    }
-  );
-};
-
-
-//----------------
-// Local MongoDB
-//----------------
 
 function makeMessage(text) {
     return `${colors.blue('[store]')} ${text}`;
@@ -143,17 +118,6 @@ function success(response, text) {
     return response.send(message);
 }
 
-function mongoConnectWithRetry(mongoURL, delayInMilliseconds, callback) {
-    MongoClient.connect(mongoURL, (err, connection) => {
-    if (err) {
-        console.error(`Error connecting to MongoDB: ${err}`);
-        setTimeout(() => mongoConnectWithRetry(delayInMilliseconds, callback), delayInMilliseconds);
-    } else {
-        log('connected succesfully to mongodb');
-        callback(connection);
-    }
-    });
-}
 
 var getStims = function(connection, databaseName, collectionName, gameId, callback){
     const database = connection.db(databaseName);
@@ -504,7 +468,6 @@ module.exports = {
     establishStream,
     getObjectLocHeader,
     writeDataToCSV,
-    writeDataToMongo,
     hsl2lab,
     fillArray,
     randomColor,
@@ -519,7 +482,6 @@ module.exports = {
     generateAttentionQuestion,
     isNumeric,
     getStims,
-    mongoConnectWithRetry,
     log,
     error,
     failure,

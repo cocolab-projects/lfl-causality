@@ -8,7 +8,7 @@
 // ----------------
 // GLOBAL VARIABLES
 // ----------------
-var fullTest = true;
+var fullTest = false;
 
 var globalGame = {},
     enterScoreReport = 0,

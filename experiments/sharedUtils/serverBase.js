@@ -13,16 +13,6 @@ class ReferenceGameServer {
         // Track ongoing games
         this.games = {};
         this.game_count = 0;
-
-        if (expName == 'mp-game-6') {
-            // Connect to Mongo
-            const mongoCreds = require(__base + 'auth.json');
-            const mongoURL = `mongodb://${mongoCreds.user}:${mongoCreds.password}@localhost:27017/`;
-            // const mongoURL = `mongodb://localhost:27017/`;
-            utils.mongoConnectWithRetry(mongoURL, 2000, (connection) => {
-                this.connection = connection;
-            });
-        }
     };
 
     log() {
@@ -115,7 +105,7 @@ class ReferenceGameServer {
 
     onMessage (client, message) {
         // Split incoming message into constituent parts
-        // and then write data to CSV / Mongo DB
+        // and then write data to CSV
         var messageParts = message.split('.');
         this.customServer.onMessage(client, message);
         if(!_.isEmpty(client.game.dataStore)) {
@@ -124,15 +114,13 @@ class ReferenceGameServer {
     };
 
     writeData (client, eventType, messageParts) {
-        // Writes data specified by experiment instance to csv and/or mongodb
+        // Writes data specified by experiment instance to csv
         var output = this.customServer.dataOutput;
         var game = client.game;
         if(_.has(output, eventType)) {
         var dataPoint = _.extend(output[eventType](client, messageParts), {eventType});
         if(_.includes(game.dataStore, 'csv'))
             utils.writeDataToCSV(game, dataPoint);
-        if(_.includes(game.dataStore, 'mongo'))
-            utils.writeDataToMongo(game, dataPoint);
         }
     };
 
@@ -148,8 +136,6 @@ class ReferenceGameServer {
                 var dataPoint = _.extend(trial, {'eventType': 'logTest'}, sharedInfo);
                 if(_.includes(game.dataStore, 'csv'))
                     utils.writeDataToCSV(game, dataPoint);
-                if(_.includes(game.dataStore, 'mongo'))
-                    utils.writeDataToMongo(game, dataPoint);
             });
         }
     };
