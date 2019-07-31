@@ -11,7 +11,7 @@ function drawBox(numBeakers, numReactions, train, roundProps, game, beakersManip
         clicks: []
     }
     if(!train){
-        clickRecord.type = beakersManip ? "reaction" : "beaker"
+        clickRecord.type = beakersManip ? "cap_reaction" : "beaker"
     }
     roundProps[game.my_role]['clicks'][train? 'training' : 'testing'].push(clickRecord)
     var reactions = ["<div id='reactions"+ (!train ? "test": "") + "'>"]
@@ -21,9 +21,9 @@ function drawBox(numBeakers, numReactions, train, roundProps, game, beakersManip
             reactions.push("<figure><img id='reaction" + i + (train ? "": "test") +
                            "'src = 'Graphics/Reaction"+i+"Off.svg' "+
                            "alt = 'Reaction"+i+"' class = 'reaction'><figcaption id='cap_reaction" + i +
-                            (train? "": "test") + "Off' class = 'caption" + ((i===3)?"long":"") +
+                            (train? "": "test") + "Off' class = 'caption" +
                            "'>"+ reaction(i-1, false) + "</figcaption><figcaption id='cap_reaction" + i +
-                           (train? "": "test") + "On' class = 'caption" + ((i===3)?"long":"") +
+                           (train? "": "test") + "On' class = 'caption" +
                           "'>" + reaction(i-1, true) + "</figcaption></figure>");
         }
     } 
@@ -48,7 +48,7 @@ function drawBox(numBeakers, numReactions, train, roundProps, game, beakersManip
             drawTrainingScenario(roundProps, h, game)
         }
         for(var i = 1; i<=numReactions; i++){
-            lighten("#cap_reaction" + i)
+            lightenCompletely("#cap_reaction" + i)
         }
     } else {
         let questionStr = questionObj['q1'];
@@ -83,7 +83,7 @@ function drawTutorialBox(numBeakers, numReactions, question, roundProps, game, b
     var beakers = ["<div id='beakers"+ (question ? "question": "tutorial") + "'>"]
     if(!question){
         reactions.push("<p id='reactionInstruct'class='instruct'>After you press the mix button" +
-                       ", then the properties measured in that mixture will be displayed here. Try using the <strong>New Test</strong> Button to " +
+                       ", then the reactions that occur in the mixture will be displayed here. Try using the <strong>New Test</strong> Button to " +
                        " start a new mixture</p>");
         beakers.push("<figure id='beakerInstruct'class='instruct'>These are beakers of chemicals. You can click once to add them" +
                      " to the mixture, and then click again to remove them. Try adding <strong>'redase'</strong> and "+
@@ -101,9 +101,9 @@ function drawTutorialBox(numBeakers, numReactions, question, roundProps, game, b
             reactions.push("<figure><img id='reaction" + i + (question ? "question": "tutorial") +
                            "'src = 'Graphics/Reaction"+i+"Off.svg' "+
                            "alt = 'Reaction"+i+"' class = 'reaction'><figcaption id='cap_reaction" + i +
-                            (question? "question": "tutorial") + "Off' class = 'caption" + ((i===3)?"long":"") +
+                            (question? "question": "tutorial") + "Off' class = 'caption" +
                            "'>"+ reaction(i-1, false) + "</figcaption><figcaption id='cap_reaction" + i +
-                           (question? "question": "tutorial") + "On' class = 'caption" + ((i===3)?"long":"") +
+                           (question? "question": "tutorial") + "On' class = 'caption"+
                           "'>" + reaction(i-1, true) + "</figcaption></figure>");
         }
     }
@@ -128,15 +128,15 @@ function drawTutorialBox(numBeakers, numReactions, question, roundProps, game, b
                 "<p id='questionInstruct'class='question'>Click on a possible mixture ChemCo could use.</p>" +
                 "</div>"
         questionStr = "<div>" +
-                "<p id='questionSecond'class='question'>ChemCo wants to find a chemical that does the following: "+
-                "Glows, Conducts Electricity. It doesn't care about any other properties.</p>" +
+                "<p id='questionSecond'class='question'>ChemCo wants to find a chemical that "+
+                "Glows and Conducts Electricity. It doesn't care about any other reactions that occur.</p>" +
                 "</div>"
     }else if (question && !beakersManip){
         instruct = "<div>" +
                 "<p id='questionInstruct'class='question'>Click on the measurements that ChemCo should expect to see.</p>" +
                 "</div>"
         questionStr = "<div>" +
-                "<p id='questionFirst'class='question'>ChemCo has mixed the following chemicals: Bluease. </p>" +
+                "<p id='questionFirst'class='question'>ChemCo will mix the following chemicals: Bluease. </p>" +
                 "</div>"
     }
 
@@ -153,7 +153,7 @@ function drawTutorialBox(numBeakers, numReactions, question, roundProps, game, b
             drawTutorialScenario(roundProps, h, game, true, question)
         }
         for(var i = 1; i<=numReactions; i++){
-            lighten("#cap_reaction" + i + "tutorial")
+            lightenCompletely("#cap_reaction" + i + "tutorial")
         }
         startTutorial(roundProps);
     }else if (beakersManip) {
@@ -181,13 +181,14 @@ function drawTutorialBox(numBeakers, numReactions, question, roundProps, game, b
             drawTutorialScenario(roundProps, i, game, beakersManip, question);
         }
         for(var i = 1; i<=numBeakers; i++){
-            lighten("#cap_reaction" + i + "question")
+            lightenCompletely("#cap_reaction" + i + "question")
         }
     }
 }
   
 function drawTrainingScenario(roundProps, i, game){
     var id = "#beaker" + i
+    $(id).addClass("clickable");
     $(id).click(function(event) {
         var event_id = event.target.id;
         roundProps[game.my_role]['clicks']['training']
@@ -209,7 +210,29 @@ function drawTrainingScenario(roundProps, i, game){
 }
 
 function drawTutorialScenario(roundProps, i, game, beakersManip, question){
-    var id = "#" + (beakersManip ? "beaker" : "reaction") + i + (question? "question":"tutorial");
+    var id = "#" + (beakersManip ? "beaker" : "cap_reaction") + i + (question? "question":"tutorial");
+    if(question && !beakersManip){
+        var offId = id + "Off";
+        var onId = id + "On";
+        roundProps.tutorialFirst.reactionsInteractedWith.push(id)
+        $(offId).addClass("clickable");
+        $(onId).addClass("clickable");
+        $(offId).click(function(event){
+            darken(id)
+            turnOff(i, false, true, true, false);
+            if(roundProps.tutorialFirst.reactionsClicked.includes(id)){
+                roundProps.tutorialFirst.reactionsClicked.splice(roundProps.tutorialFirst.reactionsClicked.indexOf(id), 1)
+            }
+        })
+        $(onId).click(function(event){
+            darken(id)
+            turnOn(i, false, true, true, false);
+            if(!roundProps.tutorialFirst.reactionsClicked.includes(id)){
+                roundProps.tutorialFirst.reactionsClicked.push(id)
+            }
+        })
+    }
+    $(id).addClass("clickable");
     $(id).click(function(event) {
         if(!question){
             roundProps.tutorial.numBeakerClicks++;
@@ -245,17 +268,6 @@ function drawTutorialScenario(roundProps, i, game, beakersManip, question){
             }
             var img = "Graphics/Box_" + beakerStr(roundProps.tutorialSecond.beakersClicked, game.numBeakers, false, true, true) + ".svg"
             $("#mix_boxquestion").attr("src", img);
-        } else {
-            roundProps.tutorialFirst.reactionsInteractedWith.push(id)
-            if(!roundProps.tutorialFirst.reactionsClicked.includes(id)){
-                darken(id)
-                turnOn(i, false, true, true, false);
-                roundProps.tutorialFirst.reactionsClicked.push(id)
-            }else {
-                darken(id)
-                turnOff(i, false, true, true, false);
-                roundProps.tutorialFirst.reactionsClicked.splice(roundProps.tutorialFirst.reactionsClicked.indexOf(id), 1)
-            }
         }
     })
 }
@@ -280,9 +292,9 @@ function moveToMixBox(roundProps){
 }
 
 function drawTestingScenario(roundProps, i, beakers, config, role, numBeakers){
-    //globalGame.roundProps[globalGame.my_role]['testResults']['beakerQs'][config];
     if(beakers){
         var id = "#beaker" + i + "test"
+        $(id).addClass("clickable");
         $(id).click(function(event) {
             roundProps[role]['clicks']['testing']
                     [roundProps[role]['clicks']['testing'].length - 1]['clicks'].push(id)
@@ -301,19 +313,30 @@ function drawTestingScenario(roundProps, i, beakers, config, role, numBeakers){
         })
     }else{
         var id = "#reaction" + i + "test"
-        $(id).click(function(event) {
-            roundProps[role]['clicks']['testing']
-                    [roundProps[role]['clicks']['testing'].length - 1]['clicks'].push(id)
-            var event_id = event.target.id;
+        var offId = "#cap_reaction" + i + "testOff";
+        var onId = "#cap_reaction" + i + "testOn";
+        $(offId).addClass("clickable");
+        $(onId).addClass("clickable");
+        $(offId).click(function(event){
+            turnOff(i, false, false, false, false);
             if(!roundProps[role]['testResults']['reactionsInteractedWith'][config].includes(id)){
                 roundProps[role]['testResults']['reactionsInteractedWith'][config].push(id)
             }
-            if(!roundProps[role]['testResults']['beakerQs'][config].includes(id)){
-                turnOn(i, false, false, false, false)
-                roundProps[role]['testResults']['beakerQs'][config].push(id)
-            }else {
-                turnOff(i, false, false, false, false)
+            roundProps[role]['clicks']['testing']
+                    [roundProps[role]['clicks']['testing'].length - 1]['clicks'].push(offId)
+            if(roundProps[role]['testResults']['beakerQs'][config].includes(id)){
                 roundProps[role]['testResults']['beakerQs'][config].splice(roundProps[role]['testResults']['beakerQs'][config].indexOf(id), 1)
+            }
+        })
+        $(onId).click(function(event){
+            turnOn(i, false, false, false, false);
+            if(!roundProps[role]['testResults']['reactionsInteractedWith'][config].includes(id)){
+                roundProps[role]['testResults']['reactionsInteractedWith'][config].push(id)
+            }
+            roundProps[role]['clicks']['testing']
+                    [roundProps[role]['clicks']['testing'].length - 1]['clicks'].push(offId)
+            if(!roundProps[role]['testResults']['beakerQs'][config].includes(id)){
+                roundProps[role]['testResults']['beakerQs'][config].push(id)
             }
         })
     }
@@ -323,7 +346,10 @@ function darken(id) {
     $(id).css({"opacity":1.0});
 }
 function lighten(id){
-    $(id).css({"opacity":0.3});
+    $(id).css({"opacity":0.75});
+}
+function lightenCompletely(id){
+    $(id).css({"opacity":0.5});
 }
 function empty(id){
     $(id).attr("src", "Graphics/Empty_Beaker.svg");
@@ -346,7 +372,7 @@ function turnOn(i, tutorial, question, train, hideCaptions){
     }else{
         darken(id)
         darken(cap)
-        lighten(capOff)
+        lightenCompletely(capOff)
     }
 }
 function turnOff(i, tutorial, question, train, hideCaptions){
@@ -356,13 +382,13 @@ function turnOff(i, tutorial, question, train, hideCaptions){
     var cap='#cap_reaction' + i + (tutorial ? "tutorial": "") + (question ? "question": "") + (train ? "" : "test") + "Off"
     var capOn = '#cap_reaction' + i + (tutorial ? "tutorial": "") + (question ? "question": "") + (train ? "" : "test") + "On"
     if(hideCaptions){
-        darken(id)
+        lighten(id)
         darken(cap)
         $(capOn).hide()
     }else{
-        darken(id)
+        lighten(id)
         darken(cap)
-        lighten(capOn)
+        lightenCompletely(capOn)
     }
 }
 
@@ -374,14 +400,14 @@ function turnNeutral(i, tutorial){
     var capOff='#cap_reaction' + i + (tutorial ? "tutorial": "") + "Off"
     $(capOff).show();
     $(capOn).show();
-    lighten(capOn)
-    lighten(capOff)
+    lightenCompletely(capOn)
+    lightenCompletely(capOff)
 }
 
 function turnReactionsOff(numReactions, numBeakers, tutorial){
     for(var i = 1; i<=numReactions; i++){
-        lighten("#reaction" + i + (tutorial ? "tutorial": ""))
-        lighten("#cap_reaction" + i + (tutorial ? "tutorial": ""))
+        lightenCompletely("#reaction" + i + (tutorial ? "tutorial": ""))
+        lightenCompletely("#cap_reaction" + i + (tutorial ? "tutorial": ""))
         turnNeutral(i, tutorial)
     }
     for(var i = 1; i<=numBeakers; i++){
@@ -398,14 +424,10 @@ function turnReactionsOn(beakersOn, reactionsDict, numBeakers, numReactions, tut
     for(var h = 0; h<reactionsDict[beakersKey].length; h++){
         var id = "#reaction" + (h+1) + (tutorial ? "tutorial": "")
         if(reactionsDict[beakersKey][h]){
-            darken("#cap_reaction" + (h+1) + (tutorial ? "tutorial": ""))
-            darken(id)
-            turnOn(h+1, tutorial, false, true, true)
+            turnOn(h+1, tutorial, false, true, false)
             reactionsOn.push(id)
         } else {
-            turnOff(h+1, tutorial, false, true, true)
-            darken("#cap_reaction" + (h+1) + (tutorial ? "tutorial": ""))
-            darken(id)
+            turnOff(h+1, tutorial, false, true, false)
         }
     }
 }

@@ -278,20 +278,20 @@ ALOT...don't understand how to adjust that.*/
    opacity:0.5;
    padding:0px 0px;
    margin: 10px;
+   background-color: #d4d4f7;
+   border: solid;
 }
-.captionlong{
-   width:300px;
-   opacity:0.5;
-   padding:0px 0px;
-   margin: 10px;
+.clickable.caption:hover{
+   background-color: #ffd8cc;
 }
 .instruct {
-   width:200px;
-   padding:10px;
-   margin: 10px;
+   padding: 10px;
+   margin: 10px 0 0 0;
    background-color: LemonChiffon;
-   display: inline-block;
-   float: left;
+   display: block;
+   border: yellow;
+   border-style: solid;
+   border-width: 10px;
 }
 
 .question {
@@ -301,10 +301,14 @@ ALOT...don't understand how to adjust that.*/
    margin-top: 10px;
 }
 
-#mixInstruct{
-   width: 300px;
-}
-
 figure {
    display: inline-block;
+}
+
+.clickable {
+   cursor: pointer;
+}
+
+button {
+   cursor: pointer;
 }

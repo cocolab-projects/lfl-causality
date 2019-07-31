@@ -130,7 +130,8 @@ var drawFirstQuestion = function(game) {
     $("#first_question_slide_header").html(
         `
             <p class="label_prompt">
-                Question 1: Click on reactions once to indicate they will occur, and click again to turn them off.
+                Question 1: Click on labels to indicate if a reaction will or will not occur.
+                You need to set a value (either present or absent) to each reaction.
             </p>
         `
     );
@@ -172,11 +173,15 @@ var drawTrainInstructions = function(game) {
                 <h3>Instructions</h3>
                 <br>
                 <p>
-                    You will now enter the exploration phase of the game.
+                    You will enter an exploration phase of the game.
                     <br><br>
+                    You are now exploring a new planet, and you have found more chemicals.
                     These chemicals are <strong>new chemicals</strong>, with <strong>different properties</strong>.
+                    Nothing you have learned previously is still useful.
+                    <br><br>
                     Try out different combinations to learn what properties the chemicals have.
-                    You should <strong>explore until you completely understand the combinations</strong>.
+                    You should <strong>explore until you completely understand the reactions caused by different
+                    combinations of chemicals</strong>. You can explore for as long as you want.
                     <br><br>
                     Press continue to start exploring.
                     <br><br>
@@ -190,7 +195,8 @@ var drawTrainInstructions = function(game) {
                 <h3>Instructions</h3>
                 <br>
                 <p>
-                    Your partner is now exploring <strong>new</strong> chemicals with <strong>different properties</strong>.
+                    Your partner is now on a new planet, exploring <strong>new</strong> chemicals with <strong>different properties</strong>.
+                    They are not the same as any previous chemicals you have seen.
                     After they are done exploring, they will teach you about them in the chatroom.
                     <br><br>
                     While your partner explores, please please stay at the computer and DO NOT CLOSE THIS TAB.
@@ -264,7 +270,8 @@ var drawExplorerChatInstructions = function(game) {
         On the next page, you will enter into a chatroom with your partner, the "student".
         <br>
         <br>
-        Please discuss the properties of the chemicals. The "student" will be advance the game out of the chatroom, once they feel like they have a good understanding of the properties of the chemicals.
+        Please discuss what reactions happen when you mix different combinations of chemicals.
+        The "student" will advance the game out of the chatroom, once they feel like they have a good understanding of the properties of the chemicals.
         <br>
         <br>
         After the chatroom, you both will be asked questions about chemicals and properties. Your bonus will be the sum of your score and the score of your partner on this task.
@@ -316,7 +323,7 @@ var drawTestChemicals = function(game, question, beakers, config, questionNum) {
     $("#test_chemicals_slide_grid").empty();
     var instructions = `
             <p class="label_prompt">
-            Question: ${questionNum}
+            Question: ${questionNum + 1}
             </p>
         `
 

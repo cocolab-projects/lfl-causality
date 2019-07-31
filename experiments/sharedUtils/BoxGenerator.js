@@ -310,17 +310,19 @@ function boolsToBin(bools){
   Return: dictionary: keys: beaker configurations --> values: dictionary of answers [a], and questions [q1, q2]
 */
 function generateBeakerQuestions(dict){
-    var beakerQuestions = {};
+    var beakerQuestions = [];
     for(var beakerConfig in dict){
         if(beakerConfig !== '000'){
-            beakerQuestions[beakerConfig] = {
+            beakerQuestions.push({
+                type: "beaker",
+                config: beakerConfig,
                 q1: "<div>" +
-                    "<p class='question'>ChemCo has mixed the following chemicals: " + binBeakersToString(beakerConfig) +
+                    "<p class='question'>ChemCo will mix the following chemicals: " + binBeakersToString(beakerConfig) +
                     ".</div>",
                 q2: "<div>" +
                     "<p class='question'>Click on the measurements that ChemCo should expect to see.</p></div>",
                 a: boolsToBin(dict[beakerConfig]),
-            }
+            })
         }
     }
     return beakerQuestions;
@@ -332,8 +334,8 @@ function generateBeakerQuestions(dict){
   Return: dictionary: keys: reaction configurations --> values: dictionary of answers [a], and questions [q1, q2]
 */
 function generateReactionQuestions(dict, numReactions){
-    var questions = {};
-    var singKeys = [];
+    var questions = [];
+    var singIndices = [];
     var trios = Object.keys(dict);
     shuffle(trios);
     var i = 0
@@ -348,12 +350,14 @@ function generateReactionQuestions(dict, numReactions){
     //Add three reaction configs
     for(var i = 0; i<(trios.length >= 4? 4:trios.length); i++){
         var reactionConfig = trios[i];
-        questions[reactionConfig] = {
-            q1: "<div><p class='question'>ChemCo wants to find a chemical that does the following: " +
+        questions.push({
+            type: "reaction",
+            config: reactionConfig,
+            q1: "<div><p class='question'>ChemCo wants to find a chemical that " +
                 binReactionsToString(reactionConfig) + "</p></div>",
             q2: "<div><p class='question'>Click on a possible mixture ChemCo could use.</p></div>",
             a: (dict[reactionConfig].length === 1 && dict[reactionConfig].includes('000')) ? ['Not Possible'] : dict[reactionConfig]
-        }
+        })
     }
     // Add single reaction configs
     for(var i = 0; i < numReactions; i++){
@@ -369,35 +373,45 @@ function generateReactionQuestions(dict, numReactions){
                 OneStr = OneStr + "1"
             }
         }
-        questions[ZeroStr] = {
-            q1: "<div><p class='question'>ChemCo wants to find a chemical that does the following: " +
-                binReactionsToString(ZeroStr) + ". It doesn't care about any other properties.</p></div>",
+        singIndices.push(questions.length)
+        questions.push({
+            type: "reaction",
+            config: ZeroStr,
+            q1: "<div><p class='question'>ChemCo wants to find a chemical that " +
+                binReactionsToString(ZeroStr) + ". It doesn't care about any other reactions.</p></div>",
             q2: "<div><p class='question'>Click on a possible mixture ChemCo could use.</p></div>",
             a: findConfigsForSingReac(dict, i, false)
-        }
-        questions[OneStr] = {
-            q1: "<div><p class='question'>ChemCo wants to find a chemical that does the following: " +
-                binReactionsToString(OneStr) + ". It doesn't care about any other properties.</p></div>",
+        })
+        questions.push({
+            type: "reaction",
+            config: OneStr,
+            q1: "<div><p class='question'>ChemCo wants to find a chemical that " +
+                binReactionsToString(OneStr) + ". It doesn't care about any other reactions.</p></div>",
             q2: "<div><p class='question'>Click on a possible mixture ChemCo could use.</p></div>",
             a: findConfigsForSingReac(dict, i, true)
-        }
-        singKeys.push(ZeroStr);
+        })
     }
-    shuffle(singKeys)
-    for(var i = 0; i < 2; i++){
-        delete questions[singKeys[i]]
+    shuffle(singIndices)
+    if(singIndices[1] < singIndices[0]){
+        questions.splice(singIndices[0], 1);
+        questions.splice(singIndices[1], 1)
+    }else{
+        questions.splice(singIndices[1], 1);
+        questions.splice(singIndices[0], 1)
     }
 
     //add doubles
     var doubles = findDoubles();
     shuffle(doubles)
     for(var i = 0; i<(doubles.length >= 4? 4:doubles.length); i++){
-        questions[doubles[i]] = {
-            q1: "<div><p class='question'>ChemCo wants to find a chemical that does the following: " +
-                binReactionsToString(doubles[i]) + ". It doesn't care about any other properties.</p></div>",
+        questions.push({
+            type: "reaction",
+            config: doubles[i],
+            q1: "<div><p class='question'>ChemCo wants to find a chemical that " +
+                binReactionsToString(doubles[i]) + ". It doesn't care about any other reactions.</p></div>",
             q2: "<div><p class='question'>Click on a possible mixture ChemCo could use.</p></div>",
             a: findConfigsForDoubReac(dict, doubles[i])
-        }
+        })
     }
     return questions;
 }
@@ -425,10 +439,21 @@ function binReactionsToString(str){
     var reactions = []
     for(var i = 0; i<str.length;  i++){
         if(str[i] !== 'x'){
-            reactions.push(reaction(i, str[i] === '1'));
+            reactions.push("<strong>" + reaction(i, str[i] === '1') + "</strong>");
         }
     }
-    return reactions.toString();
+    if(reactions.length === 1){
+        return reactions.toString();
+    } else if(reactions.length === 2){
+        reactions[reactions.length - 1] = "and " + reactions[reactions.length - 1];
+        return reactions.join(" ");
+    } else {
+        reactions[reactions.length - 1] = "and " + reactions[reactions.length - 1];
+        return reactions.join(", ");
+    }
+
+
+
 }
 
 /*
@@ -497,6 +522,7 @@ if (typeof module !== 'undefined' && typeof module.exports !== 'undefined'){
         generateBeakerQuestions,
         reverseDict,
         toString,
+        shuffle,
     }
 }
 

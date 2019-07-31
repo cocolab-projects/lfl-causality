@@ -54,7 +54,7 @@ var game_core = function(options){
 
     // Round Info
     this.roundNum = -1;
-    this.numRounds = 2;
+    this.numRounds = 3;
     this.numBeakers = 3;
     this.numReactions = 3;
     this.numRules = 3;
@@ -91,8 +91,8 @@ var game_core = function(options){
         this.boxConfigs = [];
         this.configs = [];
         this.ruleTypes = [];
-        this.beakerQuestionsList = [];
-        this.reactionQuestionsList = [];
+        this.questionsList = []
+        this.totalPoints = 0;
         for(var i = 0; i< this.numRounds; i++){
             this.rules = box.randomRuleTypes(this.numRules, i)
             this.ruleTypes.push(this.rules)
@@ -104,10 +104,13 @@ var game_core = function(options){
             var reactionQs = box.generateReactionQuestions(box.reverseDict(boxConfig), this.numReactions)
             this.configs.push(box.toString(config))
             this.boxConfigs.push(boxConfig);
-            this.beakerQuestionsList.push(beakerQs);
-            this.reactionQuestionsList.push(reactionQs)
+            var questions = beakerQs.concat(reactionQs)
+            console.log(questions)
+            box.shuffle(questions);
+            this.questionsList.push(questions)
+            this.totalPoints = this.totalPoints + Object.keys(beakerQs).length;
+            this.totalPoints = this.totalPoints + Object.keys(reactionQs).length;
         }
-        console.log(this.configs)
         this.server_send_update();
     } else {
         // If we're initializing a player's local game copy, create the player object
@@ -204,10 +207,10 @@ game_core.prototype.server_send_update = function(){
         roundNum : this.roundNum,
         numRounds : this.numRounds,
         boxConfig : this.boxConfigs[this.roundNum],
+        totalPoints : this.totalPoints,
         config : this.configs[this.roundNum],
         ruleTypes : this.ruleTypes[this.roundNum],
-        beakerQs : this.beakerQuestionsList[this.roundNum],
-        reactionQs : this.reactionQuestionsList[this.roundNum],
+        questions : this.questionsList[this.roundNum]
     };
         state.trialList = this.trialList;
         state.trialInfo = this.trialList[1];

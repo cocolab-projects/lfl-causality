@@ -70,10 +70,10 @@ var client_onserverupdate_received = function(data){
     globalGame.id = data.id;
 
     globalGame.boxConfig = data.boxConfig;
-    globalGame.reactionQs = data.reactionQs;
-    globalGame.beakerQs = data.beakerQs;
+    globalGame.questions = data.questions;
     globalGame.config = data.config;
     globalGame.ruleTypes = data.ruleTypes;
+    globalGame.totalPoints = data.totalPoints
     globalGame.doTutorial = fullTest;
     globalGame.currentPage = "PreRound" + globalGame.roundNum + "_slide"
 
@@ -197,6 +197,7 @@ var customSetup = function(globalGame) {
             $("#reactionInstruct").show();
             unhighlight("#tutorial_slide_test_button")
             unhighlight("#mixBoxTutorial")
+            unhighlight("#beakerstutorial")
             highlight("#reactionstutorial")
             darken("#reactionstutorial")
             lighten("#mixBoxTutorial")
@@ -226,12 +227,15 @@ var customSetup = function(globalGame) {
         globalGame.roundProps[globalGame.my_role]['times']['tutorial']['interface']['second']['start'] = new Date();
         unhighlight("#tutorial_slide_newtest_button")
         unhighlight("#reactionstutorial")
+        highlight("#tutorial_slide_test_button")
+        highlight("#mixBoxTutorial")
+        highlight("#beakerstutorial")
         darken("#mixBoxTutorial")
         darken("#beakerstutorial")
         lighten('#reactionstutorial')
         $('#beakerInstruct').text("Try running a mixture with just bluease")
-        $('#mixInstruct').text("Currently, the mixing box contains only bluease. Scroll down and click " +
-                                  "the 'mix' button to see what happens.")
+        $('#mixInstruct').hide();
+        $('#reactionInstruct').hide();
         globalGame.testStage = true;
         $("#tutorial_slide_test_button").prop("disabled", false)
         $("#tutorial_slide_newtest_button").prop("disabled", true)
@@ -253,17 +257,17 @@ var customSetup = function(globalGame) {
         drawFirstQuestion(globalGame)
     });
     $("#first_question_slide_continue_button").click(function(){
-        if(globalGame.roundProps.tutorialFirst.reactionsClicked.includes("#reaction1question") &&
-            globalGame.roundProps.tutorialFirst.reactionsClicked.includes("#reaction2question") &&
-                !globalGame.roundProps.tutorialFirst.reactionsClicked.includes("#reaction3question") &&
-                globalGame.roundProps.tutorialFirst.reactionsInteractedWith.includes("#reaction3question")){
+        if(globalGame.roundProps.tutorialFirst.reactionsClicked.includes("#cap_reaction1question") &&
+            globalGame.roundProps.tutorialFirst.reactionsClicked.includes("#cap_reaction2question") &&
+                !globalGame.roundProps.tutorialFirst.reactionsClicked.includes("#cap_reaction3question") &&
+                globalGame.roundProps.tutorialFirst.reactionsInteractedWith.includes("#cap_reaction3question")){
             globalGame.currentPage = "second_question_slide"
             clearFirstQuestion();
             drawSecondQuestion(globalGame)
             globalGame.roundProps[globalGame.my_role]['times']['tutorial']['first_question']['end'] = new Date();
             globalGame.roundProps[globalGame.my_role]['times']['tutorial']['second_question']['start'] = new Date();
-        } else if(!globalGame.roundProps.tutorialFirst.reactionsInteractedWith.includes("#reaction3question")){
-            alert("You must set all the measurements to a value.")
+        } else if(!globalGame.roundProps.tutorialFirst.reactionsInteractedWith.includes("#cap_reaction3question")){
+            alert("You must predict the presence/absence of each reaction")
         } else{
             alert("That is not the right answer. Hint: in the tutorial, bluease glowed and bubbled.")
         }
@@ -359,7 +363,7 @@ var customSetup = function(globalGame) {
     $("#train_chemicals_slide_continue_button").click(function(){
         // End Time
         if(fullTest && globalGame.roundProps.numTests < globalGame.numReqTests){
-            alert("You need to keep experimenting")
+            alert("You need to run at least " + globalGame.numReqTests + " experiments before you can advance")
         } else {
             globalGame.roundProps[globalGame.my_role]['times']['train']['end'] = new Date();
             globalGame.roundProps[globalGame.my_role]['duration']['train'] = (
@@ -386,9 +390,12 @@ var customSetup = function(globalGame) {
     });
 
     $("#chat_room_slide_continue_button").click(function(){
-        drawProgressBar(globalGame.roundNum, globalGame.numRounds, 6, 8);
-        globalGame.socket.send("proceedToTestInstructions.");
-        globalGame.currentPage = "test_instructions_slide"
+        var continueFromChat = confirm("Are you sure you want to exit the chat room?")
+        if(continueFromChat){
+            drawProgressBar(globalGame.roundNum, globalGame.numRounds, 6, 8);
+            globalGame.socket.send("proceedToTestInstructions.");
+            globalGame.currentPage = "test_instructions_slide"
+        }
     });
 
     $("#test_instructions_slide_continue_button").click(function(){
@@ -403,26 +410,15 @@ var customSetup = function(globalGame) {
         // Start Time
         globalGame.roundProps[globalGame.my_role]['times']['test']['start'] = new Date();
         globalGame.roundProps[globalGame.my_role]['times']['test']['trials'] = []
-        if(globalGame.testNum < globalGame.bqKeys.length){
-            drawTestChemicals(globalGame, globalGame.beakerQs[globalGame.bqKeys[globalGame.testNum]], false,
-                              globalGame.bqKeys[globalGame.testNum], globalGame.testNum);
-            globalGame.roundProps[globalGame.my_role]['times']
-                    ['test']['trials'].push({
-                                                config : globalGame.bqKeys[globalGame.testNum],
-                                                type : "beaker",
-                                                start : new Date(),
-                                            })
-        } else {
-            drawTestChemicals(globalGame, globalGame.reactionQs[globalGame.rqKeys
-                                                                [globalGame.testNum - globalGame.bqKeys.length]], true,
-                              globalGame.rqKeys[globalGame.testNum - globalGame.bqKeys.length], globalGame.testNum);
-            globalGame.roundProps[globalGame.my_role]['times']
-                    ['test']['trials'].push({
-                                                config : globalGame.rqKeys[globalGame.testNum - globalGame.bqKeys.length],
-                                                type: "reaction",
-                                                start : new Date(),
-                                            })
-        }
+        globalGame.roundProps[globalGame.my_role]['currentQuestion'] = globalGame.questions[globalGame.testNum]
+        drawTestChemicals(globalGame, globalGame.roundProps[globalGame.my_role]['currentQuestion'],
+                          globalGame.roundProps[globalGame.my_role]['currentQuestion']['type'] !== 'beaker',
+                          globalGame.roundProps[globalGame.my_role]['currentQuestion']['config'], globalGame.testNum);
+        globalGame.roundProps[globalGame.my_role]['times']['test']['trials'].push({
+                                            config : globalGame.roundProps[globalGame.my_role]['currentQuestion']['config'],
+                                            type : globalGame.roundProps[globalGame.my_role]['currentQuestion']['type'],
+                                            start : new Date(),
+                                        })
         globalGame.currentPage = "test_slide_num_" + globalGame.testNum
         globalGame.testNum++;
     });
@@ -434,7 +430,7 @@ var customSetup = function(globalGame) {
                 [globalGame.roundProps[globalGame.my_role]['clicks']['testing'].length - 1]['clicks'].push("Not Possible: " + isSure)
         if(isSure){
             globalGame.roundProps[globalGame.my_role]['testResults']['reactionQs']
-                    [globalGame.rqKeys[globalGame.testNum - globalGame.bqKeys.length - 1]] = ['Not Possible']
+                    [globalGame.roundProps[globalGame.my_role]['currentQuestion']['config']] = ['Not Possible']
             globalGame.roundProps[globalGame.my_role]['times']['test']['trials']
                     [globalGame.testNum - 1]['end'] = new Date()
             globalGame.roundProps[globalGame.my_role]['times']['test']['trials']
@@ -443,16 +439,17 @@ var customSetup = function(globalGame) {
                     globalGame.roundProps[globalGame.my_role]['times']['test']['trials']
                     [globalGame.testNum - 1]['start']) / 1000
             globalGame.currentPage = "test_slide_num_" + globalGame.testNum
-            if(globalGame.testNum < (globalGame.bqKeys.length + globalGame.rqKeys.length)){
-                drawTestChemicals(globalGame, globalGame.reactionQs[globalGame.rqKeys
-                                                                    [globalGame.testNum - globalGame.bqKeys.length]], true,
-                                  globalGame.rqKeys[globalGame.testNum - globalGame.bqKeys.length], globalGame.testNum);
-                globalGame.roundProps[globalGame.my_role]['times']
-                        ['test']['trials'].push({
-                                                    config : globalGame.rqKeys[globalGame.testNum - globalGame.bqKeys.length],
-                                                    type: "reaction",
+            if(globalGame.testNum < globalGame.questions.length){
+                globalGame.roundProps[globalGame.my_role]['currentQuestion'] = globalGame.questions[globalGame.testNum]
+                drawTestChemicals(globalGame, globalGame.roundProps[globalGame.my_role]['currentQuestion'],
+                                  globalGame.roundProps[globalGame.my_role]['currentQuestion']['type'] !== 'beaker',
+                                  globalGame.roundProps[globalGame.my_role]['currentQuestion']['config'], globalGame.testNum);
+                globalGame.roundProps[globalGame.my_role]['times']['test']['trials'].push({
+                                                    config : globalGame.roundProps[globalGame.my_role]['currentQuestion']['config'],
+                                                    type : globalGame.roundProps[globalGame.my_role]['currentQuestion']['type'],
                                                     start : new Date(),
-                                                });
+                                                })
+                globalGame.currentPage = "test_slide_num_" + globalGame.testNum
                 globalGame.testNum++;
             } else {
                 endRound();
@@ -461,48 +458,29 @@ var customSetup = function(globalGame) {
     });
 
     $("#test_chemicals_slide_continue_button").click(function() {
-        if(fullTest && (globalGame.testNum > globalGame.bqKeys.length) && globalGame.roundProps[globalGame.my_role]['testResults']
-                ['reactionQs'][globalGame.rqKeys[globalGame.testNum - 1 - globalGame.bqKeys.length]].length === 0){
+        if(fullTest && (globalGame.roundProps[globalGame.my_role]['currentQuestion']['type'] === 'reaction') &&
+                globalGame.roundProps[globalGame.my_role]['testResults']
+                ['reactionQs'][globalGame.roundProps[globalGame.my_role]['currentQuestion']['config']].length === 0){
             alert("You must add at least one chemical")
-        } else if(globalGame.testNum < (globalGame.bqKeys.length + globalGame.rqKeys.length)){
-            if(fullTest && globalGame.testNum <= globalGame.bqKeys.length &&
+        } else if(fullTest && globalGame.roundProps[globalGame.my_role]['currentQuestion']['type'] === 'beaker' &&
                     globalGame.roundProps[globalGame.my_role]['testResults']
-                    ['reactionsInteractedWith'][globalGame.bqKeys[globalGame.testNum - 1]].length !== globalGame.numReactions){
-                alert("You must set all the measurements to a value.")
-            } else {
-                globalGame.roundProps[globalGame.my_role]['times']['test']['trials']
-                        [globalGame.testNum - 1]['end'] = new Date()
-                globalGame.roundProps[globalGame.my_role]['times']['test']['trials']
-                        [globalGame.testNum - 1]['duration'] =
-                        (globalGame.roundProps[globalGame.my_role]['times']['test']['trials'][globalGame.testNum - 1]['end'] -
-                        globalGame.roundProps[globalGame.my_role]['times']['test']['trials']
-                        [globalGame.testNum - 1]['start']) / 1000
-                if(globalGame.testNum < globalGame.bqKeys.length){
-                    drawTestChemicals(globalGame, globalGame.beakerQs[globalGame.bqKeys[globalGame.testNum]], false,
-                                      globalGame.bqKeys[globalGame.testNum], globalGame.testNum);
-                    globalGame.roundProps[globalGame.my_role]['times']
-                            ['test']['trials'].push({
-                                                        config : globalGame.bqKeys[globalGame.testNum],
-                                                        type : "beaker",
-                                                        start : new Date(),
-                                                    })
-                } else {
-                    drawTestChemicals(globalGame, globalGame.reactionQs[globalGame.rqKeys
-                                                                        [globalGame.testNum - globalGame.bqKeys.length]], true,
-                                      globalGame.rqKeys[globalGame.testNum - globalGame.bqKeys.length], globalGame.testNum);
-                    globalGame.roundProps[globalGame.my_role]['times']
-                            ['test']['trials'].push({
-                                                        config : globalGame.rqKeys[globalGame.testNum - globalGame.bqKeys.length],
-                                                        type: "reaction",
-                                                        start : new Date(),
-                                                    })
-                }
+                    ['reactionsInteractedWith'][globalGame.roundProps[globalGame.my_role]['currentQuestion']['config']].length !== globalGame.numReactions){
+                alert("You must predict the presence/absence of each reaction")
+            } else if(globalGame.testNum < globalGame.questions.length){
+                globalGame.roundProps[globalGame.my_role]['currentQuestion'] = globalGame.questions[globalGame.testNum]
+                drawTestChemicals(globalGame, globalGame.roundProps[globalGame.my_role]['currentQuestion'],
+                                  globalGame.roundProps[globalGame.my_role]['currentQuestion']['type'] !== 'beaker',
+                                  globalGame.roundProps[globalGame.my_role]['currentQuestion']['config'], globalGame.testNum);
+                globalGame.roundProps[globalGame.my_role]['times']['test']['trials'].push({
+                                                    config : globalGame.roundProps[globalGame.my_role]['currentQuestion']['config'],
+                                                    type : globalGame.roundProps[globalGame.my_role]['currentQuestion']['type'],
+                                                    start : new Date(),
+                                                })
                 globalGame.currentPage = "test_slide_num_" + globalGame.testNum
                 globalGame.testNum++;
+            } else {
+                endRound();
             }
-        } else {
-            endRound();
-        }
     });
 
     $("#round_score_report_continue_button").click(function(){
@@ -531,6 +509,7 @@ var customSetup = function(globalGame) {
             chemistry : $("#chemistry").val(),
             comments : $("#comments").val(),
             problems: $("#problems").val(),
+            confusion: $("#confusion").val(),
             fairprice: $("#fairprice").val(),
             strategy: $("#strategy").val(),
             humanPartner: $("#human").val(),
@@ -644,8 +623,6 @@ var customSetup = function(globalGame) {
             globalGame.roundProps[globalGame.my_role]['times']['chat']['start']
         ) / 1000.0;
         globalGame.testNum = 0;
-        globalGame.rqKeys = Object.keys(globalGame.reactionQs);
-        globalGame.bqKeys = Object.keys(globalGame.beakerQs);
         flashConnected = false;
         clearChatRoom();
         globalGame.socket.send("enterSlide.test_instructions_slide.")
@@ -690,7 +667,8 @@ var customSetup = function(globalGame) {
         clearWaitingRoom();
         globalGame.totalScore = data;
         globalGame.socket.send("enterSlide.total_score_report_slide.");
-        $("#total_score").html(data);
+        $("#total_score").html(data + " out of " + 2*globalGame.totalPoints);
+        $("#total_bonus").html("\$" + (data * globalGame.bonusAmt * .01));
         drawTotalScoreReport(globalGame);
     });
 };
@@ -735,7 +713,7 @@ function endRound(){
         'chat': globalGame.roundProps[globalGame.my_role]['duration']['chat'],
     };
     var roundTimes = [];
-    for(var i = 0; i < (globalGame.bqKeys.length + globalGame.rqKeys.length); i++){
+    for(var i = 0; i < (globalGame.questions.length); i++){
         var trial = globalGame.roundProps[globalGame.my_role]['times']['test']['trials'][i];
         roundTimes.push ({
                              type : trial.type + "question",
@@ -766,31 +744,24 @@ function endRound(){
     }
     console.log("rules: " + roundSummary.rules)
     console.log("config:" + roundSummary.config)
-    for(var config in globalGame.roundProps[globalGame.my_role]['testResults']['beakerQs']){
-        var turker_answer = reactionStr(globalGame.roundProps[globalGame.my_role]['testResults']['beakerQs'][config],
-                                        globalGame.numReactions, false, false, false);
-        var answer = globalGame.beakerQs[config]['a']
-        var isRight = (turker_answer === answer)
+    for(var i = 0; i < globalGame.questions.length; i++){
+        var question = globalGame.questions[i];
+        var true_answers = question['a']
+        if(question['type'] === "beaker"){
+            var turker_answer = reactionStr(globalGame.roundProps[globalGame.my_role]['testResults']['beakerQs'][question.config],
+                                            globalGame.numReactions, false, false, false);
+            var isRight = (turker_answer === true_answers)
+        }else {
+            var turker_answer = beakerStr(globalGame.roundProps[globalGame.my_role]['testResults']['reactionQs'][question.config],
+                                          globalGame.numBeakers, false, false, false);
+            var isRight = true_answers.includes(turker_answer)
+        }
         isRight ? roundSummary.hits++ : roundSummary.misses++;
         roundSelections.push({
-            "fixed" : "beakers",
-            "config" : config,
+            "fixed" : question.type,
+            "config" : question.config,
             "turker_answer": turker_answer,
-            "true_answer": answer,
-            "is_correct": isRight,
-            });
-    }
-    for(var config in globalGame.roundProps[globalGame.my_role]['testResults']['reactionQs']){
-        var turker_answer = beakerStr(globalGame.roundProps[globalGame.my_role]['testResults']['reactionQs'][config],
-                                      globalGame.numBeakers, false, false, false);
-        var possible_answers = globalGame.reactionQs[config]['a']
-        var isRight = possible_answers.includes(turker_answer)
-        isRight ? roundSummary.hits++ : roundSummary.misses++;
-        roundSelections.push({
-            "fixed" : "reactions",
-            "config" : config,
-            "turker_answer": turker_answer,
-            "true_answers": possible_answers,
+            "true_answers": true_answers,
             "is_correct": isRight,
             });
     }
