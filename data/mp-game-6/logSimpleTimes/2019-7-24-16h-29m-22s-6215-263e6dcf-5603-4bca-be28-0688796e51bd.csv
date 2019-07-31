@@ -1,3 +1,0 @@
-round_num	role	Total Train Time	Total Test Time	chat	experimentName	iterationName	gameid	logTime	eventType
-0	student	-1	11.675	0.966	mp-game-6	pilot	6215-263e6dcf-5603-4bca-be28-0688796e51bd	1564010962622	logSimpleTimes
-0	explorer	5.407	9.23	4.049	mp-game-6	pilot	6215-263e6dcf-5603-4bca-be28-0688796e51bd	1564010974609	logSimpleTimes

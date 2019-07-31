@@ -1,5 +1,0 @@
-experimentName	iterationName	gameid	time	role	round_num	train	test	chat	eventType
-mp-game-6	pilot	9040-7d50e243-3af2-4adb-939c-54b4334e8970	1563817577345	student	0	-1	62.69	0.737	logTimes
-mp-game-6	pilot	9040-7d50e243-3af2-4adb-939c-54b4334e8970	1563817621593	explorer	0	15.626	40.549	23.729	logTimes
-mp-game-6	pilot	9040-7d50e243-3af2-4adb-939c-54b4334e8970	1563818036732	student	1	-1	31.906	18.005	logTimes
-mp-game-6	pilot	9040-7d50e243-3af2-4adb-939c-54b4334e8970	1563818077641	explorer	1	13.156	38.639	18.311	logTimes
