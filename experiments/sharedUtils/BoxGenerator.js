@@ -82,7 +82,7 @@ function generateBox(config){
     function configDict(){
         let dict = {} // keys: setting of beakers, values: reactions
         for(var i = 0; i < (Math.pow(2, config.numBeakers)); i++){
-            var set = i.toString(2).padStart(config.numBeakers,'0')
+            var set = padStrStart(i.toString(2), config.numBeakers,'0')
             var setting = beakerDict(set)
             dict[set] = box(setting)
         }
@@ -537,6 +537,12 @@ function reaction(num, isOn){
     var onCaps = ['Glows', 'Bubbles', 'Conducts Electricity']
     var offCaps = ['Does not Glow', 'Does not Bubble', 'Does Not Conduct Electricity']
     return isOn? onCaps[num]:offCaps[num]
+}
+function padStrStart(str, length, pad){
+    while(str.length < length){
+        str = pad + str;
+    }
+    return str
 }
 
 /*
