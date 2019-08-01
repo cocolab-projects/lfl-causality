@@ -85,6 +85,8 @@ var writeDataToCSV = function(game, _dataPoint) {
   if(game.anonymizeCSV)
     dataPoint = _.omit(dataPoint, ['workerId', 'assignmentId']);
 
+  console.log("in writeDataToCSV. dataPoint:")
+  console.log(dataPoint)
   // Establish stream to file if it doesn't already exist
   if(!_.has(game.streams, eventType)){
       establishStream(game, dataPoint);
@@ -184,6 +186,11 @@ var establishStream = function(game, dataPoint) {
 
     // Write header
     var header = _.keys(dataPoint).join('\t') + '\n';
+    console.log("in establishStream. filePath is :" + filePath);
+    console.log("dataPoint:")
+    console.log(dataPoint)
+    console.log("header:");
+    console.log(header)
     fs.writeFileSync(filePath, header, err => {if(err) throw(err);});
     game.streams[dataPoint.eventType] = filePath;
 

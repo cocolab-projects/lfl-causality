@@ -108,6 +108,8 @@ class ReferenceGameServer {
         // and then write data to CSV
         var messageParts = message.split('.');
         this.customServer.onMessage(client, message);
+        console.log("in onMessage with message:")
+        console.log(messageParts)
         if(!_.isEmpty(client.game.dataStore)) {
             this.writeData(client, messageParts[0], messageParts);
         }
@@ -120,6 +122,8 @@ class ReferenceGameServer {
         if(_.has(output, eventType)) {
         var dataPoint = _.extend(output[eventType](client, messageParts), {eventType});
         if(_.includes(game.dataStore, 'csv'))
+            console.log("in writeData. dataPoint:")
+            console.log(dataPoint)
             utils.writeDataToCSV(game, dataPoint);
         }
     };
