@@ -105,7 +105,6 @@ var game_core = function(options){
             this.configs.push(box.toString(config))
             this.boxConfigs.push(boxConfig);
             var questions = beakerQs.concat(reactionQs)
-            console.log(questions)
             box.shuffle(questions);
             this.questionsList.push(questions)
             this.totalPoints = this.totalPoints + Object.keys(beakerQs).length;

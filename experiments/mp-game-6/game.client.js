@@ -8,7 +8,7 @@
 // ----------------
 // GLOBAL VARIABLES
 // ----------------
-var fullTest = false;
+var fullTest = true;
 
 var globalGame = {},
     enterScoreReport = 0,
@@ -742,8 +742,6 @@ function endRound(){
         rules : globalGame.ruleTypes.join("/"),
         config : configForCSV
     }
-    console.log("rules: " + roundSummary.rules)
-    console.log("config:" + roundSummary.config)
     for(var i = 0; i < globalGame.questions.length; i++){
         var question = globalGame.questions[i];
         var true_answers = question['a']
