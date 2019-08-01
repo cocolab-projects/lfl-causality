@@ -89,7 +89,6 @@ var game_core = function(options){
 
         var localThis = this;
         this.configList = box.pickConfigs(this.numBeakers, this.numReactions, this.numRounds, this.numRules)
-        console.log(this.configList[0])
         this.server_send_update();
     } else {
         // If we're initializing a player's local game copy, create the player object
