@@ -203,10 +203,12 @@ function randomRuleTypes(numRules, roundNum){
     ];
     if(roundNum > 1){
         difficultRuleTypes = shuffle(difficultRuleTypes)
-        difficultRuleTypes = difficultRuleTypes.slice(0,numRules)
+        difficultRuleTypes = difficultRuleTypes.slice(0, roundNum+1)
         return difficultRuleTypes
-    } else {
+    } else if(roundNum === 1){
         easyRuleTypes = shuffle(easyRuleTypes)
+        return easyRuleTypes
+    } else {
         easyRuleTypes = easyRuleTypes.slice(0, roundNum+1)
         return easyRuleTypes
     }
@@ -317,10 +319,10 @@ function generateBeakerQuestions(dict){
                 type: "beaker",
                 config: beakerConfig,
                 q1: "<div>" +
-                    "<p class='question'>ChemCo will mix the following chemicals: " + binBeakersToString(beakerConfig) +
+                    "<p class=\"question\">ChemCo will mix the following chemicals: " + binBeakersToString(beakerConfig) +
                     ".</div>",
                 q2: "<div>" +
-                    "<p class='question'>Click on the measurements that ChemCo should expect to see.</p></div>",
+                    "<p class=\"question\">Click on the measurements that ChemCo should expect to see.</p></div>",
                 a: boolsToBin(dict[beakerConfig]),
             })
         }
@@ -353,9 +355,9 @@ function generateReactionQuestions(dict, numReactions){
         questions.push({
             type: "reaction",
             config: reactionConfig,
-            q1: "<div><p class='question'>ChemCo wants to find a chemical that " +
+            q1: "<div><p class=\"question\">ChemCo wants to find a chemical that " +
                 binReactionsToString(reactionConfig) + "</p></div>",
-            q2: "<div><p class='question'>Click on a possible mixture ChemCo could use.</p></div>",
+            q2: "<div><p class=\"question\">Click on a possible mixture ChemCo could use.</p></div>",
             a: (dict[reactionConfig].length === 1 && dict[reactionConfig].includes('000')) ? ['Not Possible'] : dict[reactionConfig]
         })
     }
@@ -377,17 +379,17 @@ function generateReactionQuestions(dict, numReactions){
         questions.push({
             type: "reaction",
             config: ZeroStr,
-            q1: "<div><p class='question'>ChemCo wants to find a chemical that " +
-                binReactionsToString(ZeroStr) + ". It doesn't care about any other reactions.</p></div>",
-            q2: "<div><p class='question'>Click on a possible mixture ChemCo could use.</p></div>",
+            q1: "<div><p class=\"question\">ChemCo wants to find a chemical that " +
+                binReactionsToString(ZeroStr) + ". It does not care about any other reactions.</p></div>",
+            q2: "<div><p class=\"question\">Click on a possible mixture ChemCo could use.</p></div>",
             a: findConfigsForSingReac(dict, i, false)
         })
         questions.push({
             type: "reaction",
             config: OneStr,
-            q1: "<div><p class='question'>ChemCo wants to find a chemical that " +
-                binReactionsToString(OneStr) + ". It doesn't care about any other reactions.</p></div>",
-            q2: "<div><p class='question'>Click on a possible mixture ChemCo could use.</p></div>",
+            q1: "<div><p class=\"question\">ChemCo wants to find a chemical that " +
+                binReactionsToString(OneStr) + ". It does not care about any other reactions.</p></div>",
+            q2: "<div><p class=\"question\">Click on a possible mixture ChemCo could use.</p></div>",
             a: findConfigsForSingReac(dict, i, true)
         })
     }
@@ -408,7 +410,7 @@ function generateReactionQuestions(dict, numReactions){
             type: "reaction",
             config: doubles[i],
             q1: "<div><p class='question'>ChemCo wants to find a chemical that " +
-                binReactionsToString(doubles[i]) + ". It doesn't care about any other reactions.</p></div>",
+                binReactionsToString(doubles[i]) + ". It does not care about any other reactions.</p></div>",
             q2: "<div><p class='question'>Click on a possible mixture ChemCo could use.</p></div>",
             a: findConfigsForDoubReac(dict, doubles[i])
         })
@@ -523,6 +525,7 @@ if (typeof module !== 'undefined' && typeof module.exports !== 'undefined'){
         reverseDict,
         toString,
         shuffle,
+        pickConfigs,
     }
 }
 
@@ -545,60 +548,78 @@ function padStrStart(str, length, pad){
     return str
 }
 
-/*
-function findAllConfigs(){
-    var configs = [];
-    for(var i = 0; i < 75000; i++){
-        var rules = randomRuleTypes(3, 0)
-        var box = createRandomBox(3, 3, rules)
-        var config = generateBox(box)()
-        if(config['000'].toString() !== [false, false, false].toString()){
-            var reverse = reverseDict(config)
-            var first = findConfigsForSingReac(reverse, 0, true).toString();
-            var second = findConfigsForSingReac(reverse, 1, true).toString();
-            var third = findConfigsForSingReac(reverse, 2, true).toString();
-//            var singDict ={
-//                "1": (first.length < second.length && first.length < third.length) ? first :
-//                                                                                     (second.length < third.length ? second : third),
-//                "2": ((first.length < second.length && first.length > third.length) ||
-//                      (first.length > second.length && first.length < third.length)) ? first :
-//                                                                                       ((second.length < third.length || second.length > first.length) ? second : third),
-//                "3": (first.length > second.length && first.length > third.length) ? first :
-//                                                                                     (second.length > third.length ? second : third),
-//            }
-            if(!containsEquiv(configs, [first, second, third])){
-                configs.push([first, second, third])
-            }
+function generateConfigSet(numBeakers, numReactions, numRounds, numRules){
+    var configSet = [];
+    for(var i = 0; i< numRounds; i++){
+        var cap = (i === 0 ? 10 : 20);
+        var configsForRound = []
+        for(var j = 0; j < cap; j++){
+            do{
+                var rules = randomRuleTypes(numRules, i)
+                do{
+                    var config = createRandomBox(numBeakers, numReactions, rules);
+                    var boxConfig = generateBox(config)();
+                }while(boxConfig['000'].toString() !== [false, false, false].toString());
+                var configStr = JSON.stringify(boxConfig)
+                var beakerQs = generateBeakerQuestions(boxConfig)
+                var reactionQs = generateReactionQuestions(reverseDict(boxConfig), numReactions)
+                var questions = beakerQs.concat(reactionQs)
+                shuffle(questions);
+            }while(configsForRound.includes(configStr) || questions.length !== 19)
+            configsForRound.push({
+                                     configType: "Round" + i + "_Config"+ (configsForRound.length + 1),
+                                     rules: rules,
+                                     config: toString(config).replace(/%/g, ","),
+                                     dict: configStr,
+                                     questions: JSON.stringify(questions),
+                                     totalPoints: questions.length,
+                                 })
+        }
+        configSet.push(configsForRound)
+    }
+    return configSet
+}
+
+function pickConfigs(numBeakers, numReactions, numRounds, numRules){
+    var toPickFrom = JSON.parse(getJSON());
+    var picked = [];
+    for(var i = 0; i<numRounds; i++){
+        var cap = (i === 0 ? 10 : 20);
+        var randomPick = toPickFrom[i][Math.floor(Math.random()*cap)]
+        picked.push(randomPick)
+    }
+    return picked
+}
+
+function makeJSON(){
+    var fs = require('fs');
+    var configs = generateConfigSet(3, 3, 3, 5)
+    var toPickFrom = JSON.stringify(configs);
+    var filePath = ['..', 'mp-game-6', 'configsJSON'].join('/');
+    fs.writeFile(filePath, toPickFrom, function(err) {
+        if (err) {
+            console.log(err);
+        }
+    });
+    // Make a CSV file of all the configs
+    var dataPoint = configs[0][0];
+    var csvFilePath = ['..', 'mp-game-6', 'configsCSV.csv'].join('/');
+    // Write header
+    var header = Object.keys(dataPoint).join('\t') + '\n';
+    fs.writeFileSync(csvFilePath, header, err => {if(err) throw(err);});
+    for(var i = 0; i < configs.length; i++){
+        for(var j = 0; j < configs[i].length; j++){
+            dataPoint = configs[i][j];
+            var line = Object.values(dataPoint).join('\t') + "\n";
+            fs.appendFileSync(csvFilePath, line, err => {if(err) throw err;})
         }
     }
-    return configs.length
 }
 
-function arraysEqual(arr1, arr2){
-    if(arr1.length !== arr2.length){
-        return false
-    } else {
-        for (var i = 0; i < arr1.length; i++){
-            if(!arr2.includes(arr1[i])) return false;
-        }
-    }
-    return true
-}
+function getJSON(){
+    var content = "";
+    var fs = require('fs');
+    var filePath = ['mp-game-6', 'configsJSON'].join('/');
+    return fs.readFileSync(filePath, "utf8", err => {if(err) throw err;});
 
-function containsEquiv(bigArr, smallArr){
-    for(var i = 0; i < bigArr.length; i++){
-        if(arraysEqual(bigArr[i], smallArr)) return true;
-    }
-    return false
 }
-
-function runManyTimes(){
-    var max
-    for(var i = 0; i < 25; i++){
-        var test = findAllConfigs()
-        test > max ? max = test : max = max;
-        console.log(test)
-    }
-    return max;
-}
-*/

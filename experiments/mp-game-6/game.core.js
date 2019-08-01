@@ -88,28 +88,8 @@ var game_core = function(options){
         this.streams = {};
 
         var localThis = this;
-        this.boxConfigs = [];
-        this.configs = [];
-        this.ruleTypes = [];
-        this.questionsList = []
-        this.totalPoints = 0;
-        for(var i = 0; i< this.numRounds; i++){
-            this.rules = box.randomRuleTypes(this.numRules, i)
-            this.ruleTypes.push(this.rules)
-            do{
-                var config = box.createRandomBox(this.numBeakers, this.numReactions, this.rules);
-                var boxConfig = box.generateBox(config)();
-            }while(boxConfig['000'].toString() !== [false, false, false].toString());
-            var beakerQs = box.generateBeakerQuestions(boxConfig)
-            var reactionQs = box.generateReactionQuestions(box.reverseDict(boxConfig), this.numReactions)
-            this.configs.push(box.toString(config))
-            this.boxConfigs.push(boxConfig);
-            var questions = beakerQs.concat(reactionQs)
-            box.shuffle(questions);
-            this.questionsList.push(questions)
-            this.totalPoints = this.totalPoints + Object.keys(beakerQs).length;
-            this.totalPoints = this.totalPoints + Object.keys(reactionQs).length;
-        }
+        this.configList = box.pickConfigs(this.numBeakers, this.numReactions, this.numRounds, this.numRules)
+        console.log(this.configList[0])
         this.server_send_update();
     } else {
         // If we're initializing a player's local game copy, create the player object
@@ -197,7 +177,7 @@ game_core.prototype.server_send_update = function(){
     var player_packet = _.map(this.players, function(p){
         return {id: p.id, player: null};
     });
-
+    console.log(this.roundNum)
     var state = {
         id : this.id,
         gs : this.start_time,
@@ -205,12 +185,15 @@ game_core.prototype.server_send_update = function(){
         pc : this.player_count,
         roundNum : this.roundNum,
         numRounds : this.numRounds,
-        boxConfig : this.boxConfigs[this.roundNum],
-        totalPoints : this.totalPoints,
-        config : this.configs[this.roundNum],
-        ruleTypes : this.ruleTypes[this.roundNum],
-        questions : this.questionsList[this.roundNum]
     };
+    if(state.roundNum >= 0){
+        state.boxConfig = JSON.parse(this.configList[this.roundNum]['dict']),
+        state.totalPoints = this.configList[this.roundNum]['totalPoints'],
+        state.config = JSON.parse(this.configList[this.roundNum]['config']),
+        state.configType = this.configList[this.roundNum]['configType']
+        state.ruleTypes = this.configList[this.roundNum]['rules'],
+        state.questions = JSON.parse(this.configList[this.roundNum]['questions'])
+    }
         state.trialList = this.trialList;
         state.trialInfo = this.trialList[1];
     // }

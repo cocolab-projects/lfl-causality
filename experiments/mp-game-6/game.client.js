@@ -8,7 +8,7 @@
 // ----------------
 // GLOBAL VARIABLES
 // ----------------
-var fullTest = true;
+var fullTest = false;
 
 var globalGame = {},
     enterScoreReport = 0,
@@ -72,6 +72,7 @@ var client_onserverupdate_received = function(data){
     globalGame.boxConfig = data.boxConfig;
     globalGame.questions = data.questions;
     globalGame.config = data.config;
+    globalGame.configCode = data.configType;
     globalGame.ruleTypes = data.ruleTypes;
     globalGame.totalPoints = data.totalPoints
     globalGame.doTutorial = fullTest;
@@ -667,7 +668,7 @@ var customSetup = function(globalGame) {
         clearWaitingRoom();
         globalGame.totalScore = data;
         globalGame.socket.send("enterSlide.total_score_report_slide.");
-        $("#total_score").html(data + " out of " + 2*globalGame.totalPoints);
+        $("#total_score").html(data + " out of " + 114);
         $("#total_bonus").html("\$" + (data * globalGame.bonusAmt * .01));
         drawTotalScoreReport(globalGame);
     });
@@ -734,12 +735,13 @@ function endRound(){
     }
     // Measure performance & log selections
     var roundSelections = [];
-    var configForCSV = globalGame.config
+    var configForCSV = JSON.stringify(globalGame.config).replace(/,/g, "%")
     var roundSummary = {
         hits: 0,
         misses: 0,
         score: 0,
         rules : globalGame.ruleTypes.join("/"),
+        configCode : globalGame.configCode,
         config : configForCSV
     }
     for(var i = 0; i < globalGame.questions.length; i++){
