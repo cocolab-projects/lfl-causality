@@ -56,7 +56,7 @@ function drawBox(numBeakers, numReactions, train, roundProps, game, beakersManip
         //roundProps.[game.my_role]testSelections[config] = [];
         if(beakersManip){
             $("#test_chemicals_slide_grid").append(questionStr + reactionsStr + instruct + beakersStr);
-            $('#test_chemicals_slide_notPossible_button').show();
+            drawNotPossibleButton(roundProps, game.my_role, config);
             roundProps[game.my_role]['testResults']['reactionQs'][config] = []
             for(var i = 1; i<=numBeakers; i++){
                 drawTestingScenario(roundProps, i, beakersManip, config, game.my_role, numBeakers)
@@ -302,6 +302,11 @@ function drawTestingScenario(roundProps, i, beakers, config, role, numBeakers){
                 lighten(id)
                 empty(id)
                 roundProps[role]['testResults']['reactionQs'][config].push(id)
+                if(roundProps[role]['testResults']['reactionQs'][config].includes("Not Possible")){
+                    roundProps[role]['testResults']['reactionQs'][config].
+                    splice(roundProps[role]['testResults']['reactionQs'][config].indexOf("Not Possible"), 1);
+                    lightenCompletely("#notPossibleBox")
+                }
             }else {
                 darken(id)
                 fill(id[7], false, false, false)
@@ -341,6 +346,25 @@ function drawTestingScenario(roundProps, i, beakers, config, role, numBeakers){
         })
     }
 }
+
+function drawNotPossibleButton(roundProps, role, config){
+    var notPossible = "<figure><figcaption id='notPossibleBox' class='notPossible'>" +
+            "This Outcome is Not Possible</figcaption></figure>";
+    $("#test_chemicals_slide_grid").append(notPossible)
+    $("#notPossibleBox").click(function(){
+        if(roundProps[role]['testResults']['reactionQs'][config].includes("Not Possible")){
+            roundProps[role]['testResults']['reactionQs'][config] = [];
+            lighten("#notPossibleBox")
+        }else{
+            roundProps[role]['testResults']['reactionQs'][config] = ["Not Possible"];
+            darken("#notPossibleBox")
+            fillAllBeakers(true, 3);
+        }
+        roundProps[role]['clicks']['testing']
+                [roundProps[role]['clicks']['testing'].length - 1]['clicks'].push("Not Possible");
+    });
+
+}
   
 function darken(id) {
     $(id).css({"opacity":1.0});
@@ -358,6 +382,7 @@ function fill(i, tutorial, question, train){
     var id='#beaker' + i + (tutorial ? "tutorial": "") + (question? "question": "") + (train ? "": "test")
     var img = "Graphics/" + color(i-1) + "_Beaker.svg"
     $(id).attr("src", img)
+    darken(id)
 }
 function turnOn(i, tutorial, question, train, hideCaptions){
     var id='#reaction' + i + (tutorial ? "tutorial": "") + (question ? "question": "") + (train ? "" : "test")
@@ -438,4 +463,13 @@ function highlight(id) {
   
 function unhighlight(id) {
     $(id).css({"background-color":"transparent"});
+}
+
+function fillAllBeakers(test, numBeakers){
+    for(var i = 1; i <= numBeakers; i++){
+        fill(i, false, !test, !test)
+    }
+    var img = "Graphics/Box_000.svg"
+    var id = "#mix_box" + (test? "test": "question")
+    $(id).attr("src", img);
 }

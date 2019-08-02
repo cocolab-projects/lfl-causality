@@ -8,7 +8,7 @@
 // ----------------
 // GLOBAL VARIABLES
 // ----------------
-var fullTest = false;
+var fullTest = true;
 
 var globalGame = {},
     enterScoreReport = 0,
@@ -424,40 +424,6 @@ var customSetup = function(globalGame) {
         globalGame.testNum++;
     });
 
-    $("#test_chemicals_slide_notPossible_button").click(function(){
-        //If there are still more questions, keep asking
-        var isSure = confirm("Are you sure there are no possible answers? Click OK if you are sure.")
-        globalGame.roundProps[globalGame.my_role]['clicks']['testing']
-                [globalGame.roundProps[globalGame.my_role]['clicks']['testing'].length - 1]['clicks'].push("Not Possible: " + isSure)
-        if(isSure){
-            globalGame.roundProps[globalGame.my_role]['testResults']['reactionQs']
-                    [globalGame.roundProps[globalGame.my_role]['currentQuestion']['config']] = ['Not Possible']
-            globalGame.roundProps[globalGame.my_role]['times']['test']['trials']
-                    [globalGame.testNum - 1]['end'] = new Date()
-            globalGame.roundProps[globalGame.my_role]['times']['test']['trials']
-                    [globalGame.testNum - 1]['duration'] =
-                    (globalGame.roundProps[globalGame.my_role]['times']['test']['trials'][globalGame.testNum - 1]['end'] -
-                    globalGame.roundProps[globalGame.my_role]['times']['test']['trials']
-                    [globalGame.testNum - 1]['start']) / 1000
-            globalGame.currentPage = "test_slide_num_" + globalGame.testNum
-            if(globalGame.testNum < globalGame.questions.length){
-                globalGame.roundProps[globalGame.my_role]['currentQuestion'] = globalGame.questions[globalGame.testNum]
-                drawTestChemicals(globalGame, globalGame.roundProps[globalGame.my_role]['currentQuestion'],
-                                  globalGame.roundProps[globalGame.my_role]['currentQuestion']['type'] !== 'beaker',
-                                  globalGame.roundProps[globalGame.my_role]['currentQuestion']['config'], globalGame.testNum);
-                globalGame.roundProps[globalGame.my_role]['times']['test']['trials'].push({
-                                                    config : globalGame.roundProps[globalGame.my_role]['currentQuestion']['config'],
-                                                    type : globalGame.roundProps[globalGame.my_role]['currentQuestion']['type'],
-                                                    start : new Date(),
-                                                })
-                globalGame.currentPage = "test_slide_num_" + globalGame.testNum
-                globalGame.testNum++;
-            } else {
-                endRound();
-            }
-        }
-    });
-
     $("#test_chemicals_slide_continue_button").click(function() {
         if(fullTest && (globalGame.roundProps[globalGame.my_role]['currentQuestion']['type'] === 'reaction') &&
                 globalGame.roundProps[globalGame.my_role]['testResults']
@@ -552,7 +518,6 @@ var customSetup = function(globalGame) {
         clearWaitingRoom();
         globalGame.socket.send("enterSlide.round_slide.") 
         drawRoundNumber(data, globalGame);
-
         // local
         globalGame.roundProps = {
             selected_train_stim: [],
@@ -668,7 +633,7 @@ var customSetup = function(globalGame) {
         clearWaitingRoom();
         globalGame.totalScore = data;
         globalGame.socket.send("enterSlide.total_score_report_slide.");
-        $("#total_score").html(data + " out of " + 114);
+        $("#total_score").html(data + " out of " + globalGame.numRounds*globalGame.numPointsPerRound*2);
         $("#total_bonus").html("\$" + (data * globalGame.bonusAmt * .01));
         drawTotalScoreReport(globalGame);
     });

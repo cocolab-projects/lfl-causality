@@ -284,6 +284,17 @@ ALOT...don't understand how to adjust that.*/
 .clickable.caption:hover{
    background-color: #ffd8cc;
 }
+.notPossible{
+   width:200px;
+   opacity:0.5;
+   padding:0px 0px;
+   margin: 10px;
+   background-color: LemonChiffon;
+   border: solid;
+}
+.notPossible:hover{
+   background-color: gold;
+}
 .instruct {
    padding: 10px;
    margin: 10px 0 0 0;

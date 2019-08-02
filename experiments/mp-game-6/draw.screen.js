@@ -26,10 +26,14 @@ var drawWaitingRoom = function(message, game) {
 var drawRoundNumber = function(roundNum, game) {
     // Draw progress bar
     drawProgressBar(roundNum, game.numRounds, 1, 8);
-    
     // Set text & enable beaker
     $("#round_slide_header").empty();
     $("#round_slide_header").html("<br> <br>")
+    if(roundNum === 0){
+        $("#round_slide_header").append(
+            "<strong>You have been matched with a partner.</strong> <br><br>"
+        );
+    }
     $("#round_slide_header").append(
         "Entering Round " + "<b>" + parseInt(roundNum + 1) + "</b>" + " of " + game.numRounds +
         "<br> <br>" +
@@ -173,15 +177,17 @@ var drawTrainInstructions = function(game) {
                 <h3>Instructions</h3>
                 <br>
                 <p>
-                    You will enter an exploration phase of the game.
-                    <br><br>
-                    You are now exploring a new planet, and you have found more chemicals.
+                    For this HIT please imagine that you and your partner are exploring a new planet.
+                    You are now exploring the planet, and you have found chemicals.
                     These chemicals are <strong>new chemicals</strong>, with <strong>different properties</strong>.
-                    Nothing you have learned previously is still useful.
+                    Nothing you have learned previously is useful.
                     <br><br>
                     Try out different combinations to learn what properties the chemicals have.
                     You should <strong>explore until you completely understand the reactions caused by different
-                    combinations of chemicals</strong>. You can explore for as long as you want.
+                    combinations of chemicals</strong>.
+                    <br><br>
+                    You can explore for as long as you want.
+                    When you are done exploring you will be asked to teach your partner about the chemicals.
                     <br><br>
                     Press continue to start exploring.
                     <br><br>
@@ -195,9 +201,11 @@ var drawTrainInstructions = function(game) {
                 <h3>Instructions</h3>
                 <br>
                 <p>
-                    Your partner is now on a new planet, exploring <strong>new</strong> chemicals with <strong>different properties</strong>.
+                    For this HIT please imagine that you and your partner are exploring a new planet.
+                    Your partner is now on the planet, exploring <strong>new</strong> chemicals with
+                    <strong>different properties</strong>.
                     They are not the same as any previous chemicals you have seen.
-                    After they are done exploring, they will teach you about them in the chatroom.
+                    After your partner is done exploring, they will teach you about them in the chatroom.
                     <br><br>
                     While your partner explores, please please stay at the computer and DO NOT CLOSE THIS TAB.
                     Otherwise, you will be disconnected from the game and we will not be able to reward you for the HIT.
@@ -271,10 +279,11 @@ var drawExplorerChatInstructions = function(game) {
         <br>
         <br>
         Please discuss what reactions happen when you mix different combinations of chemicals.
-        The "student" will advance the game out of the chatroom, once they feel like they have a good understanding of the properties of the chemicals.
+        The student will end the chatroom phase when they understand the chemicals.
         <br>
         <br>
-        After the chatroom, you both will be asked questions about chemicals and properties. Your bonus will be the sum of your score and the score of your partner on this task.
+        After the chatroom, you both will be asked questions about chemicals and properties.
+        Your bonus will be the sum of your score and the score of your partner on this task.
         <br>
         <br>
     `;

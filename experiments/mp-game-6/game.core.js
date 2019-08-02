@@ -59,6 +59,7 @@ var game_core = function(options){
     this.numReactions = 3;
     this.numRules = 3;
     this.numReqTests = 3;
+    this.numPointsPerRound = 19;
     this.testScores = {};
     this.testScores[this.playerRoleNames.role1] = _.times(this.numRounds, _.constant({}));
     this.testScores[this.playerRoleNames.role2] = _.times(this.numRounds, _.constant({}));
@@ -191,7 +192,7 @@ game_core.prototype.server_send_update = function(){
         state.config = JSON.parse(this.configList[this.roundNum]['config']),
         state.configType = this.configList[this.roundNum]['configType']
         state.ruleTypes = this.configList[this.roundNum]['rules'],
-        state.questions = JSON.parse(this.configList[this.roundNum]['questions'])
+        state.questions = box.getQuestions(state.boxConfig, this.numReactions)
     }
         state.trialList = this.trialList;
         state.trialInfo = this.trialList[1];
