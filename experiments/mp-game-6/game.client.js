@@ -8,7 +8,7 @@
 // ----------------
 // GLOBAL VARIABLES
 // ----------------
-var fullTest = true;
+var fullTest = false;
 
 var globalGame = {},
     enterScoreReport = 0,
@@ -288,11 +288,6 @@ var customSetup = function(globalGame) {
         }
     });
 
-    $("#second_question_slide_notPossible_button").click(function(){
-        alert("This button is for if there is no combination of chemicals that will create the needed measurements. However, "+
-              "in this tutorial we saw that redase and yellowase glowed and conducted electricity.")
-    });
-
     $("#train_instructions_slide_continue_button").click(function() {
         clearTrainInstructions();
         globalGame.roundProps[globalGame.my_role]['clicks'] = {
@@ -480,7 +475,8 @@ var customSetup = function(globalGame) {
             fairprice: $("#fairprice").val(),
             strategy: $("#strategy").val(),
             humanPartner: $("#human").val(),
-            likePartner: $("#likePartner").val()
+            likePartner: $("#likePartner").val(),
+            totalBonus:globalGame.totalScore * globalGame.bonusAmt * .01,
         };
         globalGame.socket.send("logSubjInfo.subjInfo." + _.toPairs(encodeData(subjData)).join('.'));
 

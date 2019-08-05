@@ -38,7 +38,7 @@ var game_core = function(options){
     this.projectName = "cultural_ratchet";
     this.experimentName = "mp-game-6";
     this.iterationName = "pilot";
-    this.anonymizeCSV = true;
+    this.anonymizeCSV = false;
     this.bonusAmt = 1; // in cents
 
     // save data to the following locations (allowed: "csv")

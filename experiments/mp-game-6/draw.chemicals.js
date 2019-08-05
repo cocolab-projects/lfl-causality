@@ -56,7 +56,7 @@ function drawBox(numBeakers, numReactions, train, roundProps, game, beakersManip
         //roundProps.[game.my_role]testSelections[config] = [];
         if(beakersManip){
             $("#test_chemicals_slide_grid").append(questionStr + reactionsStr + instruct + beakersStr);
-            drawNotPossibleButton(roundProps, game.my_role, config);
+            drawNotPossibleButton(roundProps, game.my_role, config, false);
             roundProps[game.my_role]['testResults']['reactionQs'][config] = []
             for(var i = 1; i<=numBeakers; i++){
                 drawTestingScenario(roundProps, i, beakersManip, config, game.my_role, numBeakers)
@@ -125,7 +125,8 @@ function drawTutorialBox(numBeakers, numReactions, question, roundProps, game, b
     let instruct;
     if(question && beakersManip){
         instruct = "<div>" +
-                "<p id='questionInstruct'class='question'>Click on a possible mixture ChemCo could use.</p>" +
+                "<p id='questionInstruct'class='question'>Click on a possible mixture ChemCo could use. If there is no possible " +
+                "mixture, then click 'This Outcome is not Possible'</p>" +
                 "</div>"
         questionStr = "<div>" +
                 "<p id='questionSecond'class='question'>ChemCo wants to find a chemical that "+
@@ -170,6 +171,7 @@ function drawTutorialBox(numBeakers, numReactions, question, roundProps, game, b
                 turnOn(i, false, true, true, true);
             }
         }
+        drawNotPossibleButton(roundProps, game.my_role, "", true);
     } else {
         $("#first_question_slide_grid").append(questionStr + beakersStr + instruct + reactionsStr);
         $("#mix_boxquestion").attr("src", "Graphics/Box_001.svg");
@@ -253,9 +255,9 @@ function drawTutorialScenario(roundProps, i, game, beakersManip, question){
                 moveToMixBox(roundProps);
             }
         } else if(beakersManip){
-            if(roundProps.tutorialSecond.beakersClicked.includes("#NoneOfTheAboveTutorial")){
+            if(roundProps.tutorialSecond.beakersClicked.includes("Not Possible")){
                 roundProps.tutorialSecond.beakersClicked = [];
-                unhighlight("#NoneOfTheAboveTutorial")
+                lightenCompletely("#notPossibleBoxtutorial")
             }
             if(!roundProps.tutorialSecond.beakersClicked.includes(id)){
                 lighten(id)
@@ -347,22 +349,38 @@ function drawTestingScenario(roundProps, i, beakers, config, role, numBeakers){
     }
 }
 
-function drawNotPossibleButton(roundProps, role, config){
-    var notPossible = "<figure><figcaption id='notPossibleBox' class='notPossible'>" +
+function drawNotPossibleButton(roundProps, role, config, tutorial){
+    var id = "notPossibleBox" + (tutorial ? "tutorial" : "");
+    var notPossible = "<figure><figcaption id='" + id + "' class='notPossible'>" +
             "This Outcome is Not Possible</figcaption></figure>";
-    $("#test_chemicals_slide_grid").append(notPossible)
-    $("#notPossibleBox").click(function(){
-        if(roundProps[role]['testResults']['reactionQs'][config].includes("Not Possible")){
-            roundProps[role]['testResults']['reactionQs'][config] = [];
-            lighten("#notPossibleBox")
-        }else{
-            roundProps[role]['testResults']['reactionQs'][config] = ["Not Possible"];
-            darken("#notPossibleBox")
-            fillAllBeakers(true, 3);
-        }
-        roundProps[role]['clicks']['testing']
-                [roundProps[role]['clicks']['testing'].length - 1]['clicks'].push("Not Possible");
-    });
+    if(tutorial){
+        $("#second_question_slide_grid").append(notPossible)
+        $("#" + id).click(function(){
+            if(roundProps.tutorialSecond.beakersClicked.includes("Not Possible")){
+                roundProps.tutorialSecond.beakersClicked = [];
+                lighten("#" + id)
+            }else{
+                roundProps.tutorialSecond.beakersClicked = ["Not Possible"];
+                darken("#" + id)
+                fillAllBeakers(false, 3);
+            }
+        });
+    }else{
+        $("#test_chemicals_slide_grid").append(notPossible)
+        $("#" + id).click(function(){
+            if(roundProps[role]['testResults']['reactionQs'][config].includes("Not Possible")){
+                roundProps[role]['testResults']['reactionQs'][config] = [];
+                lighten("#notPossibleBox")
+            }else{
+                roundProps[role]['testResults']['reactionQs'][config] = ["Not Possible"];
+                darken("#notPossibleBox")
+                fillAllBeakers(true, 3);
+            }
+            roundProps[role]['clicks']['testing']
+                    [roundProps[role]['clicks']['testing'].length - 1]['clicks'].push("Not Possible");
+        });
+    }
+
 
 }
   

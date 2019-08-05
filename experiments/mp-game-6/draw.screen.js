@@ -243,7 +243,7 @@ var drawTutorial = function(game) {
     // Make visible
     game.currentSlide[game.my_role] = "tutorial_slide";
     $("#tutorial_slide_continue_button").prop("disabled", false);
-    $("#train_chemicals_tutorial").removeClass("hidden");
+    $("#tutorial_slide").removeClass("hidden");
 };
 
 var drawTrainBox = function(game) {
@@ -394,7 +394,7 @@ var clearTutorialInstructions = function() {
     $("#tutorial_instructions_slide_continue_button").prop("disabled", true);
 };
 var clearTutorial = function(){
-    $("#train_chemicals_tutorial").addClass("hidden");
+    $("#tutorial_slide").addClass("hidden");
     $("#tutorial_slide_continue_button").prop("disabled", true);
 }
 var clearQuestionInstructions = function(){

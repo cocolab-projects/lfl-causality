@@ -291,6 +291,7 @@ ALOT...don't understand how to adjust that.*/
    margin: 10px;
    background-color: LemonChiffon;
    border: solid;
+   cursor: pointer;
 }
 .notPossible:hover{
    background-color: gold;

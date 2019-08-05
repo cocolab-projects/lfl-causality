@@ -339,26 +339,26 @@ function generateReactionQuestions(dict, numReactions){
     var questions = [];
     var singIndices = [];
     var trios = Object.keys(dict);
+    trios = sortOutThrees(trios, dict, numReactions)
     shuffle(trios);
-    var i = 0
-    var end = trios.length;
-    while(trios.length > 4 && i < end){
-        var reactionConfig = trios[trios.length - 1];
-        trios.pop();
-        if(dict[reactionConfig].length !== 1){
-            trios.splice(0, 0, reactionConfig)
-        }
-    }
     //Add three reaction configs
     for(var i = 0; i<(trios.length >= 4? 4:trios.length); i++){
         var reactionConfig = trios[i];
+        var answer = "";
+        if(dict.hasOwnProperty(reactionConfig)){
+            answer = (dict[reactionConfig].length === 1 && dict[reactionConfig].includes('000')) ? ['Not Possible'] :
+                                                                                                   dict[reactionConfig]
+        } else {
+            answer = ['Not Possible']
+        }
         questions.push({
             type: "reaction",
             config: reactionConfig,
             q1: "<div><p class=\"question\">ChemCo wants to find a chemical that " +
                 binReactionsToString(reactionConfig) + "</p></div>",
-            q2: "<div><p class=\"question\">Click on a possible mixture ChemCo could use.</p></div>",
-            a: (dict[reactionConfig].length === 1 && dict[reactionConfig].includes('000')) ? ['Not Possible'] : dict[reactionConfig]
+            q2: "<div><p class=\"question\">Click on a possible mixture ChemCo could use. If there is no possible " +
+                               "mixture, then click 'This Outcome is not Possible'.</p></div>",
+            a: answer
         })
     }
     // Add single reaction configs
@@ -381,7 +381,8 @@ function generateReactionQuestions(dict, numReactions){
             config: ZeroStr,
             q1: "<div><p class=\"question\">ChemCo wants to find a chemical that " +
                 binReactionsToString(ZeroStr) + ". It does not care about any other reactions.</p></div>",
-            q2: "<div><p class=\"question\">Click on a possible mixture ChemCo could use.</p></div>",
+            q2: "<div><p class=\"question\">Click on a possible mixture ChemCo could use. If there is no possible " +
+                               "mixture, then click 'This Outcome is not Possible'.</p></div>",
             a: findConfigsForSingReac(dict, i, false)
         })
         questions.push({
@@ -389,7 +390,8 @@ function generateReactionQuestions(dict, numReactions){
             config: OneStr,
             q1: "<div><p class=\"question\">ChemCo wants to find a chemical that " +
                 binReactionsToString(OneStr) + ". It does not care about any other reactions.</p></div>",
-            q2: "<div><p class=\"question\">Click on a possible mixture ChemCo could use.</p></div>",
+            q2: "<div><p class=\"question\">Click on a possible mixture ChemCo could use. If there is no possible " +
+                "mixture, then click 'This Outcome is not Possible'.</p></div>",
             a: findConfigsForSingReac(dict, i, true)
         })
     }
@@ -411,11 +413,41 @@ function generateReactionQuestions(dict, numReactions){
             config: doubles[i],
             q1: "<div><p class='question'>ChemCo wants to find a chemical that " +
                 binReactionsToString(doubles[i]) + ". It does not care about any other reactions.</p></div>",
-            q2: "<div><p class='question'>Click on a possible mixture ChemCo could use.</p></div>",
+            q2: "<div><p class=\"question\">Click on a possible mixture ChemCo could use. If there is no possible " +
+                               "mixture, then click 'This Outcome is not Possible'.</p></div>",
             a: findConfigsForDoubReac(dict, doubles[i])
         })
     }
     return questions;
+}
+
+function sortOutThrees(keys, dict, numReactions){
+    shuffle(keys)
+    if(keys.length === 4){
+        return keys;
+    } else if (keys.length >= 4){
+        while(keys.length !== 4){
+            var reactionConfig = keys[keys.length - 1];
+            keys.pop();
+            if(dict[reactionConfig].length !== 1){
+                keys.splice(0, 0, reactionConfig)
+            }
+        }
+        return keys;
+    } else {
+        var possibleCombos= []
+        for(var i = 0; i < (Math.pow(2, numReactions)); i++){
+            var combo = padStrStart(i.toString(2), numReactions,'0')
+            if(!keys.includes(combo)){
+                possibleCombos.push(combo);
+            }
+        }
+        shuffle(possibleCombos);
+        while(keys.length < 4){
+            keys.push(possibleCombos.push)
+        }
+        return keys;
+    }
 }
 
 /*
@@ -625,6 +657,6 @@ function getQuestions(boxConfig, numReactions){
         var reactionQs = generateReactionQuestions(reverseDict(boxConfig), numReactions)
         var questions = beakerQs.concat(reactionQs)
         shuffle(questions);
-        return questions
     }while(questions.length !== 19)
+    return questions
 }

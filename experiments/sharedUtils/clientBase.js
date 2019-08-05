@@ -43,16 +43,9 @@ var onDisconnect = function(data) {
             "compensation.</p> <p>If you experience any problems, please email us (",
             email, ")</p>"].join("");
 
-        if (globalGame.experimentName === 'mp-game-6') {
-            if (globalGame.roundNum != globalGame.numRounds - 1) {
-                $("#subj_info").prepend(failMsg);
-                $("#subj_info").removeClass("hidden");
-            }
-        } else {
-            if(globalGame.roundNum != globalGame.numRounds) {
-                $("#subj_info").prepend(failMsg);
-                $("#thanks").hide();            
-            } 
+        if (globalGame.roundNum !== globalGame.numRounds - 1) {
+            $("#subj_info").prepend(failMsg);
+            $("#subj_info").removeClass("hidden");
         }
     }
     isConnected = false;
