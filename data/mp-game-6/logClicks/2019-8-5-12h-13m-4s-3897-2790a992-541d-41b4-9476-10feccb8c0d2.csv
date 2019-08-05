@@ -1,4 +1,0 @@
-round_num	role	x	y	page	element	experimentName	iterationName	gameid	logTime	eventType
-0	student	1054	300	PreRound0_slide	round_slide_header	mp-game-6	pilot	3897-2790a992-541d-41b4-9476-10feccb8c0d2	1565032384459	logClicks
-0	student	1047	319	PreRound0_slide	round_slide	mp-game-6	pilot	3897-2790a992-541d-41b4-9476-10feccb8c0d2	1565032385148	logClicks
-0	student	1141	499	PreRound0_slide		mp-game-6	pilot	3897-2790a992-541d-41b4-9476-10feccb8c0d2	1565032385748	logClicks
