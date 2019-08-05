@@ -99,7 +99,7 @@ function generateBox(config){
 }
 
 // Takes in a configuration, and returns a string representation
-function toString(config){
+function configToString(config){
     var dict = {}
     for(var i = 0; i < config.controls.length; i++){
         var actualControls = {}
@@ -598,7 +598,7 @@ function generateConfigSet(numBeakers, numReactions, numRounds, numRules){
             configsForRound.push({
                                      configType: "Round" + i + "_Config"+ (configsForRound.length + 1),
                                      rules: rules,
-                                     config: toString(config).replace(/%/g, ","),
+                                     config: configToString(config).replace(/%/g, ","),
                                      dict: configStr,
                                  })
         }
