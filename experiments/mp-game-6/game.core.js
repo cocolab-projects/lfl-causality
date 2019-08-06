@@ -192,7 +192,7 @@ game_core.prototype.server_send_update = function(){
         state.config = JSON.parse(this.configList[this.roundNum]['config']),
         state.configType = this.configList[this.roundNum]['configType']
         state.ruleTypes = this.configList[this.roundNum]['rules'],
-        state.questions = box.getQuestions(state.boxConfig, this.numReactions)
+        state.questions = JSON.parse(this.configList[this.roundNum]['questions'])
     }
         state.trialList = this.trialList;
         state.trialInfo = this.trialList[1];

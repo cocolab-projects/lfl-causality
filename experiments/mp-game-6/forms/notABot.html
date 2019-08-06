@@ -33,18 +33,9 @@
 
   <body role="document">
     <script>
-    var myVar = setTimeout(myTimer, 10000);
-
-    function myTimer() {
-      var stillReading = confirm("Are you still reading the consent form?")
-      var myCheck = setTimeout(checkReading(stillReading), 3000);
-    }
+    var myVar = setTimeout(checkReading, 20000);
     function checkReading(stillReading){
-      if(stillReading){
-        alert("Yes")
-      } else {
-        alert("kick them out!")
-      }
+        location.replace("./fail.html")
     }
   </script>
     <div class="container theme-showcase" role="main">
@@ -60,37 +51,8 @@
 
         <div class="well" style="width: 500px; margin: 0 auto">
           <p align="left" id="instruct-text">
-              In this HIT, you will play
-              a fun communication game with another MTurk
-              worker. Before starting the game, you will be given further
-              instructions and must pass a short quiz testing your
-              understanding of the instructions. Please note that you may
-              only do this HIT <b>once</b> so do not accept multiple versions of it!
-          </p>
-
-          <p>
-              We expect the average game to last approximately 30
-              minutes, including the time it takes to read instructions and
-              wait for another player.
-          </p>
-
-          <p>
-              The actual duration of the game depends on the cooperation
-              of both players. While the 'time allotted' for this HIT is 1
-              hour, we strongly encourage you to only accept this HIT if
-              you can start immediately, out of fairness to your
-              partner.
-          </p>
-
-          <p>
-            If you find the game is running on the longer side, no need
-            to rush or drop out -- leave a comment at the end and/or send
-            us an email (cmacavoy@stanford.edu) and we will make sure
-            you're compensated for your time! Please pay attention and do
-            your best! Thank you! </p>
-
-          <p>
-            Note: We recommend Chrome. We have not tested this HIT in other browsers.
+              Click the button below to continue to the HIT. You must click the button within
+              20 seconds in order to participate in this HIT.
           </p>
         </div>
 
@@ -99,25 +61,6 @@
           <noscript><strong>JavaScript must be enabled to start.</strong></noscript>
         </p>
         <hr>
-        
-        <u>
-          <p id="legal">Legal information:</p>
-        </u>
-
-        <p id="legal">
-          By answering the following questions, you are
-          participating in a study being performed by cognitive scientists
-          in the Stanford Department of Psychology. If you have questions
-          about this research, please contact <b> Clara MacAvoy </b>
-          at <b><a href="mailto://cmacavoy@stanford.edu">cmacavoy@stanford.edu</a></b>, Jesse Mu 
-          at jmu303@stanford.edu, or Noah Goodman, at ngoodman@stanford.edu. You must be at least
-          18 years old to participate. Your participation in this research
-          is voluntary. You may decline to answer any or all of the
-          following questions. You may decline further participation, at
-          any time, without adverse consequences. Your anonymity is
-          assured; the researchers who have requested your participation
-          will not receive any personal information about you.
-        </p>
         </div> <!-- show -->
     </div> <!-- /container -->
 
@@ -149,7 +92,7 @@
           var assignmentId = urlParams.assignmentId;
           var hitId = urlParams.hitId;
           var turkSubmitTo = urlParams.turkSubmitTo;
-          location.replace("./instructions.html?workerId=" + workerId
+          location.replace("./consent.html?workerId=" + workerId
                           + "&assignmentId=" + assignmentId
                           + "&hitId=" + hitId + "&turkSubmitTo=" + turkSubmitTo);
         };

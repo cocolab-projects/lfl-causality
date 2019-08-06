@@ -201,11 +201,11 @@ function randomRuleTypes(numRules, roundNum){
         "CONJUNCTION",
         "DISJUNCTION",
     ];
-    if(roundNum > 1){
+    if(roundNum > 2){
         difficultRuleTypes = shuffle(difficultRuleTypes)
         difficultRuleTypes = difficultRuleTypes.slice(0, roundNum+1)
         return difficultRuleTypes
-    } else if(roundNum === 1){
+    } else if(roundNum !== 0){
         easyRuleTypes = shuffle(easyRuleTypes)
         return easyRuleTypes
     } else {
@@ -594,12 +594,17 @@ function generateConfigSet(numBeakers, numReactions, numRounds, numRules){
                     var boxConfig = generateBox(config)();
                 }while(boxConfig['000'].toString() !== [false, false, false].toString());
                 var configStr = JSON.stringify(boxConfig)
-            }while(configsForRound.includes(configStr))
+                var beakerQs = generateBeakerQuestions(boxConfig)
+                var reactionQs = generateReactionQuestions(reverseDict(boxConfig), numReactions)
+                var questions = beakerQs.concat(reactionQs)
+                shuffle(questions);
+            }while(configsForRound.includes(configStr) || questions.length !== 19)
             configsForRound.push({
                                      configType: "Round" + i + "_Config"+ (configsForRound.length + 1),
                                      rules: rules,
                                      config: configToString(config).replace(/%/g, ","),
                                      dict: configStr,
+                                     questions: JSON.stringify(questions)
                                  })
         }
         configSet.push(configsForRound)
@@ -612,7 +617,7 @@ function pickConfigs(numBeakers, numReactions, numRounds, numRules){
     var picked = [];
     for(var i = 0; i<numRounds; i++){
         var cap = (i === 0 ? 10 : 20);
-        var randomPick = toPickFrom[i][Math.floor(Math.random()*cap)]
+        var randomPick = toPickFrom[i][0]
         picked.push(randomPick)
     }
     return picked
@@ -660,3 +665,4 @@ function getQuestions(boxConfig, numReactions){
     }while(questions.length !== 19)
     return questions
 }
+
