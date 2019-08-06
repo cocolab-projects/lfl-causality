@@ -342,7 +342,7 @@ function generateReactionQuestions(dict, numReactions){
     trios = sortOutThrees(trios, dict, numReactions)
     shuffle(trios);
     //Add three reaction configs
-    for(var i = 0; i<(trios.length >= 4? 4:trios.length); i++){
+    for(var i = 0; i < 4 ; i++){
         var reactionConfig = trios[i];
         var answer = "";
         if(dict.hasOwnProperty(reactionConfig)){
@@ -444,7 +444,7 @@ function sortOutThrees(keys, dict, numReactions){
         }
         shuffle(possibleCombos);
         while(keys.length < 4){
-            keys.push(possibleCombos.push)
+            keys.push(possibleCombos.pop)
         }
         return keys;
     }

@@ -705,7 +705,7 @@ function endRound(){
         configCode : globalGame.configCode,
         config : configForCSV,
     }
-    if(globalGame.urlParams().length === 4){
+    if(Object.keys(globalGame.urlParams()).length !== 0){
         roundSummary.workerId = globalGame.urlParams().workerId;
         roundSummary.assignmentId = globalGame.urlParams().assignmentId;
         roundSummary.hitId = globalGame.urlParams().hitId;
