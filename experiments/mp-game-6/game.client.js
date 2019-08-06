@@ -8,7 +8,7 @@
 // ----------------
 // GLOBAL VARIABLES
 // ----------------
-var fullTest = false;
+var fullTest = true;
 
 var globalGame = {},
     enterScoreReport = 0,
@@ -703,8 +703,14 @@ function endRound(){
         score: 0,
         rules : globalGame.ruleTypes.join("/"),
         configCode : globalGame.configCode,
-        config : configForCSV
+        config : configForCSV,
     }
+    if(globalGame.urlParams().length === 4){
+        roundSummary.workerId = globalGame.urlParams().workerId;
+        roundSummary.assignmentId = globalGame.urlParams().assignmentId;
+        roundSummary.hitId = globalGame.urlParams().hitId;
+    }
+
     for(var i = 0; i < globalGame.questions.length; i++){
         var question = globalGame.questions[i];
         var true_answers = question['a']
