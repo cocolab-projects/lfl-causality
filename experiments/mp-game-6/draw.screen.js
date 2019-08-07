@@ -172,11 +172,11 @@ var drawTrainInstructions = function(game) {
     // Set instructions text and enable beaker
     if (game.my_role === "explorer") {
         $("#train_instructions_slide_header").html(
-            `    
-                <br><br>
-                <h3>Instructions</h3>
-                <br>
-                <p>
+                    `
+                    <br><br>
+                    <h3>Instructions</h3>
+                    <br>
+                    <p>
                     For this HIT please imagine that you and your partner are exploring a new planet.
                     You are now exploring the planet, and you have found chemicals.
                     These chemicals are <strong>new chemicals</strong>, with <strong>different properties</strong>.
@@ -191,16 +191,16 @@ var drawTrainInstructions = function(game) {
                     <br><br>
                     Press continue to start exploring.
                     <br><br>
-                </p>
-            `
-        );
+                    </p>
+                    `
+                    );
     } else {
         $("#train_instructions_slide_header").html(
-            `
-                <br><br>
-                <h3>Instructions</h3>
-                <br>
-                <p>
+                    `
+                    <br><br>
+                    <h3>Instructions</h3>
+                    <br>
+                    <p>
                     For this HIT please imagine that you and your partner are exploring a new planet.
                     Your partner is now on the planet, exploring <strong>new</strong> chemicals with
                     <strong>different properties</strong>.
@@ -213,10 +213,12 @@ var drawTrainInstructions = function(game) {
                     <br><br>
                     Press Continue to join the chatroom.
                     <br><br>
-                </p>
-            `
-        )
+                    </p>
+                    `
+                    )
     }
+
+
 
     // Make visible
     game.currentSlide[game.my_role] = "train_instructions_slide";

@@ -75,7 +75,7 @@ var client_onserverupdate_received = function(data){
     globalGame.configCode = data.configType;
     globalGame.ruleTypes = data.ruleTypes;
     globalGame.totalPoints = data.totalPoints
-    globalGame.doTutorial = false;
+    globalGame.doTutorial = true;
     globalGame.currentPage = "PreRound" + globalGame.roundNum + "_slide"
 
 
@@ -478,6 +478,11 @@ var customSetup = function(globalGame) {
             likePartner: $("#likePartner").val(),
             totalBonus:globalGame.totalScore * globalGame.bonusAmt * .01,
         };
+        if(Object.keys(globalGame.urlParams()).length !== 0){
+            subjInfo.workerId = globalGame.urlParams().workerId;
+            subjInfo.assignmentId = globalGame.urlParams().assignmentId;
+            subjInfo.hitId = globalGame.urlParams().hitId;
+        }
         globalGame.socket.send("logSubjInfo.subjInfo." + _.toPairs(encodeData(subjData)).join('.'));
 
         // Move to thanks slide

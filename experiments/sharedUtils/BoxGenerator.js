@@ -444,7 +444,7 @@ function sortOutThrees(keys, dict, numReactions){
         }
         shuffle(possibleCombos);
         while(keys.length < 4){
-            keys.push(possibleCombos.pop)
+            keys.push(possibleCombos.pop())
         }
         return keys;
     }
@@ -598,7 +598,8 @@ function generateConfigSet(numBeakers, numReactions, numRounds, numRules){
                 var reactionQs = generateReactionQuestions(reverseDict(boxConfig), numReactions)
                 var questions = beakerQs.concat(reactionQs)
                 shuffle(questions);
-            }while(configsForRound.includes(configStr) || questions.length !== 19)
+            }while(configsForRound.includes(configStr))
+            questions = questions.slice(0,10)
             configsForRound.push({
                                      configType: "Round" + i + "_Config"+ (configsForRound.length + 1),
                                      rules: rules,
@@ -663,6 +664,6 @@ function getQuestions(boxConfig, numReactions){
         var questions = beakerQs.concat(reactionQs)
         shuffle(questions);
     }while(questions.length !== 19)
-    return questions
+    return questions.slice(0,10);
 }
 
