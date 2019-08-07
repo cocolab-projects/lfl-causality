@@ -39,7 +39,7 @@ var onDisconnect = function(data) {
 
         var failMsg = [
             "<h3>Oops! It looks like your partner lost their connection!</h3>",
-            "<p> Completing this survey will submit your HIT so you will still receive full ",
+            "<p> Completing this survey will submit your HIT so you will still receive ",
             "compensation.</p> <p>If you experience any problems, please email us (",
             email, ")</p>"].join("");
 

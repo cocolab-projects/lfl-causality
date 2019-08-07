@@ -479,9 +479,9 @@ var customSetup = function(globalGame) {
             totalBonus:globalGame.totalScore * globalGame.bonusAmt * .01,
         };
         if(Object.keys(globalGame.urlParams()).length !== 0){
-            subjInfo.workerId = globalGame.urlParams().workerId;
-            subjInfo.assignmentId = globalGame.urlParams().assignmentId;
-            subjInfo.hitId = globalGame.urlParams().hitId;
+            subjData.workerId = globalGame.urlParams().workerId;
+            subjData.assignmentId = globalGame.urlParams().assignmentId;
+            subjData.hitId = globalGame.urlParams().hitId;
         }
         globalGame.socket.send("logSubjInfo.subjInfo." + _.toPairs(encodeData(subjData)).join('.'));
 

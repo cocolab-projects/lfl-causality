@@ -17,7 +17,8 @@ const colors = require('colors/safe');
 // ----------------
 var serveFile = function(req, res) {
     var fileName = req.params[0];
-    console.log('\t :: Express :: file requested: ' + fileName);
+    var time = new Date()
+    console.log('\t file requested: ' + fileName + " at " + time.toLocaleTimeString());
     if(req.query.workerId) {
       console.log(" by workerID " + req.query.workerId);
     }
