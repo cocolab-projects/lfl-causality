@@ -6,6 +6,8 @@
 //       multiplayer game 6.
 // --------------------------------------------------------------------
 function drawBox(numBeakers, numReactions, train, roundProps, game, beakersManip, config, questionObj) {
+    var beakersPerRound = [4,5,5]
+    var numBeakersShown = beakersPerRound[game.roundNum]
     var clickRecord = {
         config: train ? "" : config,
         clicks: []
@@ -28,15 +30,15 @@ function drawBox(numBeakers, numReactions, train, roundProps, game, beakersManip
         }
     } 
     if(train || beakersManip){
-        for(var j = 1; j<=numBeakers; j++){
+        for(var j = 1; j<=numBeakersShown; j++){
                 beakers.push("<figure><img id='beaker" + j + (!train ? "test": "") + "'src = 'Graphics/"+
                              color(j-1) + "_Beaker.svg' alt = '"+ color(j-1) +
                              " Beaker' class = 'beaker'><figcaption>"+ color(j-1) + "ase</figcaption></figure>");
         }
-        beakers.push("<figure><img id='mix_box"+ (!train ? "test": "") + "'src = 'Graphics/Box_000.svg' alt = 'Mix Box' class = 'mixbeaker'>" +
+        beakers.push("<figure><img id='mix_box"+ (!train ? "test": "") + "'src = 'Graphics/Box_00000.svg' alt = 'Mix Box' class = 'mixbeaker'>" +
                      "<figcaption>Mixing Box</figcaption></figure></div>")
     } else {
-        beakers.push("<figure><img id='mix_box"+ (!train ? "test": "") + "'src = 'Graphics/Box_"+ config +
+        beakers.push("<figure><img id='mix_boxtest 'src = 'Graphics/Box_"+ config + "00" +
                      ".svg' alt = 'Mix Box' class = 'mixbeaker'></figure></div>")
     }
     reactions.push("</div>")
@@ -44,7 +46,7 @@ function drawBox(numBeakers, numReactions, train, roundProps, game, beakersManip
     let reactionsStr = reactions.join('')
     if (train) {
         $("#train_chemicals_slide_grid").append(beakersStr + reactionsStr);
-        for(var h = 1; h<=numBeakers; h++){
+        for(var h = 1; h<=numBeakersShown; h++){
             drawTrainingScenario(roundProps, h, game)
         }
         for(var i = 1; i<=numReactions; i++){
@@ -56,9 +58,9 @@ function drawBox(numBeakers, numReactions, train, roundProps, game, beakersManip
         //roundProps.[game.my_role]testSelections[config] = [];
         if(beakersManip){
             $("#test_chemicals_slide_grid").append(questionStr + reactionsStr + instruct + beakersStr);
-            drawNotPossibleButton(roundProps, game.my_role, config, false);
+            drawNotPossibleButton(roundProps, game.my_role, config, false, numBeakers);
             roundProps[game.my_role]['testResults']['reactionQs'][config] = []
-            for(var i = 1; i<=numBeakers; i++){
+            for(var i = 1; i<=numBeakersShown; i++){
                 drawTestingScenario(roundProps, i, beakersManip, config, game.my_role, numBeakers)
             }
             for(var i = 1; i<=numReactions; i++){
@@ -89,7 +91,7 @@ function drawTutorialBox(numBeakers, numReactions, question, roundProps, game, b
                      " to the mixture, and then click again to remove them. Try adding <strong>'redase'</strong> and "+
                      "<strong>'yellowase'</strong>.</figure>")
     }if(beakersManip || !question){
-        for(var j = 1; j<=numBeakers; j++){
+        for(var j = 1; j<=3; j++){
             beakers.push("<figure><img id='beaker" + j + (question ? "question": "tutorial") + "'src = 'Graphics/"+
                          color(j-1) + "_Beaker.svg' alt = '"+ color(j-1) +
                          " Beaker' class = 'beaker'><figcaption>"+ color(j-1) + "ase</figcaption></figure>")
@@ -114,11 +116,11 @@ function drawTutorialBox(numBeakers, numReactions, question, roundProps, game, b
                 "<p id='mixInstruct'class='instruct'>This is the mixing box. " +
                 "Chemicals you have added appear in the box. Now that you have added the 'redase' and 'yellowase' " +
                 "to the mixture, scroll down and click the <strong>'mix'</strong> button to see what happens. </p>" +
-                "<figure><img id='mix_boxtutorial'src = 'Graphics/Box_000.svg' alt = 'Mix Box' class = 'mixbeaker'>" +
+                "<figure><img id='mix_boxtutorial'src = 'Graphics/Box_00000.svg' alt = 'Mix Box' class = 'mixbeaker'>" +
                 "<figcaption>Mixing Box</figcaption></figure></div>"
     }
     else {
-        beakers.push("<figure><img id='mix_boxquestion" + "'src = 'Graphics/Box_000.svg' alt = 'Mix Box' class = 'mixbeaker'>" +
+        beakers.push("<figure><img id='mix_boxquestion" + "'src = 'Graphics/Box_00000.svg' alt = 'Mix Box' class = 'mixbeaker'>" +
                       (beakersManip ? "<figcaption>Mixing Box</figcaption>" : "") + "</figure></div>");
     }
     let questionStr;
@@ -150,7 +152,7 @@ function drawTutorialBox(numBeakers, numReactions, question, roundProps, game, b
             numBeakerClicks: 0,
             beakersClicked: [],
         }
-        for(var h = 1; h<=numBeakers; h++){
+        for(var h = 1; h<=3; h++){
             drawTutorialScenario(roundProps, h, game, true, question)
         }
         for(var i = 1; i<=numReactions; i++){
@@ -162,7 +164,7 @@ function drawTutorialBox(numBeakers, numReactions, question, roundProps, game, b
         roundProps.tutorialSecond = {
             beakersClicked: [],
         }
-        for(var h = 1; h<=numBeakers; h++){
+        for(var h = 1; h<=3; h++){
             drawTutorialScenario(roundProps, h, game, beakersManip, question)
         }
         for(var i = 1; i<=numReactions; i++){
@@ -171,10 +173,10 @@ function drawTutorialBox(numBeakers, numReactions, question, roundProps, game, b
                 turnOn(i, false, true, true, true);
             }
         }
-        drawNotPossibleButton(roundProps, game.my_role, "", true);
+        drawNotPossibleButton(roundProps, game.my_role, "", true, numBeakers);
     } else {
         $("#first_question_slide_grid").append(questionStr + beakersStr + instruct + reactionsStr);
-        $("#mix_boxquestion").attr("src", "Graphics/Box_001.svg");
+        $("#mix_boxquestion").attr("src", "Graphics/Box_00100.svg");
         roundProps.tutorialFirst = {
             reactionsClicked: [],
             reactionsInteractedWith: []
@@ -182,7 +184,7 @@ function drawTutorialBox(numBeakers, numReactions, question, roundProps, game, b
         for(var i = 1; i<=numReactions; i++){
             drawTutorialScenario(roundProps, i, game, beakersManip, question);
         }
-        for(var i = 1; i<=numBeakers; i++){
+        for(var i = 1; i<=3; i++){
             lightenCompletely("#cap_reaction" + i + "question")
         }
     }
@@ -349,7 +351,7 @@ function drawTestingScenario(roundProps, i, beakers, config, role, numBeakers){
     }
 }
 
-function drawNotPossibleButton(roundProps, role, config, tutorial){
+function drawNotPossibleButton(roundProps, role, config, tutorial, numBeakers){
     var id = "notPossibleBox" + (tutorial ? "tutorial" : "");
     var notPossible = "<figure><figcaption id='" + id + "' class='notPossible'>" +
             "This Outcome is Not Possible</figcaption></figure>";
@@ -362,7 +364,7 @@ function drawNotPossibleButton(roundProps, role, config, tutorial){
             }else{
                 roundProps.tutorialSecond.beakersClicked = ["Not Possible"];
                 darken("#" + id)
-                fillAllBeakers(false, 3);
+                fillAllBeakers(false, numBeakers);
             }
         });
     }else{
@@ -374,7 +376,7 @@ function drawNotPossibleButton(roundProps, role, config, tutorial){
             }else{
                 roundProps[role]['testResults']['reactionQs'][config] = ["Not Possible"];
                 darken("#notPossibleBox")
-                fillAllBeakers(true, 3);
+                fillAllBeakers(true, numBeakers);
             }
             roundProps[role]['clicks']['testing']
                     [roundProps[role]['clicks']['testing'].length - 1]['clicks'].push("Not Possible");
@@ -457,13 +459,14 @@ function turnReactionsOff(numReactions, numBeakers, tutorial){
         darken("#beaker" + i + (tutorial ? "tutorial": ""))
         fill(i, tutorial, false, true)
     }
-    $("#mix_box" + (tutorial ? "tutorial": "")).attr("src", 'Graphics/Box_000.svg')
+    $("#mix_box" + (tutorial ? "tutorial": "")).attr("src", 'Graphics/Box_00000.svg')
 }
 
   
 function turnReactionsOn(beakersOn, reactionsDict, numBeakers, numReactions, tutorial) {
     var reactionsOn = [];
-    var beakersKey = beakerStr(beakersOn, numBeakers, tutorial, false, true)
+    var beakersKeyFull = beakerStr(beakersOn, numBeakers, tutorial, false, true)
+    var beakersKey = beakersKeyFull.slice(0,3)
     for(var h = 0; h<reactionsDict[beakersKey].length; h++){
         var id = "#reaction" + (h+1) + (tutorial ? "tutorial": "")
         if(reactionsDict[beakersKey][h]){
@@ -487,7 +490,7 @@ function fillAllBeakers(test, numBeakers){
     for(var i = 1; i <= numBeakers; i++){
         fill(i, false, !test, !test)
     }
-    var img = "Graphics/Box_000.svg"
+    var img = "Graphics/Box_00000.svg"
     var id = "#mix_box" + (test? "test": "question")
     $(id).attr("src", img);
 }

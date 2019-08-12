@@ -75,7 +75,7 @@ var client_onserverupdate_received = function(data){
     globalGame.configCode = data.configType;
     globalGame.ruleTypes = data.ruleTypes;
     globalGame.totalPoints = data.totalPoints
-    globalGame.doTutorial = true;
+    globalGame.doTutorial = fullTest;
     globalGame.currentPage = "PreRound" + globalGame.roundNum + "_slide"
 
 
@@ -185,9 +185,8 @@ var customSetup = function(globalGame) {
             "001": [true, true, false],
         }
         if((globalGame.roundProps.tutorial.beakersClicked.includes("#beaker3tutorial") &&
-                !globalGame.roundProps.tutorial.beakersClicked.includes("#beaker2tutorial") &&
-                !globalGame.roundProps.tutorial.beakersClicked.includes("#beaker1tutorial")) ||
-            (!globalGame.roundProps.tutorial.beakersClicked.includes("#beaker3tutorial") &&
+                globalGame.roundProps.tutorial.beakersClicked.length === 1) ||
+            (globalGame.roundProps.tutorial.beakersClicked.length === 2 &&
                 globalGame.roundProps.tutorial.beakersClicked.includes("#beaker2tutorial") &&
                 globalGame.roundProps.tutorial.beakersClicked.includes("#beaker1tutorial"))){
             turnReactionsOn(globalGame.roundProps.tutorial.beakersClicked, configDict,
@@ -278,7 +277,7 @@ var customSetup = function(globalGame) {
     $("#second_question_slide_continue_button").click(function(){
         if(globalGame.roundProps.tutorialSecond.beakersClicked.includes("#beaker1question") &&
             globalGame.roundProps.tutorialSecond.beakersClicked.includes("#beaker2question") &&
-                !globalGame.roundProps.tutorialSecond.beakersClicked.includes("#beaker3question") ){
+                globalGame.roundProps.tutorialSecond.beakersClicked.length === 2 ){
             globalGame.currentPage = "train_instructions_slide"
             clearSecondQuestion();
             drawTrainInstructions(globalGame)
@@ -726,7 +725,11 @@ function endRound(){
         }else {
             var turker_answer = beakerStr(globalGame.roundProps[globalGame.my_role]['testResults']['reactionQs'][question.config],
                                           globalGame.numBeakers, false, false, false);
-            var isRight = true_answers.includes(turker_answer)
+            var turker_answer_short = turker_answer === "Not Possible" ? "Not Possible" : turker_answer.slice(0,3)
+            if(true_answers.includes("Not Possible") && !question.config.includes("1")){
+                    true_answers = ["000"]
+            }
+            var isRight = true_answers.includes(turker_answer_short)
         }
         isRight ? roundSummary.hits++ : roundSummary.misses++;
         roundSelections.push({

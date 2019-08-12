@@ -564,7 +564,7 @@ if (typeof module !== 'undefined' && typeof module.exports !== 'undefined'){
 
 //returns correct color
 function color(num){
-    var colors = ['Red', 'Yellow', 'Blue', 'Green', 'Brown']
+    var colors = ['Red', 'Yellow', 'Blue', 'Green', 'Purple']
     return colors[num]
 }
 

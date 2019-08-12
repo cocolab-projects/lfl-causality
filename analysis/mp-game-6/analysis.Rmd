@@ -13,6 +13,7 @@ library(dplyr)
 library(tidyboot)
 library(ggplot2)
 library(scales)
+library(readr)
 library(stringr)
 library(digest)
 library(ggthemes)
@@ -24,43 +25,55 @@ library(brms)
 ```
 
 
-# Load Concept Summary
-```{r}
-concept_summary_fp <- c("../../../experiments/mp-game-6/stimuli/fifty_rules/concept_summary.json")
-concept_summary <- do.call(rbind.data.frame, jsonlite::fromJSON(concept_summary_fp)) %>%
-  mutate(chance_rate= p_test_belongs_to_concept*p_test_belongs_to_concept + (1 -p_test_belongs_to_concept) * (1-p_test_belongs_to_concept))
-```
-
 # Complete Games
+# Uploads the game data
 ```{r}
 # Load Test Trial Responses
 temp <- list.files(
-  "../../../data/mp-game-6/complete_games/logTest",
+  "../../data/mp-game-6/logTest",
   pattern="*.csv",
   full.names=TRUE
 )
-test_complete_games <- do.call(rbind, lapply(temp, read.csv, sep=""))
+test_complete_games <- do.call(rbind, lapply(temp, read_tsv))
 
+accuracy_by_game <- test_complete_games %>%
+  group_by(gameid,round_num,role) %>%
+  summarise(mean_accuracy = mean(is_correct)) %>%
+  mutate(role = paste0(role, "_accuracy")) %>%
+  spread(role, mean_accuracy)
+
+accuracy_by_game %>%
+  ggplot(aes(x = student_accuracy, y = explorer_accuracy)) +
+  geom_point(mapping = aes(color = factor(round_num))) +
+  geom_smooth(method = "lm") +
+  theme_cowplot()
+
+cor.test()
+```
+
+```{r}
 # Load Test Summary Stats
 temp <- list.files(
-    "../../../data/mp-game-6/complete_games/logScores",
+    "../../data/mp-game-6/logScores",
   pattern="*.csv",
   full.names=TRUE
 )
+temp
 scores_complete_games <- do.call(rbind, lapply(temp, read.csv, sep=""))
-
+scores_complete_games
 
 # Load Time Data
 temp <- list.files(
-    "../../../data/mp-game-6/complete_games/logTimes",
+    "../../data/mp-game-6/logSimpleTimes",
   pattern="*.csv",
   full.names=TRUE
 )
-time_complete_games <-do.call(rbind, lapply(temp, readr::read_tsv)) %>%
+time_complete_games <-do.call(rbind, lapply(temp, read.csv, sep="")) %>%
   group_by(gameid)
 ```
 
 ## Distribution of Complete Data
+# Makes a plot of the number of games played by each rule_idx. Think I need to change to config code
 ```{r}
 num_complete_games_played <- scores_complete_games %>%
   count(rule_idx) %>%
@@ -98,7 +111,7 @@ scores_complete_games <- scores_complete_games %>%
          role = factor(role)
          )
 ## these "center" the predictors, to look at the effect of rule at the average of the roles
-# and the effect of role at the average of the eurles
+# and the effect of role at the average of the rules
 contrasts(scores_complete_games$rule_fac) = contr.sum(5)
 contrasts(scores_complete_games$role) = contr.sum(2)
 contrasts(scores_complete_games$role)
