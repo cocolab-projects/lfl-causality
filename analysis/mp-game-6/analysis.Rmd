@@ -28,28 +28,111 @@ library(brms)
 # Complete Games
 # Uploads the game data
 ```{r}
-# Load Test Trial Responses
+# Load Test Trial Responses for Three Beakers
 temp <- list.files(
-  "../../data/mp-game-6/logTest",
+  "../../data/mp-game-6/logTest/ThreeBeakers",
   pattern="*.csv",
   full.names=TRUE
 )
-test_complete_games <- do.call(rbind, lapply(temp, read_tsv))
+three_beaker_games <- do.call(rbind, lapply(temp, read_tsv))
 
-accuracy_by_game <- test_complete_games %>%
+accuracy_by_game <- three_beaker_games %>%
   group_by(gameid,round_num,role) %>%
   summarise(mean_accuracy = mean(is_correct)) %>%
   mutate(role = paste0(role, "_accuracy")) %>%
   spread(role, mean_accuracy)
 
-accuracy_by_game %>%
+three_beaker_graph <- accuracy_by_game %>%
   ggplot(aes(x = student_accuracy, y = explorer_accuracy)) +
-  geom_point(mapping = aes(color = factor(round_num))) +
+  geom_point(aes(color = factor(round_num)), position = position_jitter(width = .01, height = .01)) +
   geom_smooth(method = "lm") +
-  theme_cowplot()
+  theme_cowplot() + 
+  labs(title = "Student vs Teacher Accuracy", subtitle = "First Iteration", x = "Student Accuracy", y = "Teacher Accuracy", color = "Round") +
+  geom_abline(intercept = 0, slope = 1, linetype = "dotted") + 
+  xlim(0, 1.01) + 
+  ylim(0, 1.01)
 
-cor.test()
+three_beaker_graph
+
 ```
+
+#Load for four / five beaker games
+```{r}
+temp <- list.files(
+  "../../data/mp-game-6/logTest",
+  pattern="*.csv",
+  full.names=TRUE
+)
+multi_beaker_games <- do.call(rbind, lapply(temp, read_tsv))
+
+accuracy_by_game_multi <- multi_beaker_games %>%
+  group_by(gameid,round_num,role) %>%
+  summarise(mean_accuracy = mean(is_correct)) %>%
+  mutate(role = paste0(role, "_accuracy")) %>%
+  spread(role, mean_accuracy)
+
+accuracy_by_game_multi %>%
+  ggplot(aes(x = student_accuracy, y = explorer_accuracy)) +
+  geom_point(mapping = aes(color = factor(round_num)), position = position_jitter(width = .01, height = .01)) +
+  geom_smooth(method = "lm") +
+  theme_cowplot() + 
+  geom_abline(intercept = 0, slope = 1, linetype = "dotted") + 
+  labs(title = "Student vs Teacher Accuracy", subtitle = "Second Iteration", x = "Student Accuracy", y = "Teacher Accuracy", color = "Round") + 
+  xlim(0, 1.01) + 
+  ylim(0, 1.01)
+```
+
+```{r}
+  ggplot(NULL) +
+  geom_point(data = accuracy_by_game, mapping = aes(color = "#CC0000", x = student_accuracy, y = explorer_accuracy, shape = factor(round_num))) +
+  geom_point(data = accuracy_by_game_multi, mapping = aes(color = "#000099", x = student_accuracy, y = explorer_accuracy, shape = factor(round_num))) +
+  geom_smooth(data = accuracy_by_game, method = "lm", aes(color = "#CC0000", x = student_accuracy, y = explorer_accuracy)) +
+  geom_smooth(data = accuracy_by_game_multi, method = "lm", aes(color = "#000099", x = student_accuracy, y = explorer_accuracy)) +
+  labs(title = "Performance in First and Second Iterations", color = "Iteration", shape = "Round", x = "Student Accuracy", y = "Teacher Accuracy") + 
+  theme_cowplot() + 
+  scale_color_discrete(labels = c("#CC0000" = "First", "#000099" = "Second")) + 
+  geom_abline(intercept = 0, slope = 1, linetype = "dotted") + 
+  xlim(0, 1) + 
+  ylim(0, 1)
+```
+
+```{r}
+accuracy_by_round <- three_beaker_games %>%
+  group_by(round_num, role) %>%
+  summarise(mean_accuracy = mean(is_correct), ci_low = (mean_accuracy - 1.96*sd(is_correct)/sqrt(n())), ci_up = (mean_accuracy + 1.96*sd(is_correct)/sqrt(n()))) 
+
+accuracy_by_round
+
+accuracy_by_round %>%
+  ggplot(aes(x = round_num, y = mean_accuracy,)) + 
+  geom_col(aes(fill = factor(round_num), alpha = role), position = "dodge") + 
+  geom_errorbar(aes(ymin=ci_low, ymax=ci_up), color="black", width=0.5, position= "dodge", show.legend = FALSE) +
+  scale_alpha_manual(values = c("explorer" = 1.0, "student" = 0.4)) +
+  guides(fill = FALSE) + 
+  theme_cowplot() + 
+  labs(title = "Explorer and Student Accuracies across rounds", subtitle = "First Iteration", x = "Round", y = "Mean Accuracy", alpha = "Role")
+  
+```
+
+
+```{r}
+accuracy_by_question_type <- three_beaker_games %>%
+  group_by(round_num, fixed) %>%
+  summarise(mean_accuracy = mean(is_correct)) 
+
+accuracy_by_question_type
+
+accuracy_by_question_type %>%
+  ggplot() + 
+  geom_col(aes(x = round_num, y = mean_accuracy, fill = factor(round_num), alpha = fixed), position = "dodge") + 
+  scale_alpha_manual(values = c("beaker" = 1.0, "reaction" = 0.4)) +
+  guides(fill = FALSE) + 
+  theme_cowplot() + 
+labs(title = "Accuracies across Question Type", subtitle = "First Iteration", x = "Round", y = "Mean Accuracy", alpha = "Question Type")
+  
+```
+
+
 
 ```{r}
 # Load Test Summary Stats
