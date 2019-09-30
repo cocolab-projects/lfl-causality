@@ -129,7 +129,7 @@ function createRandomBox(numBeakers, numReactions, types){
             compsDict = {}
             for(var j = 0; j < numBeakers; j++){
                 if(Math.random() < 0.5){
-                    compsDict[`beaker${j+1}`] = (Math.random() < 0.5);
+                    compsDict[`beaker${j+1}`] = (Math.random() < 1.0); //always be true
                     compsArray.push(`beaker${j+1}`)
                 }
             }
@@ -205,12 +205,8 @@ function randomRuleTypes(numRules, roundNum){
         difficultRuleTypes = shuffle(difficultRuleTypes)
         difficultRuleTypes = difficultRuleTypes.slice(0, roundNum+1)
         return difficultRuleTypes
-    } else if(roundNum !== 0){
-        easyRuleTypes = shuffle(easyRuleTypes)
-        return easyRuleTypes
     } else {
-        easyRuleTypes = easyRuleTypes.slice(0, roundNum+1)
-        return easyRuleTypes
+        return [easyRuleTypes[roundNum]]
     }
 
 
@@ -314,7 +310,7 @@ function boolsToBin(bools){
 function generateBeakerQuestions(dict){
     var beakerQuestions = [];
     for(var beakerConfig in dict){
-        if(beakerConfig !== '000'){
+        if(beakerConfig !== '00000'){
             beakerQuestions.push({
                 type: "beaker",
                 config: beakerConfig,
@@ -338,28 +334,46 @@ function generateBeakerQuestions(dict){
 function generateReactionQuestions(dict, numReactions){
     var questions = [];
     var singIndices = [];
-    var trios = Object.keys(dict);
-    trios = sortOutThrees(trios, dict, numReactions)
-    shuffle(trios);
-    //Add three reaction configs
-    for(var i = 0; i < 4 ; i++){
-        var reactionConfig = trios[i];
-        var answer = "";
-        if(dict.hasOwnProperty(reactionConfig)){
-            answer = (dict[reactionConfig].length === 1 && dict[reactionConfig].includes('000')) ? ['Not Possible'] :
-                                                                                                   dict[reactionConfig]
-        } else {
-            answer = ['Not Possible']
+    if(numReactions == 3){
+        var trios = Object.keys(dict);
+        trios = sortOutThrees(trios, dict, numReactions)
+        shuffle(trios);
+        //Add three reaction configs
+        for(var i = 0; i < 4 ; i++){
+            var reactionConfig = trios[i];
+            var answer = "";
+            if(dict.hasOwnProperty(reactionConfig)){
+                answer = (dict[reactionConfig].length === 1 && dict[reactionConfig].includes('000')) ? ['Not Possible'] :
+                                                                                                       dict[reactionConfig]
+            } else {
+                answer = ['Not Possible']
+            }
+            questions.push({
+                type: "reaction",
+                config: reactionConfig,
+                q1: "<div><p class=\"question\">ChemCo wants to find a chemical that " +
+                    binReactionsToString(reactionConfig) + "</p></div>",
+                q2: "<div><p class=\"question\">Click on a possible mixture ChemCo could use. If there is no possible " +
+                                   "mixture, then click 'This Outcome is not Possible'.</p></div>",
+                a: answer
+            })
         }
-        questions.push({
-            type: "reaction",
-            config: reactionConfig,
-            q1: "<div><p class=\"question\">ChemCo wants to find a chemical that " +
-                binReactionsToString(reactionConfig) + "</p></div>",
-            q2: "<div><p class=\"question\">Click on a possible mixture ChemCo could use. If there is no possible " +
-                               "mixture, then click 'This Outcome is not Possible'.</p></div>",
-            a: answer
-        })
+    }
+    if(numReactions >= 2){
+        //add doubles
+        var doubles = findDoubles();
+        shuffle(doubles)
+        for(var i = 0; i<(doubles.length >= 4? 4:doubles.length); i++){
+            questions.push({
+                type: "reaction",
+                config: doubles[i],
+                q1: "<div><p class='question'>ChemCo wants to find a chemical that " +
+                    binReactionsToString(doubles[i]) + ". It does not care about any other reactions.</p></div>",
+                q2: "<div><p class=\"question\">Click on a possible mixture ChemCo could use. If there is no possible " +
+                                   "mixture, then click 'This Outcome is not Possible'.</p></div>",
+                a: findConfigsForDoubReac(dict, doubles[i])
+            })
+        }
     }
     // Add single reaction configs
     for(var i = 0; i < numReactions; i++){
@@ -380,7 +394,7 @@ function generateReactionQuestions(dict, numReactions){
             type: "reaction",
             config: ZeroStr,
             q1: "<div><p class=\"question\">ChemCo wants to find a chemical that " +
-                binReactionsToString(ZeroStr) + ". It does not care about any other reactions.</p></div>",
+                binReactionsToString(ZeroStr) + ".</p></div>",
             q2: "<div><p class=\"question\">Click on a possible mixture ChemCo could use. If there is no possible " +
                                "mixture, then click 'This Outcome is not Possible'.</p></div>",
             a: findConfigsForSingReac(dict, i, false)
@@ -389,33 +403,10 @@ function generateReactionQuestions(dict, numReactions){
             type: "reaction",
             config: OneStr,
             q1: "<div><p class=\"question\">ChemCo wants to find a chemical that " +
-                binReactionsToString(OneStr) + ". It does not care about any other reactions.</p></div>",
+                binReactionsToString(OneStr) + ".</p></div>",
             q2: "<div><p class=\"question\">Click on a possible mixture ChemCo could use. If there is no possible " +
                 "mixture, then click 'This Outcome is not Possible'.</p></div>",
             a: findConfigsForSingReac(dict, i, true)
-        })
-    }
-    shuffle(singIndices)
-    if(singIndices[1] < singIndices[0]){
-        questions.splice(singIndices[0], 1);
-        questions.splice(singIndices[1], 1)
-    }else{
-        questions.splice(singIndices[1], 1);
-        questions.splice(singIndices[0], 1)
-    }
-
-    //add doubles
-    var doubles = findDoubles();
-    shuffle(doubles)
-    for(var i = 0; i<(doubles.length >= 4? 4:doubles.length); i++){
-        questions.push({
-            type: "reaction",
-            config: doubles[i],
-            q1: "<div><p class='question'>ChemCo wants to find a chemical that " +
-                binReactionsToString(doubles[i]) + ". It does not care about any other reactions.</p></div>",
-            q2: "<div><p class=\"question\">Click on a possible mixture ChemCo could use. If there is no possible " +
-                               "mixture, then click 'This Outcome is not Possible'.</p></div>",
-            a: findConfigsForDoubReac(dict, doubles[i])
         })
     }
     return questions;
@@ -584,29 +575,32 @@ function padStrStart(str, length, pad){
 function generateConfigSet(numBeakers, numReactions, numRounds, numRules){
     var configSet = [];
     for(var i = 0; i< numRounds; i++){
-        var cap = (i === 0 ? 10 : 20);
-        var configsForRound = []
+        var cap = 3;
+        var configsForRound = [];
+        var configsStringList = [];
         for(var j = 0; j < cap; j++){
             do{
                 var rules = randomRuleTypes(numRules, i)
                 do{
                     var config = createRandomBox(numBeakers, numReactions, rules);
                     var boxConfig = generateBox(config)();
-                }while(boxConfig['000'].toString() !== [false, false, false].toString());
+                }while(boxConfig['00000'].toString() !== [false].toString());
                 var configStr = JSON.stringify(boxConfig)
                 var beakerQs = generateBeakerQuestions(boxConfig)
                 var reactionQs = generateReactionQuestions(reverseDict(boxConfig), numReactions)
+                shuffle(beakerQs)
+                beakerQs = beakerQs.splice(0,8)
                 var questions = beakerQs.concat(reactionQs)
                 shuffle(questions);
-            }while(configsForRound.includes(configStr))
-            questions = questions.slice(0,10)
+            }while(configsStringList.includes(configStr))
+            configsStringList.push(configStr)
             configsForRound.push({
-                                     configType: "Round" + i + "_Config"+ (configsForRound.length + 1),
-                                     rules: rules,
-                                     config: configToString(config).replace(/%/g, ","),
-                                     dict: configStr,
-                                     questions: JSON.stringify(questions)
-                                 })
+                                 configType: "Round" + i + "_Config"+ (configsForRound.length + 1),
+                                 rules: rules,
+                                 config: configToString(config).replace(/%/g, ","),
+                                 dict: configStr,
+                                 questions: JSON.stringify(questions)
+                             })
         }
         configSet.push(configsForRound)
     }
@@ -626,9 +620,9 @@ function pickConfigs(numBeakers, numReactions, numRounds, numRules){
 
 function makeJSON(){
     var fs = require('fs');
-    var configs = generateConfigSet(3, 3, 3, 5)
+    var configs = generateConfigSet(5, 1, 3, 5)
     var toPickFrom = JSON.stringify(configs);
-    var filePath = ['..', 'mp-game-6', 'configsJSON'].join('/');
+    var filePath = ['..', 'mp-game-6', 'configsJSON_sing'].join('/');
     fs.writeFile(filePath, toPickFrom, function(err) {
         if (err) {
             console.log(err);
@@ -636,7 +630,7 @@ function makeJSON(){
     });
     // Make a CSV file of all the configs
     var dataPoint = configs[0][0];
-    var csvFilePath = ['..', 'mp-game-6', 'configsCSV.csv'].join('/');
+    var csvFilePath = ['..', 'mp-game-6', 'configsCSV_sing.csv'].join('/');
     // Write header
     var header = Object.keys(dataPoint).join('\t') + '\n';
     fs.writeFileSync(csvFilePath, header, err => {if(err) throw(err);});
@@ -652,9 +646,8 @@ function makeJSON(){
 function getJSON(){
     var content = "";
     var fs = require('fs');
-    var filePath = ['mp-game-6', 'configsJSON'].join('/');
+    var filePath = ['mp-game-6', 'configsJSON_sing'].join('/');
     return fs.readFileSync(filePath, "utf8", err => {if(err) throw err;});
-
 }
 
 function getQuestions(boxConfig, numReactions){
@@ -666,4 +659,3 @@ function getQuestions(boxConfig, numReactions){
     }while(questions.length !== 19)
     return questions.slice(0,10);
 }
-

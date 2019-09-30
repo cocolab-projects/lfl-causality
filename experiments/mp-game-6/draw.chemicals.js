@@ -6,7 +6,7 @@
 //       multiplayer game 6.
 // --------------------------------------------------------------------
 function drawBox(numBeakers, numReactions, train, roundProps, game, beakersManip, config, questionObj) {
-    var beakersPerRound = [4,5,5]
+    var beakersPerRound = [numBeakers,numBeakers,numBeakers]
     var numBeakersShown = beakersPerRound[game.roundNum]
     var clickRecord = {
         config: train ? "" : config,
@@ -38,7 +38,7 @@ function drawBox(numBeakers, numReactions, train, roundProps, game, beakersManip
         beakers.push("<figure><img id='mix_box"+ (!train ? "test": "") + "'src = 'Graphics/Box_00000.svg' alt = 'Mix Box' class = 'mixbeaker'>" +
                      "<figcaption>Mixing Box</figcaption></figure></div>")
     } else {
-        beakers.push("<figure><img id='mix_boxtest 'src = 'Graphics/Box_"+ config + "00" +
+        beakers.push("<figure><img id='mix_boxtest 'src = 'Graphics/Box_"+ config +
                      ".svg' alt = 'Mix Box' class = 'mixbeaker'></figure></div>")
     }
     reactions.push("</div>")
@@ -132,11 +132,11 @@ function drawTutorialBox(numBeakers, numReactions, question, roundProps, game, b
                 "</div>"
         questionStr = "<div>" +
                 "<p id='questionSecond'class='question'>ChemCo wants to find a chemical that "+
-                "Glows and Conducts Electricity. It doesn't care about any other reactions that occur.</p>" +
+                "Glows. It doesn't care about any other reactions that occur.</p>" +
                 "</div>"
     }else if (question && !beakersManip){
         instruct = "<div>" +
-                "<p id='questionInstruct'class='question'>Click on the measurements that ChemCo should expect to see.</p>" +
+                "<p id='questionInstruct'class='question'>Click on the reaction that ChemCo should expect to see.</p>" +
                 "</div>"
         questionStr = "<div>" +
                 "<p id='questionFirst'class='question'>ChemCo will mix the following chemicals: Bluease. </p>" +
@@ -465,8 +465,7 @@ function turnReactionsOff(numReactions, numBeakers, tutorial){
   
 function turnReactionsOn(beakersOn, reactionsDict, numBeakers, numReactions, tutorial) {
     var reactionsOn = [];
-    var beakersKeyFull = beakerStr(beakersOn, numBeakers, tutorial, false, true)
-    var beakersKey = beakersKeyFull.slice(0,3)
+    var beakersKey = beakerStr(beakersOn, numBeakers, tutorial, false, true)
     for(var h = 0; h<reactionsDict[beakersKey].length; h++){
         var id = "#reaction" + (h+1) + (tutorial ? "tutorial": "")
         if(reactionsDict[beakersKey][h]){

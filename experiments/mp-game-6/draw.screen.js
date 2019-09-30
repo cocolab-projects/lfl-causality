@@ -135,7 +135,7 @@ var drawFirstQuestion = function(game) {
         `
             <p class="label_prompt">
                 Question 1: Click on labels to indicate if a reaction will or will not occur.
-                You need to set a value (either present or absent) to each reaction.
+                You need to set a value (either present or absent) to the reaction.
             </p>
         `
     );

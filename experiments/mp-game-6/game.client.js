@@ -181,8 +181,8 @@ var customSetup = function(globalGame) {
 
     $("#tutorial_slide_test_button").click(function(){
         configDict = {
-            "110": [true, false, true],
-            "001": [true, true, false],
+            "110": [true],
+            "001": [false],
         }
         if((globalGame.roundProps.tutorial.beakersClicked.includes("#beaker3tutorial") &&
                 globalGame.roundProps.tutorial.beakersClicked.length === 1) ||
@@ -190,7 +190,7 @@ var customSetup = function(globalGame) {
                 globalGame.roundProps.tutorial.beakersClicked.includes("#beaker2tutorial") &&
                 globalGame.roundProps.tutorial.beakersClicked.includes("#beaker1tutorial"))){
             turnReactionsOn(globalGame.roundProps.tutorial.beakersClicked, configDict,
-                         globalGame.numBeakers, globalGame.numReactions, true);
+                         3, globalGame.numReactions, true);
 
             $("#tutorial_slide_test_button").prop("disabled", true);
             $("#train_chemicals_slide_continue_button").show();
@@ -239,7 +239,7 @@ var customSetup = function(globalGame) {
         globalGame.testStage = true;
         $("#tutorial_slide_test_button").prop("disabled", false)
         $("#tutorial_slide_newtest_button").prop("disabled", true)
-        turnReactionsOff(globalGame.numReactions, globalGame.numBeakers, true)
+        turnReactionsOff(globalGame.numReactions, 3, true)
         globalGame.roundProps.tutorial.beakersClicked = []
     });
 
@@ -257,19 +257,17 @@ var customSetup = function(globalGame) {
         drawFirstQuestion(globalGame)
     });
     $("#first_question_slide_continue_button").click(function(){
-        if(globalGame.roundProps.tutorialFirst.reactionsClicked.includes("#cap_reaction1question") &&
-            globalGame.roundProps.tutorialFirst.reactionsClicked.includes("#cap_reaction2question") &&
-                !globalGame.roundProps.tutorialFirst.reactionsClicked.includes("#cap_reaction3question") &&
-                globalGame.roundProps.tutorialFirst.reactionsInteractedWith.includes("#cap_reaction3question")){
+        if(!globalGame.roundProps.tutorialFirst.reactionsClicked.includes("#cap_reaction1question") &&
+                globalGame.roundProps.tutorialFirst.reactionsInteractedWith.includes("#cap_reaction1question")){
             globalGame.currentPage = "second_question_slide"
             clearFirstQuestion();
             drawSecondQuestion(globalGame)
             globalGame.roundProps[globalGame.my_role]['times']['tutorial']['first_question']['end'] = new Date();
             globalGame.roundProps[globalGame.my_role]['times']['tutorial']['second_question']['start'] = new Date();
-        } else if(!globalGame.roundProps.tutorialFirst.reactionsInteractedWith.includes("#cap_reaction3question")){
-            alert("You must predict the presence/absence of each reaction")
+        } else if(!globalGame.roundProps.tutorialFirst.reactionsInteractedWith.includes("#cap_reaction1question")){
+            alert("You must predict the presence/absence of the reaction")
         } else{
-            alert("That is not the right answer. Hint: in the tutorial, bluease glowed and bubbled.")
+            alert("That is not the right answer. Hint: in the tutorial, bluease did not glow")
         }
 
 
@@ -283,7 +281,7 @@ var customSetup = function(globalGame) {
             drawTrainInstructions(globalGame)
             globalGame.roundProps[globalGame.my_role]['times']['tutorial']['second_question']['end'] = new Date();
         } else {
-            alert("That is not the right answer. Hint: in the tutorial, redase and yellowase glowed and conducted electricity.")
+            alert("That is not the right answer. Hint: in the tutorial, redase and yellowase glowed")
         }
     });
 
@@ -725,9 +723,9 @@ function endRound(){
         }else {
             var turker_answer = beakerStr(globalGame.roundProps[globalGame.my_role]['testResults']['reactionQs'][question.config],
                                           globalGame.numBeakers, false, false, false);
-            var turker_answer_short = turker_answer === "Not Possible" ? "Not Possible" : turker_answer.slice(0,3)
+            var turker_answer_short = turker_answer === "Not Possible" ? "Not Possible" : turker_answer
             if(true_answers.includes("Not Possible") && !question.config.includes("1")){
-                    true_answers = ["000"]
+                    true_answers = ["00000"]
             }
             var isRight = true_answers.includes(turker_answer_short)
         }
