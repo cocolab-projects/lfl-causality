@@ -63,6 +63,8 @@ var drawTutorialInstructions = function(game) {
                     exploring, you will teach a student about the properties you have discovered. You and your partner
                     will then be <strong>tested on your understanding of the properties of mixtures of chemicals.</strong>
                     <br><br>
+                    <strong> It is always possible to make the desired reaction occur </strong>
+                    <br><br>
                     You will first enter a tutorial of the interface. <strong>Pay attention</strong>
                     during the tutorial, because you will be tested on your knowledge at the end.
                     <br><br>

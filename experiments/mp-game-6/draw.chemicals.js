@@ -390,10 +390,10 @@ function darken(id) {
     $(id).css({"opacity":1.0});
 }
 function lighten(id){
-    $(id).css({"opacity":0.75});
+    $(id).css({"opacity":0.5});
 }
 function lightenCompletely(id){
-    $(id).css({"opacity":0.5});
+    $(id).css({"opacity":0.25});
 }
 function empty(id){
     $(id).attr("src", "Graphics/Empty_Beaker.svg");

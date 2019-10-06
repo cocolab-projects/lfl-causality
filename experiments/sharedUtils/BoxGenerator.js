@@ -549,7 +549,6 @@ if (typeof module !== 'undefined' && typeof module.exports !== 'undefined'){
         toString,
         shuffle,
         pickConfigs,
-        getQuestions,
     }
 }
 
@@ -592,7 +591,7 @@ function generateConfigSet(numBeakers, numReactions, numRounds, numRules){
                 beakerQs = beakerQs.splice(0,8)
                 var questions = beakerQs.concat(reactionQs)
                 shuffle(questions);
-            }while(configsStringList.includes(configStr))
+            }while(configsStringList.includes(configStr) || noYesQuestions(questions))
             configsStringList.push(configStr)
             configsForRound.push({
                                  configType: "Round" + i + "_Config"+ (configsForRound.length + 1),
@@ -605,6 +604,13 @@ function generateConfigSet(numBeakers, numReactions, numRounds, numRules){
         configSet.push(configsForRound)
     }
     return configSet
+}
+
+function noYesQuestions(questions){
+    for(var i = 0; i < questions.length; i++){
+        if(questions[i].type == "beaker" && questions[i].a == "1") return false;
+    }
+    return true;
 }
 
 function pickConfigs(numBeakers, numReactions, numRounds, numRules){
@@ -648,14 +654,4 @@ function getJSON(){
     var fs = require('fs');
     var filePath = ['mp-game-6', 'configsJSON_sing'].join('/');
     return fs.readFileSync(filePath, "utf8", err => {if(err) throw err;});
-}
-
-function getQuestions(boxConfig, numReactions){
-    do{
-        var beakerQs = generateBeakerQuestions(boxConfig)
-        var reactionQs = generateReactionQuestions(reverseDict(boxConfig), numReactions)
-        var questions = beakerQs.concat(reactionQs)
-        shuffle(questions);
-    }while(questions.length !== 19)
-    return questions.slice(0,10);
 }
