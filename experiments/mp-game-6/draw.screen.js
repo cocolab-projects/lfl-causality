@@ -262,6 +262,8 @@ var drawTrainBox = function(game) {
                 Click on beakers to add them to the mixture, and click again to remove them from the test.
                 Click mix to test the mixture, and New Test to start again after each different combination.
                 Study the results carefully.
+                <br><br>
+                <strong>There is at least one mixture which causes the reaction to occur.</strong>
             </p>
         `
     );
