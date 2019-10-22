@@ -75,7 +75,7 @@ var client_onserverupdate_received = function(data){
     globalGame.configCode = data.configType;
     globalGame.ruleTypes = data.ruleTypes;
     globalGame.totalPoints = data.totalPoints
-    globalGame.doTutorial = fullTest;
+    globalGame.doTutorial = false;
     globalGame.currentPage = "PreRound" + globalGame.roundNum + "_slide"
 
 

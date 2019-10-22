@@ -179,17 +179,16 @@ var drawTrainInstructions = function(game) {
                     <h3>Instructions</h3>
                     <br>
                     <p>
-                    For this HIT please imagine that you and your partner are exploring a new planet.
+                    For this HIT please imagine that you and your partner are exploring an alien planet.
                     You are now exploring the planet, and you have found chemicals.
-                    These chemicals are <strong>new chemicals</strong>, with <strong>different properties</strong>.
-                    Nothing you have learned previously is useful.
                     <br><br>
-                    Try out different combinations to learn what properties the chemicals have.
+                    Try out <strong>different combinations</strong> to learn what properties the chemicals have.
                     You should <strong>explore until you completely understand the reactions caused by different
                     combinations of chemicals</strong>.
                     <br><br>
                     You can explore for as long as you want.
-                    When you are done exploring you will be asked to teach your partner about the chemicals.
+                    When you are done exploring you will be asked to teach your partner about the chemicals, and
+                    then <strong>you will both be tested on your understanding.</strong>
                     <br><br>
                     Press continue to start exploring.
                     <br><br>
@@ -203,10 +202,8 @@ var drawTrainInstructions = function(game) {
                     <h3>Instructions</h3>
                     <br>
                     <p>
-                    For this HIT please imagine that you and your partner are exploring a new planet.
-                    Your partner is now on the planet, exploring <strong>new</strong> chemicals with
-                    <strong>different properties</strong>.
-                    They are not the same as any previous chemicals you have seen.
+                    For this HIT please imagine that you and your partner are exploring an alien planet.
+                    Your partner is now on the planet, exploring chemicals.
                     After your partner is done exploring, they will teach you about them in the chatroom.
                     <br><br>
                     While your partner explores, please please stay at the computer and DO NOT CLOSE THIS TAB.
@@ -260,8 +257,8 @@ var drawTrainBox = function(game) {
         `
             <p class="label_prompt">
                 Click on beakers to add them to the mixture, and click again to remove them from the test.
-                Click mix to test the mixture, and New Test to start again after each different combination.
-                Study the results carefully.
+                Click <strong>Mix</strong> to test the mixture, and <strong>New Test</strong> to start again after each different combination.
+                Study the results carefully. <strong>Press continue only once you are ready for the chatroom. </strong>
                 <br><br>
                 <strong>There is at least one mixture which causes the reaction to occur.</strong>
             </p>
