@@ -63,12 +63,10 @@ var drawTutorialInstructions = function(game) {
                     exploring, you will teach a student about the properties you have discovered. You and your partner
                     will then be <strong>tested on your understanding of the properties of mixtures of chemicals.</strong>
                     <br><br>
-                    <strong> It is always possible to make the desired reaction occur </strong>
                     <br><br>
                     You will first enter a tutorial of the interface. <strong>Pay attention</strong>
                     during the tutorial, because you will be tested on your knowledge at the end.
                     <br><br>
-                    Press Continue to start.
                     <br><br>
                 </p>
             `
@@ -179,18 +177,17 @@ var drawTrainInstructions = function(game) {
                     <h3>Instructions</h3>
                     <br>
                     <p>
-                    For this HIT please imagine that you and your partner are exploring an alien planet.
-                    You are now exploring the planet, and you have found chemicals.
+                    You are an explorer working for <strong>ChemCo</strong>, a chemical corporation. On an alien planet, you have
+                    discovered several beakers of alien chemicals. None of your previous knowledge applies.
+                    <strong>ChemCo wants to know more about these chemicals to see
+                    if they can create any new substances with useful properties from them.</strong>
                     <br><br>
                     Try out <strong>different combinations</strong> to learn what properties the chemicals have.
-                    You should <strong>explore until you completely understand the reactions caused by different
-                    combinations of chemicals</strong>.
+                    You can explore as long as you want, and you should <strong>explore until you
+                    completely understand the reactions caused by different combinations of chemicals</strong>.
                     <br><br>
-                    You can explore for as long as you want.
-                    When you are done exploring you will be asked to teach your partner about the chemicals, and
+                    When you are done exploring you will teach your partner about the chemicals, and
                     then <strong>you will both be tested on your understanding.</strong>
-                    <br><br>
-                    Press continue to start exploring.
                     <br><br>
                     </p>
                     `
@@ -202,15 +199,15 @@ var drawTrainInstructions = function(game) {
                     <h3>Instructions</h3>
                     <br>
                     <p>
-                    For this HIT please imagine that you and your partner are exploring an alien planet.
-                    Your partner is now on the planet, exploring chemicals.
-                    After your partner is done exploring, they will teach you about them in the chatroom.
+                    You are the 'student', and you are a chemist working for <strong>ChemCo</strong>. Your partner is currently
+                    studying alien chemicals and the mixtures produced by them.
+                    <br><br>
+                    Once your partner is done exploring, they will teach you about the chemicals, and you will both
+                    be tested on the reactions caused by them.
                     <br><br>
                     While your partner explores, please please stay at the computer and DO NOT CLOSE THIS TAB.
                     Otherwise, you will be disconnected from the game and we will not be able to reward you for the HIT.
                     Please keep checking the chat window, as the status will update when the other player has also entered the room.
-                    <br><br>
-                    Press Continue to join the chatroom.
                     <br><br>
                     </p>
                     `
