@@ -8,7 +8,7 @@
     "color-convert": "~1.0.0",
     "colors": "^1.1.2",
     "compat": "^1.0.4",
-    "csv-parse": "~0.0.6",
+    "csv-parse": "~4.4.6",
     "delta-e": "~0.0.7",
     "express": "^4.17.1",
     "jsonfile": "~2.4.0",
