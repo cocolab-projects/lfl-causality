@@ -48,10 +48,10 @@ cor_three_beakers <- cor.test(accuracy_by_game$student_accuracy, accuracy_by_gam
 
 three_beaker_graph <- accuracy_by_game %>%
   ggplot(aes(x = student_accuracy, y = explorer_accuracy)) +
-  geom_point(aes(color = factor(round_num)), position = position_jitter(width = .01, height = .01)) +
+  geom_point(aes(color = factor(round_num)), position = position_jitter(width = .015, height = .015)) +
   geom_smooth(method = "lm") +
   theme_cowplot() + 
-  labs(title = "Student vs Teacher Accuracy", subtitle = "First Iteration (n = 5) p = .0228", x = "Student Accuracy", y = "Teacher Accuracy", color = "Round") +
+  labs(title = "Student vs Teacher Accuracy", subtitle = "(n = 14) p***", x = "Student Accuracy", y = "Teacher Accuracy", color = "Round") +
   geom_abline(intercept = 0, slope = 1, linetype = "dotted") +
   xlim(0,1.05) + 
   ylim(0,1.05)
@@ -178,7 +178,7 @@ accuracy_by_question_manip <- accuracy_by_question %>%
   select(-ci_low, -ci_up) %>%
   spread(role, mean_accuracy)
   
-cor_questions <- cor.test(accuracy_by_question_manip$student_accuracy, accuracy_by_question_manip$explorer_accuracy)
+#cor_questions <- cor.test(accuracy_by_question_manip$student_accuracy, accuracy_by_question_manip$explorer_accuracy)
 
 accuracy_by_question %>%
   ggplot() + 
@@ -219,7 +219,7 @@ game_times_and_accuracies %>%
   geom_point(aes(color = factor(round_num))) + 
   geom_smooth(method = "lm") + 
   theme_cowplot() + 
-  labs(title = "Chat Time vs Explorer Accuracy", subtitle = "Both Iterations (n = 5) p = .38", color = "Round", y = "Teacher Accuracy", 
+  labs(title = "Chat Time vs Explorer Accuracy", subtitle = "Both Iterations (n = 5) p = .93", color = "Round", y = "Teacher Accuracy", 
        x = "Chat Time (s)") 
 
 
@@ -244,12 +244,12 @@ game_times_causal <- do.call(rbind, lapply(temp, read_tsv))
 game_times_split_brute <- game_times_brute %>%
   gather(Type, Time, c(`Total Train Time`, `Total Test Time`, chat)) %>%
   group_by(Type) %>%
-  summarise(average_time = mean(Time), ci_low = (average_time - 1.96*sd(Time)/sqrt(n())), ci_up = (average_time + 1.96*sd(Time)/sqrt(n())), lang = "Brute")
+  summarise(average_time = mean(Time), ci_low = (average_time - 1.96*sd(Time)/sqrt(n())), ci_up = (average_time + 1.96*sd(Time)/sqrt(n())), lang = "Brute (n = 4)")
 
 game_times_split_causal <- game_times_causal %>%
   gather(Type, Time, c(`Total Train Time`, `Total Test Time`, chat)) %>%
   group_by(Type) %>%
-  summarise(average_time = mean(Time), ci_low = (average_time - 1.96*sd(Time)/sqrt(n())), ci_up = (average_time + 1.96*sd(Time)/sqrt(n())), lang = "Causal")
+  summarise(average_time = mean(Time), ci_low = (average_time - 1.96*sd(Time)/sqrt(n())), ci_up = (average_time + 1.96*sd(Time)/sqrt(n())), lang = "Causal (n = 10)")
 
 game_times_split_all <- rbind(game_times_split_brute, game_times_split_causal) %>%
   filter(Type != "Total Test Time") %>%
@@ -263,7 +263,7 @@ game_times_split_all %>%
   geom_errorbar(aes(x = lang, ymin=ci_low, ymax=ci_up, fill = lang, alpha = Type),  color="black", width=0.5, position = position_dodge(.9), show.legend = FALSE) +
   scale_alpha_manual(values = c("Student" = 0.6, "Teacher" = 1.0)) +
   theme_cowplot() + 
-  labs(title = "Time spent learning vs teaching", subtitle = "First Iterations (n = 5)", x = "Language Type", y = "Mean Time (s)", fill = "Language Type", alpha = "Task") +
+  labs(title = "Time spent learning vs teaching", subtitle = "(n = 14)", x = "Language Type", y = "Mean Time (s)", fill = "Language Type", alpha = "Task") +
   guides(fill = FALSE)
 
 ```
@@ -289,7 +289,7 @@ accuracy_by_question_by_role %>%
   geom_smooth(method = "lm", color = "seagreen") +
   scale_color_manual(values = c("beaker" = "slateblue", "reaction" = "indianred"),labels = c("beaker" = "Forward", "reaction" = "Backward")) + 
   theme_cowplot() + 
-  labs(title = "Student vs Teacher Accuracy by Question", subtitle = "Both Iterations (n = 5) p = .0054", color = "Question Type", x = "Student Accuracy", y = "Teacher Accuracy") +
+   labs(title = "Student vs Teacher Accuracy by Question", subtitle = "Both Iterations (n = 14) p***", color = "Question Type", x = "Student Accuracy", y = "Teacher Accuracy") +
   geom_abline(intercept = 0, slope = 1, linetype = "dashed") +
   xlim(0,1.05) + 
   ylim(0,1.05)
@@ -354,7 +354,7 @@ agreement %>%
   geom_smooth(method = "lm") +
   theme_cowplot() + 
   geom_abline(intercept = 0, slope = 1, linetype = "dotted") + 
-  labs(title = "Student vs Teacher Question Accuracy", subtitle = "(n = 5), p = 4.491e-09", x = "Student Accuracy", y = "Teacher Accuracy", color = "Round") + 
+  labs(title = "Student vs Teacher Question Accuracy", subtitle = "(n = 14), p***", x = "Student Accuracy", y = "Teacher Accuracy", color = "Round") + 
   xlim(-.05, 1.2) + 
   ylim(-.05, 1.2)
 
@@ -362,11 +362,11 @@ agreement %>%
 #Scatter plot of individual game rounds, average vs real agreement
 agreement_by_round_game %>%
   ggplot(aes(x = chance_agreement, y = actual_agreement)) +
-  geom_point(mapping = aes(color = factor(round_num)), position = position_jitter(width = .01, height = .01)) +
+  geom_point(mapping = aes(color = factor(round_num), shape = fixed), position = position_jitter(width = .02, height = .02)) +
   geom_smooth(method = "lm") +
   theme_cowplot() + 
   geom_abline(intercept = 0, slope = 1, linetype = "dotted") + 
-  labs(title = "Chance vs Actual Agreement", subtitle = "(n = 5), p = 1.51e-07", x = "Chance Agreement", y = "Actual Agreement", color = "Round") + 
+  labs(title = "Chance vs Actual Agreement", subtitle = "(n = 14), p***", x = "Chance Agreement", y = "Actual Agreement", color = "Round", shape = "Question Type") + 
   xlim(-.05, 1.05) + 
   ylim(-.05, 1.05)
 
@@ -379,7 +379,8 @@ agreement_by_round %>%
   labs(title = "Mean Student-Teacher Agreement", subtitle = "(n = 5)", x = "Round", y = "Mean Agreement", fill = "Round", alpha = "Question Type", color = "Chance Agreement") + 
   geom_col(aes(x = round_num, y = mean_chance_agreement, color = fixed), fill = "purple", alpha = .0, position = "dodge") +
   scale_color_manual(values = c("reaction" = "black", "beaker" = "black"), labels = c("reaction" = "Backward", "beaker" = "Forward")) +
-  guides(fill = FALSE)
+  guides(fill = FALSE)+ 
+  ylim(-.05, 1.05)
   
   
 

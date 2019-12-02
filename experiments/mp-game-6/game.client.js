@@ -8,7 +8,7 @@
 // ----------------
 // GLOBAL VARIABLES
 // ----------------
-var fullTest = true;
+var fullTest = false;
 
 var globalGame = {},
     enterScoreReport = 0,
@@ -385,6 +385,13 @@ var customSetup = function(globalGame) {
     $("#chat_room_slide_continue_button").click(function(){
         var continueFromChat = confirm("Are you sure you want to exit the chat room?")
         if(continueFromChat){
+            var message = {
+                text: $("#chatbox").val(),
+                time: 0,
+            }
+            var messageJSON = _.toPairs(encodeData(message)).join('.');
+            console.log(messageJSON)
+            globalGame.socket.send("chatMessage." + messageJSON);
             drawProgressBar(globalGame.roundNum, globalGame.numRounds, 6, 8);
             globalGame.socket.send("proceedToTestInstructions.");
             globalGame.currentPage = "test_instructions_slide"
@@ -572,7 +579,7 @@ var customSetup = function(globalGame) {
         };
         step();
 
-        if(globalGame.my_role === "student") {
+        if(globalGame.my_role === "explorer") {
             $("#chat_room_slide_continue_button").prop("disabled", false);
             // Start Time
             globalGame.roundProps[globalGame.my_role]['times']['chat']['start'] = new Date();

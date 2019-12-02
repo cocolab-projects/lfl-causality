@@ -302,12 +302,8 @@ var drawChatRoom = function(game) {
     // Default disabled
     $("#chat_room_side_continue_button").prop("disabled", true);
 
-    // Make button visible only if user is the student
-    if (game.my_role === "student") {
-        $("#chatCont").show();
-    } else {
-        $("#chatCont").hide();       
-    }
+    // Make button visible
+    $("#chatCont").show();
     $("#chat_room_slide").removeClass("hidden");
     game.currentSlide[game.my_role] = "chat_room_slide";            
 };

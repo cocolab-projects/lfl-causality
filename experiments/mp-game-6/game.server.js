@@ -92,16 +92,11 @@ var onMessage = function(client, message) {
         case 'enterChatRoom' :
             // Will show a wait message if only one player is in the chatroom
             // Will allow them to enter the chatroom
-            if (gc.currentSlide["explorer"] != gc.currentSlide["student"]) {
-                console.log("Waiting for another player.....");
-                target.instance.emit("chatWait", {})
-            } else {
                 setTimeout(function() {
                 _.map(all, function(p){
                     p.player.instance.emit("enterChatRoom", {})
                 });
                 }, 300);
-            }
             break;
 
         // Receive message when browser focus shifts
@@ -214,7 +209,7 @@ var dataOutput = function() {
   };
 
   return {
-    'chatMessage' : chatMessageOutput,
+    'chatMessage' : logResponseOutput,
     'logTest' : logResponseOutput,
     'logTrain': logResponseOutput,
     'logScores': logResponseOutput,
