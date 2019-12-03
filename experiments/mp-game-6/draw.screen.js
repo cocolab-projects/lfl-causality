@@ -29,11 +29,6 @@ var drawRoundNumber = function(roundNum, game) {
     // Set text & enable beaker
     $("#round_slide_header").empty();
     $("#round_slide_header").html("<br> <br>")
-    if(roundNum === 0){
-        $("#round_slide_header").append(
-            "<strong>You have been matched with a partner.</strong> <br><br>"
-        );
-    }
     $("#round_slide_header").append(
         "Entering Round " + "<b>" + parseInt(roundNum + 1) + "</b>" + " of " + game.numRounds +
         "<br> <br>" +
@@ -186,8 +181,9 @@ var drawTrainInstructions = function(game) {
                     You can explore as long as you want, and you should <strong>explore until you
                     completely understand the reactions caused by different combinations of chemicals</strong>.
                     <br><br>
-                    When you are done exploring you will teach your partner about the chemicals, and
-                    then <strong>you will both be tested on your understanding.</strong>
+                    When you are done exploring you will be asked to write a description of chemicals
+                    which will be used to teach another explorer, and
+                    then <strong>you will be tested on your understanding.</strong>
                     <br><br>
                     </p>
                     `
@@ -275,14 +271,15 @@ var drawExplorerChatInstructions = function(game) {
     `
         <br>
         <br>
-        On the next page, you will enter into a chatroom with your partner, the "student".
+        On the next page, you will be asked to describe the reactions you discovered. This description
+        will be used to teach another explorer, and you will recieve a bonus based on their perfomance.
         <br>
         <br>
-        Please discuss what reactions happen when you mix different combinations of chemicals.
-        The student will end the chatroom phase when they understand the chemicals.
+        Please explain what reactions happen when you mix different combinations of chemicals.
+        Once you are done writing, continue to the testing phase.
         <br>
         <br>
-        After the chatroom, you both will be asked questions about chemicals and properties.
+        After submitting your description, you will be asked questions about chemicals and properties.
         Your bonus will be the sum of your score and the score of your partner on this task.
         <br>
         <br>
@@ -297,7 +294,7 @@ var drawExplorerChatInstructions = function(game) {
 
 var drawChatRoom = function(game) {
     // Clear
-    $("#messages").empty();
+    $("#chatbox").val("");
 
     // Default disabled
     $("#chat_room_side_continue_button").prop("disabled", true);

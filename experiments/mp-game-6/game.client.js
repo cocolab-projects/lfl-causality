@@ -138,8 +138,10 @@ var customSetup = function(globalGame) {
     });
 
     // Initial setup -- draw the waiting room.
-    drawWaitingRoom("Waiting for another player to join the game ...", globalGame);
-    globalGame.socket.send("enterSlide.wait_room_slide.")
+    //drawWaitingRoom("Waiting for another player to join the game ...", globalGame);
+    //globalGame.socket.send("enterSlide.wait_room_slide.")
+    globalGame.socket.send("newRoundUpdate.");
+
 
     // --------------
     // Click Handlers
@@ -384,10 +386,15 @@ var customSetup = function(globalGame) {
 
     $("#chat_room_slide_continue_button").click(function(){
         var continueFromChat = confirm("Are you sure you want to exit the chat room?")
+        globalGame.roundProps[globalGame.my_role]['times']['chat']['end'] = new Date();
+        globalGame.roundProps[globalGame.my_role]['duration']['chat'] = (
+            globalGame.roundProps[globalGame.my_role]['times']['chat']['end'] -
+            globalGame.roundProps[globalGame.my_role]['times']['chat']['start']
+        ) / 1000.0;
         if(continueFromChat){
             var message = {
-                text: $("#chatbox").val(),
-                time: 0,
+                text: $("#chatbox").val().replace(/,/g, " -").replace(/\./g, "*"),
+                time: globalGame.roundProps[globalGame.my_role]['duration']['chat'],
             }
             var messageJSON = _.toPairs(encodeData(message)).join('.');
             console.log(messageJSON)
@@ -451,9 +458,8 @@ var customSetup = function(globalGame) {
 
     $("#round_score_report_continue_button").click(function(){
         clearRoundScoreReport();
-        globalGame.socket.send("enterSlide.wait_room_slide.");
+        //globalGame.socket.send("enterSlide.wait_room_slide.");
         globalGame.socket.send("newRoundUpdate.");
-        drawWaitingRoom("Waiting for your partner to catch up", globalGame);
     });
 
     $("#total_score_report_continue_button").click(function(){
@@ -566,7 +572,6 @@ var customSetup = function(globalGame) {
 
         $("#chatbox").removeAttr("disabled");
         $("#chat_room_slide_status").show();
-        $("#chat_room_slide_status").html("<div id='chat_room_slide_status'><p style='color:green;'>Chatroom has connected with your partner!  <br>You may begin messaging!</p></div>");
     
         newMsg = "Connected!"
         function step() {
@@ -588,11 +593,6 @@ var customSetup = function(globalGame) {
 
     globalGame.socket.on('exitChatRoom', function(data) {
         // End Time
-        globalGame.roundProps[globalGame.my_role]['times']['chat']['end'] = new Date();
-        globalGame.roundProps[globalGame.my_role]['duration']['chat'] = (
-            globalGame.roundProps[globalGame.my_role]['times']['chat']['end'] -
-            globalGame.roundProps[globalGame.my_role]['times']['chat']['start']
-        ) / 1000.0;
         globalGame.testNum = 0;
         flashConnected = false;
         clearChatRoom();
@@ -605,18 +605,15 @@ var customSetup = function(globalGame) {
     globalGame.socket.on('sendingTestScores', function(data){
         enterScoreReport++;
         // only works when both players have reached this, then it generates scores for both players
-        if(enterScoreReport % 2 == 0){ //hacky way to handle error thrown when only one player finishes the test
+        if(enterScoreReport % 1 == 0){ //hacky way to handle error thrown when only one player finishes the test
             globalGame.socket.send("enterSlide.round_score_report_slide.");
             var my_role = globalGame.my_role;
             var partner_role = my_role === "explorer" ? "student" : "explorer"
-            for(var i=0; i<2; i++){
+            for(var i=0; i<1; i++){
                 var score_role, role_index;
                 if(i==0){
                     score_role="your";
                     role_index=my_role;
-                } else if(i==1){
-                    score_role="other";
-                    role_index=partner_role;
                 }
 
                 var hits = Number(data[role_index][globalGame.roundNum].hits);
@@ -638,7 +635,7 @@ var customSetup = function(globalGame) {
         clearWaitingRoom();
         globalGame.totalScore = data;
         globalGame.socket.send("enterSlide.total_score_report_slide.");
-        $("#total_score").html(data + " out of " + globalGame.numRounds*globalGame.numPointsPerRound*2);
+        $("#total_score").html(data + " out of " + globalGame.numRounds*globalGame.numPointsPerRound);
         $("#total_bonus").html("\$" + (data * globalGame.bonusAmt * .01));
         drawTotalScoreReport(globalGame);
     });
@@ -772,6 +769,5 @@ function endRound(){
     clearTestChemicals();
     globalGame.socket.send("enterSlide.wait_room_slide.")
     drawProgressBar(globalGame.roundNum, globalGame.numRounds, 8, 8);
-    drawWaitingRoom("Waiting for the your partner to catch up ...", globalGame);
     globalGame.currentPage = "results_slide"
 }

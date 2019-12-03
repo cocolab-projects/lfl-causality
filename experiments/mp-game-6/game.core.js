@@ -62,7 +62,6 @@ var game_core = function(options){
     this.numPointsPerRound = 10;
     this.testScores = {};
     this.testScores[this.playerRoleNames.role1] = _.times(this.numRounds, _.constant({}));
-    this.testScores[this.playerRoleNames.role2] = _.times(this.numRounds, _.constant({}));
     this.roundSummaries = [];
     this.roundSelections = [];
     this.roundConfigs = [];
@@ -153,7 +152,6 @@ game_core.prototype.newRound = function(delay) {
             console.log(localThis.testScores);
             var totalScore = 0;
             for (var i = 0; i < localThis.numRounds; i++){
-                totalScore += parseInt(localThis.testScores['student'][i]['score']);
                 totalScore += parseInt(localThis.testScores['explorer'][i]['score']);
             }
             _.forEach(

@@ -64,7 +64,7 @@ var onMessage = function(client, message) {
 
         case 'newRoundUpdate' :
             gc.numPlayersCompletedRound++;
-            if (gc.numPlayersCompletedRound == 2) {
+            if (gc.numPlayersCompletedRound == 1) {
                 gc.newRound();
             }
             break;
@@ -170,6 +170,10 @@ var dataOutput = function() {
       if(type === 'logScores'){
         val = val.replace(/%/g, "\",\"")
       }
+      if(type === 'chatMessage') {
+          console.log("decodeData reached");
+          console.log(val);
+      }
       if (val == undefined) {
         return '';
       } else if (utils.isNumeric(val)) {
@@ -188,11 +192,19 @@ var dataOutput = function() {
   // takes the data sent from client and packages it into logResponseOutput
   var logResponseOutput = function(client, message_data) {
     // message_data constrains the flattened JSON object with training/test trial info.
-    var result = _.extend(
-      commonOutputBeg(client),
-      decodeData(flattenedArrayToObj(message_data.slice(2)), message_data[0]),
-      commonOutputEnd(client)
-    );
+    if(message_data[0] == 'chatMessage'){
+        var result = _.extend(
+          commonOutputBeg(client),
+          decodeData(flattenedArrayToObj(message_data.slice(1)), message_data[0]),
+          commonOutputEnd(client)
+        );
+    } else {
+        var result = _.extend(
+          commonOutputBeg(client),
+          decodeData(flattenedArrayToObj(message_data.slice(2)), message_data[0]),
+          commonOutputEnd(client)
+        );
+    }
     return result;
   };
 
