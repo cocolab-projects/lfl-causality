@@ -170,10 +170,6 @@ var dataOutput = function() {
       if(type === 'logScores'){
         val = val.replace(/%/g, "\",\"")
       }
-      if(type === 'chatMessage') {
-          console.log("decodeData reached");
-          console.log(val);
-      }
       if (val == undefined) {
         return '';
       } else if (utils.isNumeric(val)) {

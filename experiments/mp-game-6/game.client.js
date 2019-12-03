@@ -385,7 +385,7 @@ var customSetup = function(globalGame) {
     });
 
     $("#chat_room_slide_continue_button").click(function(){
-        var continueFromChat = confirm("Are you sure you want to exit the chat room?")
+        var continueFromChat = confirm("Are you sure you want to continue to the test?")
         globalGame.roundProps[globalGame.my_role]['times']['chat']['end'] = new Date();
         globalGame.roundProps[globalGame.my_role]['duration']['chat'] = (
             globalGame.roundProps[globalGame.my_role]['times']['chat']['end'] -
@@ -393,11 +393,10 @@ var customSetup = function(globalGame) {
         ) / 1000.0;
         if(continueFromChat){
             var message = {
-                text: $("#chatbox").val().replace(/,/g, " -").replace(/\./g, "*"),
+                text: $("#chatbox").val().replace(/,/g, " -").replace(/\./g, "*").replace(/\n/g, "|"),
                 time: globalGame.roundProps[globalGame.my_role]['duration']['chat'],
             }
             var messageJSON = _.toPairs(encodeData(message)).join('.');
-            console.log(messageJSON)
             globalGame.socket.send("chatMessage." + messageJSON);
             drawProgressBar(globalGame.roundNum, globalGame.numRounds, 6, 8);
             globalGame.socket.send("proceedToTestInstructions.");
@@ -484,8 +483,6 @@ var customSetup = function(globalGame) {
             confusion: $("#confusion").val(),
             fairprice: $("#fairprice").val(),
             strategy: $("#strategy").val(),
-            humanPartner: $("#human").val(),
-            likePartner: $("#likePartner").val(),
             totalBonus:globalGame.totalScore * globalGame.bonusAmt * .01,
         };
         if(Object.keys(globalGame.urlParams()).length !== 0){
@@ -555,13 +552,6 @@ var customSetup = function(globalGame) {
     // One player has not yet made it to the chatroom, so sending messages is impossible
     globalGame.socket.on('chatWait', function(data){
         $('#chatbox').attr("disabled", "disabled");
-
-        // Pretty Animation (Fade In / Out)
-        globalGame.blinking_wait = setInterval(function() {
-            $("#chat_room_slide_status").fadeOut(1000);
-            $("#chat_room_slide_status").fadeIn(1000);
-        });
-        $("#chat_room_slide_status").show();
     });
 
     // Both players are now in the chatroom, so they may send messages
@@ -571,7 +561,6 @@ var customSetup = function(globalGame) {
         flashConnected = true;
 
         $("#chatbox").removeAttr("disabled");
-        $("#chat_room_slide_status").show();
     
         newMsg = "Connected!"
         function step() {

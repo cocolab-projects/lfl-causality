@@ -141,18 +141,12 @@
 
        <!-- Connected players can discuss what they have learned here using a chatbox. -->
        <div class="slide hidden" id="chat_room_slide">
-            <div id="chat_room_slide_status">
-                <p style="color:red;">
-                    Waiting for your partner to reach the chat...
-                </p>
-                <br>
-                <p>
-                    Please do not refresh the page!
-                </p>
-            </div>
             <div id="chat_room_slide_header">
                 <p id="chat_room_slide_instructions">
                     Explorer, please describe what you discovered about the properties of the chemicals.
+                    <br><br>
+                    <strong>This will be used to teach another student, and you will be bonused on the 
+                    performance of the other student, who will only have your description to learn from. </strong>
                 </p>
             </div>
             <div id="main">
@@ -243,31 +237,12 @@
             <p> How would you describe the strategy you used in this experiment? </p>
             <textarea id='strategy' rows="4" cols="50"></textarea>
       
-      
-      
-            <p> Did you believe you were playing against another human player? </p>
-            <select id="human">
-          <option value=""></option>
-          <option value="yes">Yes, I thought they were a human</option>
-          <option value="no">No, I thought it was a computer program</option>
-            </select>
-            <p id='humanResult' style="display:none;color:red"> Thank you for your response -- in fact, all players were paired with other human turkers! <p>
               <p> Are you a native English speaker? </p>
               <select id="nativeEnglish">
             <option value = ""></option>
             <option value="yes">Yes</option>
             <option value="no">No</option>
               </select>
-      
-              <p> How much did you like working with your partner? </p>
-              <select id="likePartner">
-                <option value = ""></option>
-                <option value="not much">Not that much</option>
-                <option value="okay">My partner was fine</option>
-                <option value="liked">I liked working with my partner</option>
-                <option value="loved">I really enjoyed working with my partner</option>
-              </select>
-              <br><br>
       
             <p>Were there any problems or bugs in the experiment?</p>
             <textarea id="problems" rows="2" cols="50" spellcheck=false></textarea>

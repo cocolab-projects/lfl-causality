@@ -46,7 +46,7 @@ var game_core = function(options){
 
     // Player parameters
     this.player_count = 1;
-    this.players_threshold = 2;
+    this.players_threshold = 1;
     this.playerRoleNames = {
         role1 : "explorer",
         role2 : "student"
