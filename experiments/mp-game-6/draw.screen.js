@@ -173,7 +173,7 @@ var drawTrainInstructions = function(game) {
                     <br>
                     <p>
                     You are an explorer working for <strong>ChemCo</strong>, a chemical corporation. On an alien planet, you have
-                    discovered several beakers of alien chemicals. None of your previous knowledge applies.
+                    discovered several beakers of alien chemicals.
                     <strong>ChemCo wants to know more about these chemicals to see
                     if they can create any new substances with useful properties from them.</strong>
                     <br><br>
@@ -181,9 +181,13 @@ var drawTrainInstructions = function(game) {
                     You can explore as long as you want, and you should <strong>explore until you
                     completely understand the reactions caused by different combinations of chemicals</strong>.
                     <br><br>
-                    When you are done exploring you will be asked to write a description of chemicals
-                    which will be used to teach another explorer, and
-                    then <strong>you will be tested on your understanding.</strong>
+                    When you are done exploring you will give a written explanation how the chemicals work,
+                    so that another person can read your description and know what mixtures of chemicals produce
+                    reactions, <strong>without having to experiment themselves.</strong>
+                    Your bonus will depend on how well another MTurker can use your description alone to answer
+                    questions about the chemicals.
+                    <br><br>
+                    You will then be tested on your understanding through a series of questions.
                     <br><br>
                     </p>
                     `
@@ -251,7 +255,7 @@ var drawTrainBox = function(game) {
             <p class="label_prompt">
                 Click on beakers to add them to the mixture, and click again to remove them from the test.
                 Click <strong>Mix</strong> to test the mixture, and <strong>New Test</strong> to start again after each different combination.
-                Study the results carefully. <strong>Press continue only once you are ready for the chatroom. </strong>
+                Study the results carefully. <strong>Press continue only once you fully understand the chemicals. </strong>
                 <br><br>
                 <strong>There is at least one mixture which causes the reaction to occur.</strong>
             </p>
@@ -271,16 +275,13 @@ var drawExplorerChatInstructions = function(game) {
     `
         <br>
         <br>
-        On the next page, you will be asked to describe the reactions you discovered. This description
-        will be used to teach another explorer, and you will recieve a bonus based on their perfomance.
-        <br>
-        <br>
-        Please explain what reactions happen when you mix different combinations of chemicals.
-        Once you are done writing, continue to the testing phase.
-        <br>
-        <br>
-        After submitting your description, you will be asked questions about chemicals and properties.
-        Your bonus will be the sum of your score and the score of your partner on this task.
+        On the next page, you will be asked to describe how the chemicals produce reactions.
+        <br><br>
+        <strong>Please be detailed and clear in your description!</strong> Another MTurker will receive your
+        explanation and will be tested on their ability to produce the reactions from the chemicals.
+        <strong>The student will not get a chance to experiment the way you did, and instead will be
+        immediately tested on their understanding.</strong>
+        Your bonus will be partially dependent on their performance.
         <br>
         <br>
     `;
@@ -310,7 +311,7 @@ var drawTestInstructions = function(game) {
         <br><br>
         <h3>Quiz</h3>
         <br>
-        You will be presented with a series of questions about the alien chemicals. Press Continue to start the quiz.
+        You will now be tested on your understanding of chemicals you just described. Press continue to start.
         <br> <br>
     `;
     $("#test_instructions_slide_header").html(instructions);
