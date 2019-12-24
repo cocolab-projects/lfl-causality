@@ -48,8 +48,8 @@ var game_core = function(options){
     this.player_count = 1;
     this.players_threshold = 1;
     this.playerRoleNames = {
-        role1 : "explorer",
-        role2 : "student"
+        role1 : "student",
+        role2 : "explorer"
     };
 
     // Round Info
@@ -89,6 +89,7 @@ var game_core = function(options){
 
         var localThis = this;
         this.configList = box.pickConfigs(this.numBeakers, this.numReactions, this.numRounds, this.numRules)
+        this.teacherGame = box.pickGame();
         this.server_send_update();
     } else {
         // If we're initializing a player's local game copy, create the player object
@@ -183,6 +184,7 @@ game_core.prototype.server_send_update = function(){
         pc : this.player_count,
         roundNum : this.roundNum,
         numRounds : this.numRounds,
+        teacher : this.teacherGame,
     };
     if(state.roundNum >= 0){
         state.boxConfig = JSON.parse(this.configList[this.roundNum]['dict']),

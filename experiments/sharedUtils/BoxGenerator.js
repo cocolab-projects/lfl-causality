@@ -549,6 +549,7 @@ if (typeof module !== 'undefined' && typeof module.exports !== 'undefined'){
         toString,
         shuffle,
         pickConfigs,
+        pickGame,
     }
 }
 
@@ -655,3 +656,30 @@ function getJSON(){
     var filePath = ['mp-game-6', 'configsJSON_sing'].join('/');
     return fs.readFileSync(filePath, "utf8", err => {if(err) throw err;});
 }
+
+function pickGame(){
+    var fs = require('fs');
+    var filePath = ['..', 'data', 'mp-game-6', 'teachersUsed.json'].join('/');
+    var toPickFrom = JSON.parse(fs.readFileSync(filePath, "utf8", err => {if(err) throw err;}));
+    var games_num = 0;
+    var game_pick = 0;
+    var num_games = toPickFrom.length;
+    while(toPickFrom[game_pick].num_used != games_num) {
+        if ( game_pick == (num_games - 1) ) {
+            game_pick = 0;
+            games_num++;
+        } else {
+            game_pick++;
+        }
+    }
+    console.log("Game picked: " + game_pick + ", ID: " + toPickFrom[game_pick].Game);
+    toPickFrom[game_pick].num_used++;
+    var updatedGames = JSON.stringify(toPickFrom);
+    fs.writeFile(filePath, updatedGames, function(err) {
+        if (err) {
+            console.log(err);
+        }
+    });
+    return toPickFrom[game_pick].Game;
+}
+

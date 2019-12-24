@@ -73,15 +73,11 @@ var drawTutorialInstructions = function(game) {
                 <h3>Instructions</h3>
                 <br>
                 <p>
-                    You are the 'student', and you are a chemist working for <strong>ChemCo</strong>. Your partner is currently
-                    studying alien chemicals and the mixtures produced by them.
+                    You are the 'student', and you are a chemist working for <strong>ChemCo</strong>.
                     <br><br>
-                    Meanwhile you will be waiting in a chatroom. Once your partner is done, they will enter the chatroom.
-                    You should discuss what <strong>properties of chemicals</strong> they learned during exploration.
-                    Pay close attention and ask questions, as <strong>you will be tested on your understanding of the chemicals</strong>.
-                    <br><br>
-                    You will first enter a tutorial of the interface. <strong>Pay attention</strong>
-                    during the tutorial, because you will be tested on your knowledge at the end.
+                    You will enter in a page with a description of chemicals and their reactions, which was written
+                    by an explorer who experimented with chemicals.
+                    Pay close attention, as <strong>you will be tested on your understanding of the chemicals</strong>.
                     <br><br>
                     Press Continue to start.
                     <br><br>
@@ -199,15 +195,13 @@ var drawTrainInstructions = function(game) {
                     <h3>Instructions</h3>
                     <br>
                     <p>
-                    You are the 'student', and you are a chemist working for <strong>ChemCo</strong>. Your partner is currently
-                    studying alien chemicals and the mixtures produced by them.
+                    You are the 'student', and you are a chemist working for <strong>ChemCo</strong>.
                     <br><br>
-                    Once your partner is done exploring, they will teach you about the chemicals, and you will both
-                    be tested on the reactions caused by them.
+                    You will enter in a page with a description of chemicals and their reactions, which was written
+                    by an explorer who experimented with chemicals.
+                    Pay close attention, as <strong>you will be tested on your understanding of the chemicals</strong>.
                     <br><br>
-                    While your partner explores, please please stay at the computer and DO NOT CLOSE THIS TAB.
-                    Otherwise, you will be disconnected from the game and we will not be able to reward you for the HIT.
-                    Please keep checking the chat window, as the status will update when the other player has also entered the room.
+                    Press Continue to start.
                     <br><br>
                     </p>
                     `
@@ -294,9 +288,14 @@ var drawExplorerChatInstructions = function(game) {
 }
 
 var drawChatRoom = function(game) {
-    // Clear
-    $("#chatbox").val("");
-
+    var description = `
+            <br><br>
+            <h3>Description:</h3>
+            <br>
+            This will be the description pulled from csv file.
+            <br> <br>
+        `;
+    $("#teacher_description").html(description);
     // Default disabled
     $("#chat_room_side_continue_button").prop("disabled", true);
 
@@ -311,7 +310,7 @@ var drawTestInstructions = function(game) {
         <br><br>
         <h3>Quiz</h3>
         <br>
-        You will now be tested on your understanding of chemicals you just described. Press continue to start.
+        You will now be tested on your understanding of chemicals you just read about. Press continue to start.
         <br> <br>
     `;
     $("#test_instructions_slide_header").html(instructions);

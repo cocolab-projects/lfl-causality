@@ -70,6 +70,7 @@ var client_onserverupdate_received = function(data){
     globalGame.id = data.id;
 
     globalGame.boxConfig = data.boxConfig;
+    globalGame.teacher = data.teacher;
     globalGame.questions = data.questions;
     globalGame.config = data.config;
     globalGame.configCode = data.configType;
@@ -392,12 +393,6 @@ var customSetup = function(globalGame) {
             globalGame.roundProps[globalGame.my_role]['times']['chat']['start']
         ) / 1000.0;
         if(continueFromChat){
-            var message = {
-                text: $("#chatbox").val().replace(/,/g, " -").replace(/\./g, "*").replace(/\n/g, "|"),
-                time: globalGame.roundProps[globalGame.my_role]['duration']['chat'],
-            }
-            var messageJSON = _.toPairs(encodeData(message)).join('.');
-            globalGame.socket.send("chatMessage." + messageJSON);
             drawProgressBar(globalGame.roundNum, globalGame.numRounds, 6, 8);
             globalGame.socket.send("proceedToTestInstructions.");
             globalGame.currentPage = "test_instructions_slide"
