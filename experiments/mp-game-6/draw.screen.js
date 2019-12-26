@@ -288,16 +288,28 @@ var drawExplorerChatInstructions = function(game) {
 }
 
 var drawChatRoom = function(game) {
+    var message;
+    switch(game.roundNum) {
+    case 0:
+        message = game.teacher.first.replace(/\*/g, ".").replace(/\|/g, "<br>").replace(/ \-/g, ",");
+        break;
+    case 1:
+        message = game.teacher.second.replace(/\*/g, ".").replace(/\|/g, "<br>").replace(/ \-/g, ",");
+        break;
+    case 2:
+        message = game.teacher.third.replace(/\*/g, ".").replace(/\|/g, "<br>").replace(/ \-/g, ",");
+        break;
+    }
     var description = `
             <br><br>
             <h3>Description:</h3>
             <br>
-            This will be the description pulled from csv file.
+            ` + message + `
             <br> <br>
         `;
     $("#teacher_description").html(description);
     // Default disabled
-    $("#chat_room_side_continue_button").prop("disabled", true);
+    $("#chat_room_slide_continue_button").prop("disabled", false);
 
     // Make button visible
     $("#chatCont").show();

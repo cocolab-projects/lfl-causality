@@ -139,7 +139,7 @@ var commonOutputEnd = function (client) {
         experimentName: client.game.experimentName,
         iterationName: client.game.iterationName,
         gameid: client.game.id,
-        teacherid: client.game.teacherGame,
+        teacherid: client.game.teacherGame.Game,
         logTime: Date.now(),
     };
 }
@@ -154,7 +154,7 @@ var commonOutput = function (client) {
         experimentName: client.game.experimentName,
         iterationName: client.game.iterationName,
         gameid: client.game.id,
-        teacherid: client.game.teacherGame,
+        teacherid: client.game.teacherGame.Game,
         time: Date.now(),
     };
 }

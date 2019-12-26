@@ -8,7 +8,7 @@
 // ----------------
 // GLOBAL VARIABLES
 // ----------------
-var fullTest = true;
+var fullTest = false;
 
 var globalGame = {},
     enterScoreReport = 0,
@@ -568,7 +568,7 @@ var customSetup = function(globalGame) {
         };
         step();
 
-        if(globalGame.my_role === "explorer") {
+        if(globalGame.my_role === "student") {
             $("#chat_room_slide_continue_button").prop("disabled", false);
             // Start Time
             globalGame.roundProps[globalGame.my_role]['times']['chat']['start'] = new Date();

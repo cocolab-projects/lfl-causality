@@ -680,6 +680,6 @@ function pickGame(){
             console.log(err);
         }
     });
-    return toPickFrom[game_pick].Game;
+    return toPickFrom[game_pick];
 }
 

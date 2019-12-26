@@ -153,7 +153,7 @@ game_core.prototype.newRound = function(delay) {
             console.log(localThis.testScores);
             var totalScore = 0;
             for (var i = 0; i < localThis.numRounds; i++){
-                totalScore += parseInt(localThis.testScores['explorer'][i]['score']);
+                totalScore += parseInt(localThis.testScores['student'][i]['score']);
             }
             _.forEach(
                 players,
