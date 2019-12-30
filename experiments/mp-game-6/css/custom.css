@@ -305,9 +305,9 @@ ALOT...don't understand how to adjust that.*/
    margin: 10px 0 0 0;
    background-color: LemonChiffon;
    display: block;
-   border: yellow;
+   border: black;
    border-style: solid;
-   border-width: 10px;
+   border-width: 5px;
 }
 
 .question {

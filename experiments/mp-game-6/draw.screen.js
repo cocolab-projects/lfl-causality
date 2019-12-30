@@ -301,8 +301,6 @@ var drawChatRoom = function(game) {
         break;
     }
     var description = `
-            <br><br>
-            <h3>Description:</h3>
             <br>
             ` + message + `
             <br> <br>
