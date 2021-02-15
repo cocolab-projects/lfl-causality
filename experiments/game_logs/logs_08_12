@@ -1,0 +1,876 @@
+using port 8884
+Is Production: false
+info  - socket.io started
+	 :: Express :: Listening on port 8884
+	 file requested: forms/consent.html at 7:56:33 AM
+	 file requested: _shared/css/bootstrap.min.css at 7:56:34 AM
+	 file requested: _shared/images/cocologo.svg at 7:56:34 AM
+	 file requested: _shared/css/bootstrap-theme.min.css at 7:56:34 AM
+	 file requested: _shared/js/bootstrap.min.js at 7:56:34 AM
+	 file requested: forms/consent.html at 7:57:54 AM
+ by workerID A191V7PT3DQKDP
+	 file requested: _shared/css/bootstrap-theme.min.css at 7:57:54 AM
+	 file requested: _shared/css/bootstrap.min.css at 7:57:54 AM
+	 file requested: _shared/js/bootstrap.min.js at 7:57:54 AM
+	 file requested: _shared/images/cocologo.svg at 7:57:54 AM
+	 file requested: forms/consent.html at 7:57:56 AM
+ by workerID A3GPTSDDHJ2DBV
+	 file requested: _shared/css/bootstrap.min.css at 7:57:56 AM
+	 file requested: _shared/css/bootstrap-theme.min.css at 7:57:56 AM
+	 file requested: _shared/js/bootstrap.min.js at 7:57:56 AM
+	 file requested: _shared/images/cocologo.svg at 7:57:56 AM
+	 file requested: forms/consent.html at 7:58:02 AM
+ by workerID A2541C8MY0BYV3
+	 file requested: _shared/css/bootstrap.min.css at 7:58:02 AM
+	 file requested: _shared/css/bootstrap-theme.min.css at 7:58:03 AM
+	 file requested: _shared/js/bootstrap.min.js at 7:58:03 AM
+	 file requested: _shared/images/cocologo.svg at 7:58:03 AM
+	 file requested: forms/instructions.html at 7:58:11 AM
+ by workerID A2541C8MY0BYV3
+	 file requested: _shared/images/waitroom.png at 7:58:12 AM
+	 file requested: _shared/css/bootstrap.min.css at 7:58:12 AM
+	 file requested: _shared/js/bootstrap.min.js at 7:58:12 AM
+	 file requested: _shared/css/bootstrap-theme.min.css at 7:58:12 AM
+	 file requested: forms/validate-form.js at 7:58:12 AM
+	 file requested: forms/consent.html at 7:58:17 AM
+ by workerID AVI7K876BV3QL
+	 file requested: _shared/css/bootstrap.min.css at 7:58:18 AM
+	 file requested: _shared/css/bootstrap-theme.min.css at 7:58:18 AM
+	 file requested: _shared/js/bootstrap.min.js at 7:58:18 AM
+	 file requested: _shared/images/cocologo.svg at 7:58:18 AM
+	 file requested: forms/consent.html at 7:59:11 AM
+ by workerID A191V7PT3DQKDP
+	 file requested: _shared/css/bootstrap.min.css at 7:59:11 AM
+	 file requested: _shared/js/bootstrap.min.js at 7:59:11 AM
+	 file requested: _shared/css/bootstrap-theme.min.css at 7:59:11 AM
+	 file requested: _shared/images/cocologo.svg at 7:59:11 AM
+	 file requested: forms/fail.html at 7:59:13 AM
+	 file requested: _shared/css/bootstrap-theme.min.css at 7:59:13 AM
+	 file requested: _shared/css/bootstrap.min.css at 7:59:13 AM
+	 file requested: _shared/js/bootstrap.min.js at 7:59:13 AM
+	 file requested: forms/consent.html at 8:01:35 AM
+ by workerID A2HNSMIG9KZYAE
+	 file requested: _shared/css/bootstrap.min.css at 8:01:35 AM
+	 file requested: _shared/css/bootstrap-theme.min.css at 8:01:35 AM
+	 file requested: _shared/js/bootstrap.min.js at 8:01:35 AM
+	 file requested: _shared/images/cocologo.svg at 8:01:35 AM
+	 file requested: forms/instructions.html at 8:01:49 AM
+ by workerID A2HNSMIG9KZYAE
+	 file requested: _shared/css/bootstrap.min.css at 8:01:49 AM
+	 file requested: _shared/css/bootstrap-theme.min.css at 8:01:50 AM
+	 file requested: _shared/js/bootstrap.min.js at 8:01:50 AM
+	 file requested: forms/validate-form.js at 8:01:50 AM
+	 file requested: _shared/images/waitroom.png at 8:01:50 AM
+	 file requested: forms/instructions.html at 8:02:55 AM
+ by workerID AVI7K876BV3QL
+	 file requested: _shared/css/bootstrap.min.css at 8:02:56 AM
+	 file requested: _shared/css/bootstrap-theme.min.css at 8:02:56 AM
+	 file requested: _shared/js/bootstrap.min.js at 8:02:56 AM
+	 file requested: forms/validate-form.js at 8:02:56 AM
+	 file requested: _shared/images/waitroom.png at 8:02:56 AM
+	 file requested: forms/pass.html at 8:03:24 AM
+ by workerID A2HNSMIG9KZYAE
+	 file requested: _shared/css/bootstrap.min.css at 8:03:24 AM
+	 file requested: _shared/css/bootstrap-theme.min.css at 8:03:24 AM
+	 file requested: _shared/js/mmturkey.js at 8:03:24 AM
+	 file requested: _shared/js/bootstrap.min.js at 8:03:25 AM
+	 file requested: index.html at 8:03:26 AM
+ by workerID A2HNSMIG9KZYAE
+	 file requested: _shared/css/shared.css at 8:03:26 AM
+	 file requested: _shared/css/cocolab-style.css at 8:03:26 AM
+	 file requested: css/custom.css at 8:03:26 AM
+	 file requested: game.core.js at 8:03:27 AM
+	 file requested: sharedUtils/clientBase.js at 8:03:27 AM
+	 file requested: sharedUtils/BoxGenerator.js at 8:03:27 AM
+	 file requested: game.client.js at 8:03:27 AM
+	 file requested: draw.chemicals.js at 8:03:27 AM
+	 file requested: draw.screen.js at 8:03:27 AM
+	 file requested: _shared/js/mmturkey.js at 8:03:27 AM
+	 socket.io:: player A2HNSMIG9KZYAE connected
+looking for a game. We have : 0
+-1
+player A2HNSMIG9KZYAE created a game with id 2360-9333a876-2821-4f9c-8546-ed04915c4c49
+-1
+	 file requested: favicon.ico at 8:03:27 AM
+Explorer is in: ==== wait_room_slide ====
+Student is in: ====  ====
+	 file requested: forms/pass.html at 8:04:25 AM
+ by workerID AVI7K876BV3QL
+	 file requested: _shared/css/bootstrap.min.css at 8:04:25 AM
+	 file requested: _shared/css/bootstrap-theme.min.css at 8:04:26 AM
+	 file requested: _shared/js/mmturkey.js at 8:04:26 AM
+	 file requested: _shared/js/bootstrap.min.js at 8:04:26 AM
+	 file requested: index.html at 8:04:29 AM
+ by workerID AVI7K876BV3QL
+	 file requested: _shared/css/shared.css at 8:04:30 AM
+	 file requested: _shared/css/cocolab-style.css at 8:04:30 AM
+	 file requested: css/custom.css at 8:04:30 AM
+	 file requested: game.core.js at 8:04:30 AM
+	 file requested: sharedUtils/BoxGenerator.js at 8:04:30 AM
+	 file requested: sharedUtils/clientBase.js at 8:04:30 AM
+	 file requested: game.client.js at 8:04:30 AM
+	 file requested: draw.chemicals.js at 8:04:30 AM
+	 file requested: draw.screen.js at 8:04:30 AM
+	 file requested: _shared/js/mmturkey.js at 8:04:30 AM
+	 socket.io:: player AVI7K876BV3QL connected
+looking for a game. We have : 1
+-1
+Triggering a new round
+0
+	 file requested: favicon.ico at 8:04:32 AM
+Explorer is in: ==== round_slide ====
+Student is in: ====  ====
+Explorer is in: ==== round_slide ====
+Student is in: ==== wait_room_slide ====
+Explorer is in: ==== round_slide ====
+Student is in: ==== round_slide ====
+Explorer is in: ==== round_slide ====
+Student is in: ==== tutorial_instructions_slide ====
+Explorer is in: ==== tutorial_instructions_slide ====
+Student is in: ==== tutorial_instructions_slide ====
+Explorer is in: ==== train_chemicals_tutorial ====
+Student is in: ==== tutorial_instructions_slide ====
+	 file requested: Graphics/Red_Beaker.svg at 8:04:47 AM
+	 file requested: Graphics/Yellow_Beaker.svg at 8:04:47 AM
+	 file requested: Graphics/Blue_Beaker.svg at 8:04:47 AM
+	 file requested: Graphics/Box_00000.svg at 8:04:47 AM
+	 file requested: Graphics/Reaction1Off.svg at 8:04:47 AM
+	 file requested: Graphics/Reaction2Off.svg at 8:04:47 AM
+	 file requested: Graphics/Reaction3Off.svg at 8:04:47 AM
+Explorer is in: ==== train_chemicals_tutorial ====
+Student is in: ==== train_chemicals_tutorial ====
+	 file requested: Graphics/Reaction3Off.svg at 8:04:59 AM
+	 file requested: Graphics/Red_Beaker.svg at 8:04:59 AM
+	 file requested: Graphics/Yellow_Beaker.svg at 8:04:59 AM
+	 file requested: Graphics/Blue_Beaker.svg at 8:04:59 AM
+	 file requested: Graphics/Box_00000.svg at 8:04:59 AM
+	 file requested: Graphics/Reaction1Off.svg at 8:04:59 AM
+	 file requested: Graphics/Reaction2Off.svg at 8:04:59 AM
+	 file requested: Graphics/Empty_Beaker.svg at 8:05:02 AM
+	 file requested: Graphics/Box_10000.svg at 8:05:02 AM
+	 file requested: Graphics/Box_11000.svg at 8:05:03 AM
+	 file requested: Graphics/Empty_Beaker.svg at 8:05:13 AM
+	 file requested: Graphics/Box_01000.svg at 8:05:13 AM
+	 file requested: forms/consent.html at 8:05:13 AM
+ by workerID AUFOO8PU2BK37
+	 file requested: Graphics/Reaction1On.svg at 8:05:14 AM
+	 file requested: Graphics/Reaction3On.svg at 8:05:14 AM
+	 file requested: _shared/css/bootstrap.min.css at 8:05:14 AM
+	 file requested: _shared/css/bootstrap-theme.min.css at 8:05:14 AM
+	 file requested: _shared/js/bootstrap.min.js at 8:05:14 AM
+	 file requested: _shared/images/cocologo.svg at 8:05:14 AM
+	 file requested: Graphics/Box_01100.svg at 8:05:15 AM
+	 file requested: Graphics/Box_11000.svg at 8:05:25 AM
+	 file requested: Graphics/Box_00100.svg at 8:05:27 AM
+	 file requested: Graphics/Empty_Beaker.svg at 8:05:27 AM
+	 file requested: Graphics/Reaction1On.svg at 8:05:29 AM
+	 file requested: Graphics/Reaction2On.svg at 8:05:29 AM
+	 file requested: Graphics/Reaction1On.svg at 8:05:34 AM
+	 file requested: Graphics/Reaction3On.svg at 8:05:34 AM
+	 file requested: forms/instructions.html at 8:05:50 AM
+ by workerID AUFOO8PU2BK37
+	 file requested: _shared/images/waitroom.png at 8:05:51 AM
+	 file requested: forms/validate-form.js at 8:05:51 AM
+	 file requested: _shared/js/bootstrap.min.js at 8:05:51 AM
+	 file requested: _shared/css/bootstrap.min.css at 8:05:51 AM
+	 file requested: _shared/css/bootstrap-theme.min.css at 8:05:51 AM
+	 file requested: Graphics/Reaction3On.svg at 8:05:51 AM
+	 file requested: Graphics/Box_00100.svg at 8:05:54 AM
+	 file requested: Graphics/Reaction2On.svg at 8:05:57 AM
+	 file requested: Graphics/Blue_Beaker.svg at 8:05:59 AM
+	 file requested: Graphics/Box_00000.svg at 8:05:59 AM
+	 file requested: Graphics/Box_01000.svg at 8:06:08 AM
+	 file requested: Graphics/Box_11000.svg at 8:06:08 AM
+	 file requested: Graphics/Reaction1Off.svg at 8:06:12 AM
+	 file requested: Graphics/Reaction2Off.svg at 8:06:12 AM
+Explorer is in: ==== train_chemicals_slide ====
+Student is in: ==== train_chemicals_tutorial ====
+	 file requested: Graphics/Green_Beaker.svg at 8:06:19 AM
+	 file requested: Graphics/Box_00000.svg at 8:06:19 AM
+	 file requested: Graphics/Reaction1Off.svg at 8:06:19 AM
+	 file requested: Graphics/Reaction2Off.svg at 8:06:19 AM
+	 file requested: Graphics/Blue_Beaker.svg at 8:06:22 AM
+	 file requested: Graphics/Box_00000.svg at 8:06:22 AM
+	 file requested: Graphics/Reaction3On.svg at 8:06:22 AM
+	 file requested: Graphics/Box_10000.svg at 8:06:23 AM
+	 file requested: Graphics/Box_10000.svg at 8:06:38 AM
+	 file requested: Graphics/Box_10100.svg at 8:06:39 AM
+	 file requested: Graphics/Box_01100.svg at 8:06:42 AM
+	 file requested: Graphics/Box_01000.svg at 8:06:46 AM
+	 file requested: Graphics/Box_01000.svg at 8:07:00 AM
+	 file requested: Graphics/Box_11000.svg at 8:07:07 AM
+	 file requested: forms/pass.html at 8:07:09 AM
+ by workerID AUFOO8PU2BK37
+	 file requested: _shared/css/bootstrap.min.css at 8:07:09 AM
+	 file requested: _shared/css/bootstrap-theme.min.css at 8:07:09 AM
+	 file requested: _shared/js/mmturkey.js at 8:07:09 AM
+	 file requested: _shared/js/bootstrap.min.js at 8:07:09 AM
+	 file requested: index.html at 8:07:11 AM
+ by workerID AUFOO8PU2BK37
+	 file requested: _shared/css/shared.css at 8:07:11 AM
+	 file requested: _shared/css/cocolab-style.css at 8:07:11 AM
+	 file requested: css/custom.css at 8:07:11 AM
+	 file requested: sharedUtils/BoxGenerator.js at 8:07:11 AM
+	 file requested: game.client.js at 8:07:11 AM
+	 file requested: draw.chemicals.js at 8:07:11 AM
+	 file requested: game.core.js at 8:07:11 AM
+	 file requested: sharedUtils/clientBase.js at 8:07:11 AM
+	 file requested: draw.screen.js at 8:07:11 AM
+	 file requested: _shared/js/mmturkey.js at 8:07:11 AM
+	 socket.io:: player AUFOO8PU2BK37 connected
+looking for a game. We have : 1
+-1
+player AUFOO8PU2BK37 created a game with id 4319-4f8ce27e-9222-4a43-98f3-d0b48c43fdec
+-1
+	 file requested: favicon.ico at 8:07:12 AM
+Explorer is in: ==== wait_room_slide ====
+Student is in: ====  ====
+	 file requested: Graphics/Box_00000.svg at 8:07:21 AM
+Explorer is in: ==== train_chemicals_slide ====
+Student is in: ==== chat_room_slide ====
+Waiting for another player.....
+	 file requested: Graphics/Box_00010.svg at 8:07:47 AM
+	 file requested: Graphics/Box_10000.svg at 8:08:07 AM
+	 file requested: Graphics/Box_10010.svg at 8:08:08 AM
+	 file requested: Graphics/Green_Beaker.svg at 8:08:32 AM
+	 file requested: Graphics/Box_00000.svg at 8:08:32 AM
+	 file requested: Graphics/Box_10000.svg at 8:08:33 AM
+	 file requested: Graphics/Box_01100.svg at 8:09:06 AM
+	 file requested: Graphics/Box_11100.svg at 8:09:14 AM
+	 file requested: Graphics/Box_10000.svg at 8:09:21 AM
+	 file requested: Graphics/Box_11110.svg at 8:09:22 AM
+	 file requested: Graphics/Green_Beaker.svg at 8:09:24 AM
+	 file requested: Graphics/Box_00000.svg at 8:09:24 AM
+Explorer is in: ==== chat_instructions_slide ====
+Student is in: ==== chat_room_slide ====
+Explorer is in: ==== chat_room_slide ====
+Student is in: ==== chat_room_slide ====
+	 file requested: forms/consent.html at 8:09:59 AM
+ by workerID A3J85WP15JFYW0
+	 file requested: _shared/css/bootstrap.min.css at 8:09:59 AM
+	 file requested: _shared/css/bootstrap-theme.min.css at 8:09:59 AM
+	 file requested: _shared/js/bootstrap.min.js at 8:09:59 AM
+	 file requested: _shared/images/cocologo.svg at 8:09:59 AM
+	 file requested: forms/consent.html at 8:10:01 AM
+ by workerID AUFOO8PU2BK37
+	 file requested: _shared/css/bootstrap.min.css at 8:10:02 AM
+	 file requested: _shared/css/bootstrap-theme.min.css at 8:10:02 AM
+	 file requested: _shared/js/bootstrap.min.js at 8:10:02 AM
+	 file requested: _shared/images/cocologo.svg at 8:10:02 AM
+	 file requested: forms/instructions.html at 8:10:14 AM
+ by workerID A3J85WP15JFYW0
+	 file requested: _shared/images/waitroom.png at 8:10:14 AM
+	 file requested: _shared/css/bootstrap.min.css at 8:10:14 AM
+	 file requested: _shared/js/bootstrap.min.js at 8:10:14 AM
+	 file requested: forms/validate-form.js at 8:10:14 AM
+	 file requested: _shared/css/bootstrap-theme.min.css at 8:10:14 AM
+student said Hello
+explorer said I found that when mixing chemicals, if one glows, bubbles, or conducts, and the other chemical does not, then the resulting mixture will have the bubbles, glow and conductivity
+	 file requested: forms/pass.html at 8:11:43 AM
+ by workerID A3J85WP15JFYW0
+	 file requested: _shared/css/bootstrap.min.css at 8:11:44 AM
+	 file requested: _shared/css/bootstrap-theme.min.css at 8:11:44 AM
+	 file requested: _shared/js/mmturkey.js at 8:11:44 AM
+	 file requested: _shared/js/bootstrap.min.js at 8:11:44 AM
+	 file requested: index.html at 8:11:47 AM
+ by workerID A3J85WP15JFYW0
+	 file requested: _shared/css/shared.css at 8:11:48 AM
+	 file requested: _shared/css/cocolab-style.css at 8:11:48 AM
+	 file requested: css/custom.css at 8:11:48 AM
+	 file requested: game.core.js at 8:11:48 AM
+	 file requested: sharedUtils/clientBase.js at 8:11:48 AM
+	 file requested: sharedUtils/BoxGenerator.js at 8:11:48 AM
+	 file requested: game.client.js at 8:11:48 AM
+	 file requested: draw.chemicals.js at 8:11:48 AM
+	 file requested: draw.screen.js at 8:11:48 AM
+	 file requested: _shared/js/mmturkey.js at 8:11:48 AM
+	 socket.io:: player A3J85WP15JFYW0 connected
+looking for a game. We have : 2
+-1
+Triggering a new round
+0
+Explorer is in: ==== round_slide ====
+Student is in: ====  ====
+	 file requested: favicon.ico at 8:11:49 AM
+Explorer is in: ==== round_slide ====
+Student is in: ==== wait_room_slide ====
+Explorer is in: ==== round_slide ====
+Student is in: ==== round_slide ====
+Explorer is in: ==== round_slide ====
+Student is in: ==== tutorial_instructions_slide ====
+student said can you be a little more specific?
+Explorer is in: ==== round_slide ====
+Student is in: ==== train_chemicals_tutorial ====
+	 file requested: Graphics/Box_00000.svg at 8:12:20 AM
+	 file requested: Graphics/Blue_Beaker.svg at 8:12:20 AM
+	 file requested: Graphics/Reaction3Off.svg at 8:12:20 AM
+	 file requested: Graphics/Reaction2Off.svg at 8:12:20 AM
+	 file requested: Graphics/Reaction1Off.svg at 8:12:20 AM
+	 file requested: Graphics/Red_Beaker.svg at 8:12:20 AM
+	 file requested: Graphics/Yellow_Beaker.svg at 8:12:20 AM
+	 file requested: Graphics/Empty_Beaker.svg at 8:12:29 AM
+	 file requested: Graphics/Box_01000.svg at 8:12:29 AM
+Explorer is in: ==== tutorial_instructions_slide ====
+Student is in: ==== train_chemicals_tutorial ====
+	 file requested: Graphics/Box_11000.svg at 8:12:40 AM
+	 socket.io:: client id AUFOO8PU2BK37 disconnected from game id 4319-4f8ce27e-9222-4a43-98f3-d0b48c43fdec
+game removed. there are now 1 games
+explorer said It seems that if any one of the chemicals mixed in glow, bubble, or conduct electricity, then those will be apart of the final mixture
+Explorer is in: ==== test_instructions_slide ====
+Student is in: ==== chat_room_slide ====
+Explorer is in: ==== test_instructions_slide ====
+Student is in: ==== test_instructions_slide ====
+Explorer is in: ==== test_chemicals_slide ====
+Student is in: ==== test_instructions_slide ====
+Explorer is in: ==== test_chemicals_slide ====
+Student is in: ==== test_chemicals_slide ====
+	 file requested: Graphics/Green_Beaker.svg at 8:13:47 AM
+	 file requested: Graphics/Box_00000.svg at 8:13:47 AM
+	 file requested: Graphics/Reaction1Off.svg at 8:13:47 AM
+	 file requested: Graphics/Box_10000.svg at 8:13:56 AM
+Explorer is in: ==== tutorial_instructions_slide ====
+Student is in: ==== thanks ====
+	 socket.io:: client id A3J85WP15JFYW0 disconnected from game id 4319-4f8ce27e-9222-4a43-98f3-d0b48c43fdec
+that game was not found!
+	 file requested: Graphics/Box_10000.svg at 8:14:08 AM
+	 file requested: Graphics/Box_00010.svg at 8:14:09 AM
+	 file requested: Graphics/Box_01000.svg at 8:14:12 AM
+	 file requested: Graphics/Box_10000.svg at 8:14:14 AM
+	 file requested: Graphics/Box_10100.svg at 8:14:15 AM
+	 file requested: Graphics/Box_10100.svg at 8:14:18 AM
+	 file requested: Graphics/Box_10010.svg at 8:14:22 AM
+	 file requested: Graphics/Box_01000.svg at 8:14:26 AM
+	 file requested: Graphics/Box_01100.svg at 8:14:27 AM
+	 file requested: Graphics/Box_01100.svg at 8:14:27 AM
+	 file requested: Graphics/Box_01010.svg at 8:14:30 AM
+	 file requested: Graphics/Box_00110.svg at 8:14:34 AM
+	 file requested: Graphics/Box_01000.svg at 8:14:35 AM
+	 file requested: Graphics/Box_10000.svg at 8:14:36 AM
+	 file requested: Graphics/Box_11100.svg at 8:14:38 AM
+	 file requested: Graphics/Box_10000.svg at 8:14:45 AM
+	 file requested: Graphics/Box_10100.svg at 8:14:45 AM
+	 file requested: Graphics/Box_00000.svg at 8:14:47 AM
+	 file requested: Graphics/Box_01000.svg at 8:14:56 AM
+	 file requested: Graphics/Box_01010.svg at 8:14:57 AM
+	 file requested: Graphics/Box_10000.svg at 8:15:03 AM
+	 file requested: Graphics/Box_10010.svg at 8:15:04 AM
+	 file requested: Graphics/Box_00110.svg at 8:15:06 AM
+	 file requested: Graphics/Box_11100.svg at 8:15:07 AM
+	 file requested: Graphics/Reaction2Off.svg at 8:15:08 AM
+	 file requested: Graphics/Reaction2Off.svg at 8:15:25 AM
+	 file requested: Graphics/Box_10000.svg at 8:15:28 AM
+	 file requested: Graphics/Box_01100.svg at 8:15:49 AM
+	 file requested: Graphics/Box_01000.svg at 8:15:55 AM
+	 file requested: Graphics/Box_01000.svg at 8:16:00 AM
+MultipleTrialResponses
+Explorer is in: ==== test_chemicals_slide ====
+Student is in: ==== wait_room_slide ====
+MultipleTrialResponses
+Explorer is in: ==== wait_room_slide ====
+Student is in: ==== wait_room_slide ====
+Explorer is in: ==== wait_room_slide ====
+Student is in: ==== round_score_report_slide ====
+Explorer is in: ==== round_score_report_slide ====
+Student is in: ==== round_score_report_slide ====
+Explorer is in: ==== wait_room_slide ====
+Student is in: ==== round_score_report_slide ====
+Explorer is in: ==== wait_room_slide ====
+Student is in: ==== wait_room_slide ====
+Triggering a new round
+1
+Explorer is in: ==== round_slide ====
+Student is in: ==== wait_room_slide ====
+Explorer is in: ==== round_slide ====
+Student is in: ==== round_slide ====
+Explorer is in: ==== tutorial_instructions_slide ====
+Student is in: ==== round_slide ====
+Explorer is in: ==== tutorial_instructions_slide ====
+Student is in: ==== tutorial_instructions_slide ====
+Explorer is in: ==== tutorial_instructions_slide ====
+Student is in: ==== chat_room_slide ====
+Waiting for another player.....
+Explorer is in: ==== train_chemicals_slide ====
+Student is in: ==== chat_room_slide ====
+	 file requested: Graphics/Purple_Beaker.svg at 8:16:29 AM
+	 file requested: Graphics/Box_00000.svg at 8:17:40 AM
+	 file requested: Graphics/Box_00010.svg at 8:17:57 AM
+	 file requested: Graphics/Green_Beaker.svg at 8:18:14 AM
+	 file requested: Graphics/Box_00000.svg at 8:18:14 AM
+	 file requested: Graphics/Box_00001.svg at 8:18:15 AM
+	 file requested: Graphics/Box_10000.svg at 8:18:40 AM
+	 file requested: Graphics/Box_10100.svg at 8:18:46 AM
+	 file requested: Graphics/Box_00001.svg at 8:18:55 AM
+	 file requested: Graphics/Box_00011.svg at 8:18:57 AM
+	 file requested: Graphics/Box_01100.svg at 8:19:26 AM
+Explorer is in: ==== chat_instructions_slide ====
+Student is in: ==== chat_room_slide ====
+Explorer is in: ==== chat_room_slide ====
+Student is in: ==== chat_room_slide ====
+explorer said Red glows. Yellow glows and conducts. Blue bubbles. Green does nothing. Purple does nothing. When you mix glow with something that doesnt have glow, it ends up with glow. When you mix bubbles with something that doesnt have bubbles, there are no bubbles in the end. No conductivity mixed with conductivity always results in the final result being conductive
+Explorer is in: ==== chat_room_slide ====
+Student is in: ==== test_instructions_slide ====
+Explorer is in: ==== test_instructions_slide ====
+Student is in: ==== test_instructions_slide ====
+Explorer is in: ==== test_instructions_slide ====
+Student is in: ==== test_chemicals_slide ====
+	 file requested: Graphics/Reaction1Off.svg at 8:23:22 AM
+	 file requested: Graphics/Reaction2Off.svg at 8:23:22 AM
+	 file requested: Graphics/Box_10000.svg at 8:23:47 AM
+	 file requested: Graphics/Reaction1Off.svg at 8:23:47 AM
+Explorer is in: ==== test_chemicals_slide ====
+Student is in: ==== test_chemicals_slide ====
+	 file requested: Graphics/Green_Beaker.svg at 8:23:58 AM
+	 file requested: Graphics/Purple_Beaker.svg at 8:23:58 AM
+	 file requested: Graphics/Box_00000.svg at 8:23:58 AM
+	 file requested: Graphics/Box_00110.svg at 8:24:05 AM
+	 file requested: Graphics/Box_10000.svg at 8:24:09 AM
+	 file requested: Graphics/Box_00000.svg at 8:24:18 AM
+	 file requested: Graphics/Box_00010.svg at 8:24:19 AM
+	 file requested: Graphics/Box_00011.svg at 8:24:20 AM
+	 file requested: Graphics/Box_11100.svg at 8:24:21 AM
+	 file requested: Graphics/Box_00010.svg at 8:24:25 AM
+	 file requested: Graphics/Box_00011.svg at 8:24:25 AM
+	 file requested: Graphics/Box_00000.svg at 8:24:35 AM
+	 file requested: Graphics/Box_10100.svg at 8:24:42 AM
+	 file requested: Graphics/Box_00001.svg at 8:24:49 AM
+	 file requested: Graphics/Box_00000.svg at 8:24:55 AM
+	 file requested: Graphics/Box_10000.svg at 8:24:57 AM
+MultipleTrialResponses
+Explorer is in: ==== test_chemicals_slide ====
+Student is in: ==== wait_room_slide ====
+	 file requested: Graphics/Box_01000.svg at 8:25:06 AM
+	 file requested: Graphics/Box_01010.svg at 8:25:06 AM
+	 file requested: Graphics/Box_01011.svg at 8:25:06 AM
+	 file requested: Graphics/Box_11100.svg at 8:25:07 AM
+	 file requested: Graphics/Box_00001.svg at 8:26:03 AM
+MultipleTrialResponses
+Explorer is in: ==== wait_room_slide ====
+Student is in: ==== wait_room_slide ====
+Explorer is in: ==== round_score_report_slide ====
+Student is in: ==== wait_room_slide ====
+Explorer is in: ==== round_score_report_slide ====
+Student is in: ==== round_score_report_slide ====
+Explorer is in: ==== wait_room_slide ====
+Student is in: ==== round_score_report_slide ====
+Explorer is in: ==== wait_room_slide ====
+Student is in: ==== wait_room_slide ====
+Triggering a new round
+2
+Explorer is in: ==== round_slide ====
+Student is in: ==== wait_room_slide ====
+Explorer is in: ==== round_slide ====
+Student is in: ==== round_slide ====
+Explorer is in: ==== tutorial_instructions_slide ====
+Student is in: ==== round_slide ====
+Explorer is in: ==== tutorial_instructions_slide ====
+Student is in: ==== tutorial_instructions_slide ====
+Explorer is in: ==== tutorial_instructions_slide ====
+Student is in: ==== chat_room_slide ====
+Waiting for another player.....
+Explorer is in: ==== train_chemicals_slide ====
+Student is in: ==== chat_room_slide ====
+	 file requested: Graphics/Box_01000.svg at 8:27:28 AM
+	 file requested: Graphics/Box_00010.svg at 8:28:00 AM
+	 file requested: Graphics/Box_00001.svg at 8:28:13 AM
+Explorer is in: ==== chat_instructions_slide ====
+Student is in: ==== chat_room_slide ====
+Explorer is in: ==== chat_room_slide ====
+Student is in: ==== chat_room_slide ====
+explorer said Red just bubbles. Yellow and blue both only conduct electricity. Green and purple both do nothing. When mixing, the end result has all the effects of each individual chemical, like bubbles
+explorer said So red + yellow would be just bubbles and conductivity
+explorer said And there are no glowing chemicals this time
+Explorer is in: ==== chat_room_slide ====
+Student is in: ==== test_instructions_slide ====
+Explorer is in: ==== test_instructions_slide ====
+Student is in: ==== test_instructions_slide ====
+Explorer is in: ==== test_instructions_slide ====
+Student is in: ==== test_chemicals_slide ====
+	 file requested: Graphics/Box_00000.svg at 8:31:44 AM
+Explorer is in: ==== test_chemicals_slide ====
+Student is in: ==== test_chemicals_slide ====
+	 file requested: Graphics/Box_01000.svg at 8:31:49 AM
+	 file requested: Graphics/Box_01100.svg at 8:31:50 AM
+	 file requested: Graphics/Reaction1Off.svg at 8:31:51 AM
+	 file requested: Graphics/Reaction2Off.svg at 8:31:51 AM
+	 file requested: Graphics/Box_00000.svg at 8:32:04 AM
+	 file requested: Graphics/Box_10100.svg at 8:32:11 AM
+	 file requested: Graphics/Reaction2Off.svg at 8:32:11 AM
+	 file requested: Graphics/Reaction2Off.svg at 8:32:20 AM
+	 file requested: Graphics/Box_00000.svg at 8:32:31 AM
+	 file requested: Graphics/Box_01100.svg at 8:32:35 AM
+	 file requested: Graphics/Box_01000.svg at 8:32:38 AM
+	 file requested: Graphics/Green_Beaker.svg at 8:32:54 AM
+	 file requested: Graphics/Purple_Beaker.svg at 8:32:54 AM
+	 file requested: Graphics/Box_00000.svg at 8:32:54 AM
+	 file requested: Graphics/Reaction2Off.svg at 8:32:54 AM
+	 file requested: Graphics/Box_00010.svg at 8:32:58 AM
+	 file requested: Graphics/Box_10010.svg at 8:32:59 AM
+	 file requested: Graphics/Box_10100.svg at 8:33:00 AM
+	 file requested: Graphics/Box_00010.svg at 8:33:06 AM
+MultipleTrialResponses
+Explorer is in: ==== test_chemicals_slide ====
+Student is in: ==== wait_room_slide ====
+	 file requested: Graphics/Box_10000.svg at 8:33:26 AM
+	 file requested: Graphics/Box_01000.svg at 8:33:34 AM
+	 file requested: Graphics/Box_00001.svg at 8:33:49 AM
+	 file requested: Graphics/Box_00011.svg at 8:33:49 AM
+	 file requested: Graphics/Box_11100.svg at 8:34:03 AM
+MultipleTrialResponses
+Explorer is in: ==== wait_room_slide ====
+Student is in: ==== wait_room_slide ====
+Explorer is in: ==== wait_room_slide ====
+Student is in: ==== round_score_report_slide ====
+Explorer is in: ==== round_score_report_slide ====
+Student is in: ==== round_score_report_slide ====
+Explorer is in: ==== wait_room_slide ====
+Student is in: ==== round_score_report_slide ====
+Explorer is in: ==== wait_room_slide ====
+Student is in: ==== wait_room_slide ====
+Triggering a new round
+{
+  explorer: [
+    {
+      hits: '8',
+      misses: '2',
+      score: '8',
+      rules: 'SINGLE_FEATURE',
+      configCode: 'Round0_Config1',
+      config: '{"Reaction 1":{"type":"sing"%"controls":{"beaker3":true}}%"Reaction 2":{"type":"sing"%"controls":{"beaker2":true}}%"Reaction 3":{"type":"sing"%"controls":{"beaker1":true}}}',
+      workerId: 'A2HNSMIG9KZYAE',
+      assignmentId: '39DD6S19JSCNFU4DKT41JRV2O3NEZ0',
+      hitId: '3VLL1PIEOTP741J8O52V0JTQICVZOC'
+    },
+    {
+      hits: '8',
+      misses: '2',
+      score: '8',
+      rules: 'DISJUNCTION/SINGLE_FEATURE/CONJUNCTION',
+      configCode: 'Round1_Config1',
+      config: '{"Reaction 1":{"type":"or"%"controls":{"beaker1":true%"beaker2":true}}%"Reaction 2":{"type":"and"%"controls":{"beaker3":true%"beaker2":false}}%"Reaction 3":{"type":"sing"%"controls":{"beaker2":true}}}',
+      workerId: 'A2HNSMIG9KZYAE',
+      assignmentId: '39DD6S19JSCNFU4DKT41JRV2O3NEZ0',
+      hitId: '3VLL1PIEOTP741J8O52V0JTQICVZOC'
+    },
+    {
+      hits: '7',
+      misses: '3',
+      score: '7',
+      rules: 'CONJUNCTION/DISJUNCTION/SINGLE_FEATURE',
+      configCode: 'Round2_Config1',
+      config: '{"Reaction 1":{"type":"and"%"controls":{"beaker1":true%"beaker3":true}}%"Reaction 2":{"type":"sing"%"controls":{"beaker1":true}}%"Reaction 3":{"type":"or"%"controls":{"beaker2":true%"beaker3":true}}}',
+      workerId: 'A2HNSMIG9KZYAE',
+      assignmentId: '39DD6S19JSCNFU4DKT41JRV2O3NEZ0',
+      hitId: '3VLL1PIEOTP741J8O52V0JTQICVZOC'
+    }
+  ],
+  student: [
+    {
+      hits: '1',
+      misses: '9',
+      score: '1',
+      rules: 'SINGLE_FEATURE',
+      configCode: 'Round0_Config1',
+      config: '{"Reaction 1":{"type":"sing"%"controls":{"beaker3":true}}%"Reaction 2":{"type":"sing"%"controls":{"beaker2":true}}%"Reaction 3":{"type":"sing"%"controls":{"beaker1":true}}}',
+      workerId: 'AVI7K876BV3QL',
+      assignmentId: '3JPSL1DZ5V0Q8S9I10RLSLY2TAHANK',
+      hitId: '3VLL1PIEOTP741J8O52V0JTQICVZOC'
+    },
+    {
+      hits: '2',
+      misses: '8',
+      score: '2',
+      rules: 'DISJUNCTION/SINGLE_FEATURE/CONJUNCTION',
+      configCode: 'Round1_Config1',
+      config: '{"Reaction 1":{"type":"or"%"controls":{"beaker1":true%"beaker2":true}}%"Reaction 2":{"type":"and"%"controls":{"beaker3":true%"beaker2":false}}%"Reaction 3":{"type":"sing"%"controls":{"beaker2":true}}}',
+      workerId: 'AVI7K876BV3QL',
+      assignmentId: '3JPSL1DZ5V0Q8S9I10RLSLY2TAHANK',
+      hitId: '3VLL1PIEOTP741J8O52V0JTQICVZOC'
+    },
+    {
+      hits: '5',
+      misses: '5',
+      score: '5',
+      rules: 'CONJUNCTION/DISJUNCTION/SINGLE_FEATURE',
+      configCode: 'Round2_Config1',
+      config: '{"Reaction 1":{"type":"and"%"controls":{"beaker1":true%"beaker3":true}}%"Reaction 2":{"type":"sing"%"controls":{"beaker1":true}}%"Reaction 3":{"type":"or"%"controls":{"beaker2":true%"beaker3":true}}}',
+      workerId: 'AVI7K876BV3QL',
+      assignmentId: '3JPSL1DZ5V0Q8S9I10RLSLY2TAHANK',
+      hitId: '3VLL1PIEOTP741J8O52V0JTQICVZOC'
+    }
+  ]
+}
+Explorer is in: ==== total_score_report_slide ====
+Student is in: ==== wait_room_slide ====
+Explorer is in: ==== total_score_report_slide ====
+Student is in: ==== total_score_report_slide ====
+Explorer is in: ==== subj_info ====
+Student is in: ==== total_score_report_slide ====
+Explorer is in: ==== subj_info ====
+Student is in: ==== subj_info ====
+Explorer is in: ==== thanks ====
+Student is in: ==== subj_info ====
+	 socket.io:: client id A2HNSMIG9KZYAE disconnected from game id 2360-9333a876-2821-4f9c-8546-ed04915c4c49
+game removed. there are now 0 games
+Explorer is in: ==== thanks ====
+Student is in: ==== thanks ====
+	 socket.io:: client id AVI7K876BV3QL disconnected from game id 2360-9333a876-2821-4f9c-8546-ed04915c4c49
+that game was not found!
+	 file requested:  at 8:51:20 AM
+	 file requested: _shared/css/shared.css at 8:51:20 AM
+	 file requested: sharedUtils/BoxGenerator.js at 8:51:20 AM
+	 file requested: _shared/css/cocolab-style.css at 8:51:20 AM
+	 file requested: css/custom.css at 8:51:20 AM
+	 file requested: sharedUtils/clientBase.js at 8:51:20 AM
+	 file requested: game.core.js at 8:51:20 AM
+	 file requested: game.client.js at 8:51:20 AM
+	 file requested: draw.chemicals.js at 8:51:20 AM
+	 file requested: draw.screen.js at 8:51:20 AM
+	 file requested: _shared/js/mmturkey.js at 8:51:20 AM
+	 socket.io:: player 7680-47851262-31b4-4203-b276-44cd097cdffe connected
+looking for a game. We have : 0
+-1
+player 7680-47851262-31b4-4203-b276-44cd097cdffe created a game with id 2584-d3c60345-af13-48c6-aec3-c2fddfe4f253
+-1
+	 file requested: favicon.ico at 8:51:20 AM
+Explorer is in: ==== wait_room_slide ====
+Student is in: ====  ====
+	 socket.io:: client id 7680-47851262-31b4-4203-b276-44cd097cdffe disconnected from game id 2584-d3c60345-af13-48c6-aec3-c2fddfe4f253
+game removed. there are now 0 games
+	 file requested: forms/consent.html at 8:52:46 AM
+ by workerID A26LOVXF4QZZCO
+	 file requested: _shared/css/bootstrap.min.css at 8:52:46 AM
+	 file requested: _shared/css/bootstrap-theme.min.css at 8:52:46 AM
+	 file requested: _shared/js/bootstrap.min.js at 8:52:46 AM
+	 file requested: _shared/images/cocologo.svg at 8:52:46 AM
+	 file requested: forms/instructions.html at 8:53:00 AM
+ by workerID A26LOVXF4QZZCO
+	 file requested: _shared/images/waitroom.png at 8:53:00 AM
+	 file requested: _shared/css/bootstrap.min.css at 8:53:00 AM
+	 file requested: _shared/css/bootstrap-theme.min.css at 8:53:00 AM
+	 file requested: _shared/js/bootstrap.min.js at 8:53:00 AM
+	 file requested: forms/validate-form.js at 8:53:00 AM
+	 file requested: forms/pass.html at 8:54:46 AM
+ by workerID A26LOVXF4QZZCO
+	 file requested: _shared/js/mmturkey.js at 8:54:46 AM
+	 file requested: _shared/css/bootstrap.min.css at 8:54:46 AM
+	 file requested: _shared/css/bootstrap-theme.min.css at 8:54:46 AM
+	 file requested: _shared/js/bootstrap.min.js at 8:54:46 AM
+	 file requested: index.html at 8:54:48 AM
+ by workerID A26LOVXF4QZZCO
+	 file requested: _shared/css/shared.css at 8:54:48 AM
+	 file requested: css/custom.css at 8:54:48 AM
+	 file requested: _shared/css/cocolab-style.css at 8:54:48 AM
+	 file requested: game.core.js at 8:54:48 AM
+	 file requested: sharedUtils/clientBase.js at 8:54:48 AM
+	 file requested: sharedUtils/BoxGenerator.js at 8:54:48 AM
+	 file requested: game.client.js at 8:54:48 AM
+	 file requested: draw.chemicals.js at 8:54:48 AM
+	 file requested: draw.screen.js at 8:54:48 AM
+	 file requested: _shared/js/mmturkey.js at 8:54:48 AM
+	 socket.io:: player A26LOVXF4QZZCO connected
+looking for a game. We have : 0
+-1
+player A26LOVXF4QZZCO created a game with id 2012-74e5348b-4155-4869-a44a-1011c7f7cd00
+-1
+	 file requested: favicon.ico at 8:54:49 AM
+Explorer is in: ==== wait_room_slide ====
+Student is in: ====  ====
+	 file requested: forms/consent.html at 9:06:46 AM
+ by workerID A1ZI4VU6650Q8B
+	 file requested: _shared/css/bootstrap.min.css at 9:06:46 AM
+	 file requested: _shared/css/bootstrap-theme.min.css at 9:06:47 AM
+	 file requested: _shared/js/bootstrap.min.js at 9:06:47 AM
+	 file requested: _shared/images/cocologo.svg at 9:06:47 AM
+	 file requested: forms/instructions.html at 9:06:57 AM
+ by workerID A1ZI4VU6650Q8B
+	 file requested: _shared/css/bootstrap.min.css at 9:06:57 AM
+	 file requested: _shared/css/bootstrap-theme.min.css at 9:06:57 AM
+	 file requested: _shared/js/bootstrap.min.js at 9:06:58 AM
+	 file requested: forms/validate-form.js at 9:06:58 AM
+	 file requested: _shared/images/waitroom.png at 9:06:58 AM
+	 socket.io:: client id A26LOVXF4QZZCO disconnected from game id 2012-74e5348b-4155-4869-a44a-1011c7f7cd00
+game removed. there are now 0 games
+	 file requested: index.html at 9:09:50 AM
+ by workerID A26LOVXF4QZZCO
+	 file requested: _shared/css/shared.css at 9:09:50 AM
+	 file requested: _shared/css/cocolab-style.css at 9:09:51 AM
+	 file requested: css/custom.css at 9:09:51 AM
+	 file requested: game.core.js at 9:09:51 AM
+	 file requested: sharedUtils/clientBase.js at 9:09:51 AM
+	 file requested: sharedUtils/BoxGenerator.js at 9:09:51 AM
+	 file requested: game.client.js at 9:09:51 AM
+	 file requested: draw.chemicals.js at 9:09:51 AM
+	 file requested: draw.screen.js at 9:09:51 AM
+	 file requested: _shared/js/mmturkey.js at 9:09:51 AM
+	 file requested: forms/consent.html at 9:34:41 AM
+ by workerID A1QO37IHT7ZQBT
+	 file requested: forms/consent.html at 9:34:41 AM
+ by workerID A1QO37IHT7ZQBT
+	 file requested: _shared/css/bootstrap.min.css at 9:34:41 AM
+	 file requested: _shared/js/bootstrap.min.js at 9:34:41 AM
+	 file requested: _shared/css/bootstrap-theme.min.css at 9:34:42 AM
+	 file requested: _shared/images/cocologo.svg at 9:34:42 AM
+	 file requested: forms/instructions.html at 9:37:07 AM
+ by workerID A1QO37IHT7ZQBT
+	 file requested: forms/instructions.html at 9:37:07 AM
+ by workerID A1QO37IHT7ZQBT
+	 file requested: _shared/css/bootstrap.min.css at 9:37:07 AM
+	 file requested: _shared/css/bootstrap-theme.min.css at 9:37:07 AM
+	 file requested: forms/validate-form.js at 9:37:07 AM
+	 file requested: _shared/js/bootstrap.min.js at 9:37:08 AM
+	 file requested: _shared/images/waitroom.png at 9:37:08 AM
+	 file requested: forms/consent.html at 9:46:06 AM
+ by workerID A3GWRDHAURRNK6
+	 file requested: _shared/css/bootstrap.min.css at 9:46:06 AM
+	 file requested: _shared/css/bootstrap-theme.min.css at 9:46:06 AM
+	 file requested: _shared/js/bootstrap.min.js at 9:46:06 AM
+	 file requested: _shared/images/cocologo.svg at 9:46:07 AM
+	 file requested: forms/instructions.html at 9:46:29 AM
+ by workerID A3GWRDHAURRNK6
+	 file requested: _shared/css/bootstrap.min.css at 9:46:29 AM
+	 file requested: _shared/css/bootstrap-theme.min.css at 9:46:29 AM
+	 file requested: _shared/js/bootstrap.min.js at 9:46:29 AM
+	 file requested: forms/validate-form.js at 9:46:29 AM
+	 file requested: _shared/images/waitroom.png at 9:46:29 AM
+	 file requested: forms/pass.html at 9:47:34 AM
+ by workerID A1QO37IHT7ZQBT
+	 file requested: forms/pass.html at 9:47:34 AM
+ by workerID A1QO37IHT7ZQBT
+	 file requested: _shared/css/bootstrap.min.css at 9:47:34 AM
+	 file requested: _shared/js/mmturkey.js at 9:47:34 AM
+	 file requested: _shared/css/bootstrap-theme.min.css at 9:47:35 AM
+	 file requested: _shared/js/bootstrap.min.js at 9:47:35 AM
+	 file requested: index.html at 9:47:41 AM
+ by workerID A1QO37IHT7ZQBT
+	 file requested: _shared/css/shared.css at 9:47:41 AM
+	 file requested: _shared/css/cocolab-style.css at 9:47:41 AM
+	 file requested: sharedUtils/clientBase.js at 9:47:41 AM
+	 file requested: draw.chemicals.js at 9:47:41 AM
+	 file requested: draw.screen.js at 9:47:41 AM
+	 file requested: css/custom.css at 9:47:42 AM
+	 file requested: _shared/js/mmturkey.js at 9:47:42 AM
+	 file requested: game.core.js at 9:47:42 AM
+	 file requested: sharedUtils/BoxGenerator.js at 9:47:42 AM
+	 file requested: game.client.js at 9:47:42 AM
+	 socket.io:: player A1QO37IHT7ZQBT connected
+looking for a game. We have : 0
+-1
+player A1QO37IHT7ZQBT created a game with id 5760-58add913-8329-4fe2-a360-c14cce172cbc
+-1
+	 file requested: favicon.ico at 9:47:42 AM
+Explorer is in: ==== wait_room_slide ====
+Student is in: ====  ====
+	 file requested: forms/pass.html at 9:47:57 AM
+ by workerID A3GWRDHAURRNK6
+	 file requested: _shared/css/bootstrap.min.css at 9:47:57 AM
+	 file requested: _shared/css/bootstrap-theme.min.css at 9:47:57 AM
+	 file requested: _shared/js/mmturkey.js at 9:47:57 AM
+	 file requested: _shared/js/bootstrap.min.js at 9:47:57 AM
+	 file requested: index.html at 9:48:01 AM
+ by workerID A3GWRDHAURRNK6
+	 file requested: _shared/css/shared.css at 9:48:01 AM
+	 file requested: _shared/css/cocolab-style.css at 9:48:01 AM
+	 file requested: css/custom.css at 9:48:01 AM
+	 file requested: game.core.js at 9:48:01 AM
+	 file requested: game.client.js at 9:48:01 AM
+	 file requested: draw.chemicals.js at 9:48:02 AM
+	 file requested: draw.screen.js at 9:48:02 AM
+	 file requested: sharedUtils/clientBase.js at 9:48:02 AM
+	 file requested: sharedUtils/BoxGenerator.js at 9:48:02 AM
+	 file requested: _shared/js/mmturkey.js at 9:48:02 AM
+	 file requested: favicon.ico at 9:48:02 AM
+	 socket.io:: player A3GWRDHAURRNK6 connected
+looking for a game. We have : 1
+-1
+Triggering a new round
+0
+Explorer is in: ==== round_slide ====
+Student is in: ====  ====
+Explorer is in: ==== round_slide ====
+Student is in: ==== wait_room_slide ====
+Explorer is in: ==== round_slide ====
+Student is in: ==== round_slide ====
+Explorer is in: ==== round_slide ====
+Student is in: ==== tutorial_instructions_slide ====
+Explorer is in: ==== tutorial_instructions_slide ====
+Student is in: ==== tutorial_instructions_slide ====
+Explorer is in: ==== train_chemicals_tutorial ====
+Student is in: ==== tutorial_instructions_slide ====
+	 file requested: Graphics/Reaction3Off.svg at 9:48:20 AM
+	 file requested: Graphics/Red_Beaker.svg at 9:48:20 AM
+	 file requested: Graphics/Reaction2Off.svg at 9:48:20 AM
+	 file requested: Graphics/Yellow_Beaker.svg at 9:48:20 AM
+	 file requested: Graphics/Blue_Beaker.svg at 9:48:20 AM
+	 file requested: Graphics/Box_00000.svg at 9:48:20 AM
+	 file requested: Graphics/Reaction1Off.svg at 9:48:20 AM
+Explorer is in: ==== train_chemicals_tutorial ====
+Student is in: ==== train_chemicals_tutorial ====
+	 file requested: Graphics/Reaction3Off.svg at 9:48:21 AM
+	 file requested: Graphics/Red_Beaker.svg at 9:48:21 AM
+	 file requested: Graphics/Yellow_Beaker.svg at 9:48:21 AM
+	 file requested: Graphics/Box_00000.svg at 9:48:21 AM
+	 file requested: Graphics/Blue_Beaker.svg at 9:48:21 AM
+	 file requested: Graphics/Reaction1Off.svg at 9:48:21 AM
+	 file requested: Graphics/Reaction2Off.svg at 9:48:21 AM
+	 file requested: Graphics/Empty_Beaker.svg at 9:48:27 AM
+	 file requested: Graphics/Box_10000.svg at 9:48:27 AM
+	 file requested: Graphics/Box_11000.svg at 9:48:27 AM
+	 file requested: Graphics/Empty_Beaker.svg at 9:48:35 AM
+	 file requested: Graphics/Box_10000.svg at 9:48:35 AM
+	 file requested: Graphics/Box_11000.svg at 9:48:41 AM
+	 file requested: Graphics/Reaction3On.svg at 9:48:43 AM
+	 file requested: Graphics/Reaction1On.svg at 9:48:43 AM
+	 file requested: Graphics/Reaction1On.svg at 9:48:52 AM
+	 file requested: Graphics/Reaction3On.svg at 9:48:52 AM
+	 file requested: Graphics/Red_Beaker.svg at 9:48:52 AM
+	 file requested: Graphics/Reaction1Off.svg at 9:48:52 AM
+	 file requested: Graphics/Reaction3Off.svg at 9:48:52 AM
+	 file requested: Graphics/Yellow_Beaker.svg at 9:48:52 AM
+	 file requested: Graphics/Box_00000.svg at 9:48:52 AM
+	 file requested: Graphics/Box_00100.svg at 9:48:58 AM
+	 file requested: Graphics/Reaction1On.svg at 9:49:01 AM
+	 file requested: Graphics/Reaction2On.svg at 9:49:01 AM
+	 file requested: Graphics/Box_10000.svg at 9:49:06 AM
+	 file requested: Graphics/Box_00100.svg at 9:49:10 AM
+	 file requested: Graphics/Reaction2On.svg at 9:49:14 AM
+	 file requested: Graphics/Blue_Beaker.svg at 9:49:26 AM
+	 file requested: Graphics/Box_00000.svg at 9:49:26 AM
+	 file requested: Graphics/Reaction3On.svg at 9:49:26 AM
+	 file requested: Graphics/Reaction3On.svg at 9:49:51 AM
+	 file requested: Graphics/Blue_Beaker.svg at 9:49:51 AM
+	 file requested: Graphics/Box_00000.svg at 9:49:51 AM
+Explorer is in: ==== train_chemicals_slide ====
+Student is in: ==== train_chemicals_tutorial ====
+	 file requested: Graphics/Box_01000.svg at 9:50:07 AM
+	 file requested: Graphics/Box_11000.svg at 9:50:11 AM
+	 file requested: Graphics/Box_11100.svg at 9:50:13 AM
+	 file requested: Graphics/Box_10000.svg at 9:50:19 AM
+Explorer is in: ==== train_chemicals_slide ====
+Student is in: ==== chat_room_slide ====
+Waiting for another player.....
+	 socket.io:: client id A1QO37IHT7ZQBT disconnected from game id 5760-58add913-8329-4fe2-a360-c14cce172cbc
+game removed. there are now 0 games
+Explorer is in: ==== train_chemicals_slide ====
+Student is in: ==== thanks ====
+	 socket.io:: client id A3GWRDHAURRNK6 disconnected from game id 5760-58add913-8329-4fe2-a360-c14cce172cbc
+that game was not found!
+	 file requested:  at 12:30:53 PM
+	 file requested: _shared/css/shared.css at 12:30:53 PM
+	 file requested: css/custom.css at 12:30:53 PM
+	 file requested: game.core.js at 12:30:53 PM
+	 file requested: _shared/css/cocolab-style.css at 12:30:53 PM
+	 file requested: game.client.js at 12:30:53 PM
+	 file requested: sharedUtils/clientBase.js at 12:30:53 PM
+	 file requested: sharedUtils/BoxGenerator.js at 12:30:53 PM
+	 file requested: draw.chemicals.js at 12:30:53 PM
+	 file requested: draw.screen.js at 12:30:53 PM
+	 file requested: _shared/js/mmturkey.js at 12:30:53 PM
+	 socket.io:: player 5396-7c34cc19-de08-463f-b100-f9e329fb45d3 connected
+looking for a game. We have : 0
+-1
+player 5396-7c34cc19-de08-463f-b100-f9e329fb45d3 created a game with id 3899-b2deb837-d186-4c8f-89a7-09f4056ad26a
+-1
+Explorer is in: ==== wait_room_slide ====
+Student is in: ====  ====
+	 socket.io:: client id 5396-7c34cc19-de08-463f-b100-f9e329fb45d3 disconnected from game id 3899-b2deb837-d186-4c8f-89a7-09f4056ad26a
+game removed. there are now 0 games

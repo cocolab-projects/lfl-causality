@@ -1,0 +1,181 @@
+using port 8884
+Is Production: false
+info  - socket.io started
+	 :: Express :: Listening on port 8884
+	 file requested: forms/consent.html at 5:01:38 PM
+	 file requested: _shared/css/bootstrap.min.css at 5:01:38 PM
+	 file requested: _shared/css/bootstrap-theme.min.css at 5:01:38 PM
+	 file requested: _shared/images/cocologo.svg at 5:01:38 PM
+	 file requested: _shared/js/bootstrap.min.js at 5:01:38 PM
+	 file requested: forms/consent.html at 5:01:40 PM
+ by workerID A38Q0XMR7KJDL8
+	 file requested: _shared/css/bootstrap.min.css at 5:01:40 PM
+	 file requested: _shared/css/bootstrap-theme.min.css at 5:01:40 PM
+	 file requested: _shared/images/cocologo.svg at 5:01:40 PM
+	 file requested: _shared/js/bootstrap.min.js at 5:01:40 PM
+	 file requested: forms/instructions.html at 5:01:42 PM
+ by workerID A38Q0XMR7KJDL8
+	 file requested: _shared/css/bootstrap.min.css at 5:01:42 PM
+	 file requested: _shared/images/waitroom.png at 5:01:42 PM
+	 file requested: _shared/css/bootstrap-theme.min.css at 5:01:42 PM
+	 file requested: _shared/js/bootstrap.min.js at 5:01:42 PM
+	 file requested: forms/validate-form.js at 5:01:42 PM
+	 file requested: forms/pass.html at 5:01:49 PM
+ by workerID A38Q0XMR7KJDL8
+	 file requested: _shared/css/bootstrap.min.css at 5:01:49 PM
+	 file requested: _shared/css/bootstrap-theme.min.css at 5:01:49 PM
+	 file requested: _shared/js/bootstrap.min.js at 5:01:49 PM
+	 file requested: _shared/js/mmturkey.js at 5:01:49 PM
+	 file requested: index.html at 5:01:50 PM
+ by workerID A38Q0XMR7KJDL8
+	 file requested: _shared/css/cocolab-style.css at 5:01:50 PM
+	 file requested: _shared/css/shared.css at 5:01:50 PM
+	 file requested: css/custom.css at 5:01:50 PM
+	 file requested: game.core.js at 5:01:50 PM
+	 file requested: sharedUtils/clientBase.js at 5:01:50 PM
+	 file requested: sharedUtils/BoxGenerator.js at 5:01:50 PM
+	 file requested: game.client.js at 5:01:50 PM
+	 file requested: draw.screen.js at 5:01:50 PM
+	 file requested: draw.chemicals.js at 5:01:50 PM
+	 file requested: _shared/js/mmturkey.js at 5:01:50 PM
+	 socket.io:: player A38Q0XMR7KJDL8 connected
+looking for a game. We have : 0
+-1
+player A38Q0XMR7KJDL8 created a game with id 7036-d7449c31-1941-4c26-9318-6fed465d773d
+-1
+Explorer is in: ==== wait_room_slide ====
+Student is in: ====  ====
+	 file requested:  at 5:01:55 PM
+	 file requested: _shared/css/shared.css at 5:01:55 PM
+	 file requested: _shared/css/cocolab-style.css at 5:01:55 PM
+	 file requested: css/custom.css at 5:01:55 PM
+	 file requested: sharedUtils/clientBase.js at 5:01:55 PM
+	 file requested: game.core.js at 5:01:55 PM
+	 file requested: draw.chemicals.js at 5:01:55 PM
+	 file requested: sharedUtils/BoxGenerator.js at 5:01:55 PM
+	 file requested: game.client.js at 5:01:55 PM
+	 file requested: draw.screen.js at 5:01:55 PM
+	 file requested: _shared/js/mmturkey.js at 5:01:55 PM
+	 socket.io:: player 1056-265f9055-18a4-4053-acf6-11a0d1403548 connected
+looking for a game. We have : 1
+-1
+Triggering a new round
+0
+Explorer is in: ==== round_slide ====
+Student is in: ====  ====
+Explorer is in: ==== round_slide ====
+Student is in: ==== wait_room_slide ====
+Explorer is in: ==== round_slide ====
+Student is in: ==== round_slide ====
+Explorer is in: ==== tutorial_instructions_slide ====
+Student is in: ==== round_slide ====
+Explorer is in: ==== train_chemicals_tutorial ====
+Student is in: ==== round_slide ====
+	 file requested: Graphics/Yellow_Beaker.svg at 5:01:58 PM
+	 file requested: Graphics/Box_000.svg at 5:01:58 PM
+	 file requested: Graphics/Red_Beaker.svg at 5:01:58 PM
+	 file requested: Graphics/Blue_Beaker.svg at 5:01:58 PM
+	 file requested: Graphics/Reaction1Off.svg at 5:01:58 PM
+	 file requested: Graphics/Reaction2Off.svg at 5:01:58 PM
+	 file requested: Graphics/Reaction3Off.svg at 5:01:58 PM
+	 file requested: Graphics/Empty_Beaker.svg at 5:01:59 PM
+	 file requested: Graphics/Box_100.svg at 5:01:59 PM
+	 file requested: Graphics/Box_110.svg at 5:01:59 PM
+	 file requested: Graphics/Reaction3On.svg at 5:02:00 PM
+	 file requested: Graphics/Reaction1On.svg at 5:02:00 PM
+	 file requested: Graphics/Box_001.svg at 5:02:02 PM
+	 file requested: Graphics/Reaction2On.svg at 5:02:03 PM
+Explorer is in: ==== train_chemicals_slide ====
+Student is in: ==== round_slide ====
+	 file requested: Graphics/Box_111.svg at 5:02:12 PM
+	 file requested: Graphics/Box_010.svg at 5:02:16 PM
+Explorer is in: ==== chat_instructions_slide ====
+Student is in: ==== round_slide ====
+Explorer is in: ==== chat_room_slide ====
+Student is in: ==== round_slide ====
+Waiting for another player.....
+Explorer is in: ==== chat_room_slide ====
+Student is in: ==== tutorial_instructions_slide ====
+	 file requested: _shared/css/shared.css at 5:02:25 PM
+	 file requested: _shared/css/cocolab-style.css at 5:02:25 PM
+	 file requested: css/custom.css at 5:02:25 PM
+Explorer is in: ==== chat_room_slide ====
+Student is in: ==== train_chemicals_tutorial ====
+	 file requested: Graphics/Yellow_Beaker.svg at 5:02:36 PM
+	 file requested: Graphics/Blue_Beaker.svg at 5:02:36 PM
+	 file requested: Graphics/Box_000.svg at 5:02:36 PM
+	 file requested: Graphics/Red_Beaker.svg at 5:02:36 PM
+	 file requested: Graphics/Reaction1Off.svg at 5:02:36 PM
+	 file requested: Graphics/Reaction2Off.svg at 5:02:36 PM
+	 file requested: Graphics/Reaction3Off.svg at 5:02:36 PM
+	 file requested: Graphics/Empty_Beaker.svg at 5:02:36 PM
+	 file requested: Graphics/Box_100.svg at 5:02:36 PM
+	 file requested: Graphics/Box_110.svg at 5:02:37 PM
+	 file requested: Graphics/Reaction1On.svg at 5:02:38 PM
+	 file requested: Graphics/Reaction3On.svg at 5:02:38 PM
+	 file requested: Graphics/Box_001.svg at 5:02:39 PM
+	 file requested: Graphics/Reaction2On.svg at 5:02:40 PM
+	 file requested: Graphics/Blue_Beaker.svg at 5:02:45 PM
+	 file requested: Graphics/Reaction3On.svg at 5:02:45 PM
+	 file requested: Graphics/Box_000.svg at 5:02:45 PM
+	 file requested: Graphics/Box_100.svg at 5:02:46 PM
+	 file requested: Graphics/Box_110.svg at 5:02:46 PM
+Explorer is in: ==== chat_room_slide ====
+Student is in: ==== chat_room_slide ====
+Explorer is in: ==== test_instructions_slide ====
+Student is in: ==== chat_room_slide ====
+Explorer is in: ==== test_instructions_slide ====
+Student is in: ==== test_instructions_slide ====
+Explorer is in: ==== test_instructions_slide ====
+Student is in: ==== test_chemicals_slide ====
+	 file requested: Graphics/Reaction1Off.svg at 5:02:50 PM
+	 socket.io:: client id 1056-265f9055-18a4-4053-acf6-11a0d1403548 disconnected from game id 7036-d7449c31-1941-4c26-9318-6fed465d773d
+game removed. there are now 0 games
+Explorer is in: ==== thanks ====
+Student is in: ==== test_chemicals_slide ====
+	 socket.io:: client id A38Q0XMR7KJDL8 disconnected from game id 7036-d7449c31-1941-4c26-9318-6fed465d773d
+that game was not found!
+	 file requested:  at 9:09:26 AM
+	 file requested: _shared/css/cocolab-style.css at 9:09:26 AM
+	 file requested: _shared/css/shared.css at 9:09:26 AM
+	 file requested: css/custom.css at 9:09:26 AM
+	 file requested: game.core.js at 9:09:26 AM
+	 file requested: sharedUtils/clientBase.js at 9:09:26 AM
+	 file requested: sharedUtils/BoxGenerator.js at 9:09:26 AM
+	 file requested: game.client.js at 9:09:26 AM
+	 file requested: draw.chemicals.js at 9:09:26 AM
+	 file requested: draw.screen.js at 9:09:26 AM
+	 file requested: _shared/js/mmturkey.js at 9:09:26 AM
+	 socket.io:: player 0167-ee6c1e92-aa35-4265-ab4f-2a6d38bb8e31 connected
+looking for a game. We have : 0
+-1
+player 0167-ee6c1e92-aa35-4265-ab4f-2a6d38bb8e31 created a game with id 9625-f8b5f4b8-a42e-46c9-b49e-8ef817ba2f47
+-1
+Explorer is in: ==== wait_room_slide ====
+Student is in: ====  ====
+	 file requested:  at 9:09:29 AM
+	 file requested: _shared/css/shared.css at 9:09:29 AM
+	 file requested: _shared/css/cocolab-style.css at 9:09:29 AM
+	 file requested: css/custom.css at 9:09:29 AM
+	 file requested: game.core.js at 9:09:29 AM
+	 file requested: sharedUtils/clientBase.js at 9:09:29 AM
+	 file requested: sharedUtils/BoxGenerator.js at 9:09:29 AM
+	 file requested: game.client.js at 9:09:29 AM
+	 file requested: draw.chemicals.js at 9:09:29 AM
+	 file requested: draw.screen.js at 9:09:29 AM
+	 file requested: _shared/js/mmturkey.js at 9:09:29 AM
+	 socket.io:: player 3407-6eb82cf8-ccba-458e-b6c6-85f339e3f88c connected
+looking for a game. We have : 1
+-1
+Triggering a new round
+0
+Explorer is in: ==== round_slide ====
+Student is in: ====  ====
+Explorer is in: ==== round_slide ====
+Student is in: ==== wait_room_slide ====
+Explorer is in: ==== round_slide ====
+Student is in: ==== round_slide ====
+	 socket.io:: client id 0167-ee6c1e92-aa35-4265-ab4f-2a6d38bb8e31 disconnected from game id 9625-f8b5f4b8-a42e-46c9-b49e-8ef817ba2f47
+game removed. there are now 0 games
+	 socket.io:: client id 3407-6eb82cf8-ccba-458e-b6c6-85f339e3f88c disconnected from game id 9625-f8b5f4b8-a42e-46c9-b49e-8ef817ba2f47
+that game was not found!

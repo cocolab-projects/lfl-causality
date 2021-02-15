@@ -10,9 +10,6 @@ const mkdirp = require('mkdirp');
 const sendPostRequest = require('request').post;
 
 
-const mongodb = require('mongodb');
-const MongoClient = mongodb.MongoClient;
-const ObjectID = mongodb.ObjectID;
 const colors = require('colors/safe');
 
 // ----------------
@@ -20,7 +17,8 @@ const colors = require('colors/safe');
 // ----------------
 var serveFile = function(req, res) {
     var fileName = req.params[0];
-    console.log('\t :: Express :: file requested: ' + fileName);
+    var time = new Date()
+    console.log('\t file requested: ' + fileName + " at " + time.toLocaleTimeString());
     if(req.query.workerId) {
       console.log(" by workerID " + req.query.workerId);
     }
@@ -49,34 +47,6 @@ var handleInvalidID = function(req, res) {
   return res.redirect('https://rxdhawkins.me:8888/sharedUtils/invalid.html');
 };
 
-function checkPreviousParticipant (workerId, callback, getDb) {
-    var p = {'workerId': workerId};
-    var postData = {
-      dbname: getDb(),
-      query: p,
-      projection: {'_id': 1}
-    };
-    sendPostRequest(
-      'http://localhost:27018/db/exists',
-      {json: postData},
-      (error, res, body) => {
-        try {
-          if (!error && res.statusCode === 200) {
-            console.log("success! Received data " + JSON.stringify(body));
-            callback(body);
-          } else {
-            throw `${error}`;
-          }
-        }
-        catch (err) {
-          console.log(err);
-          console.log('no database; allowing participant to continue');
-          return callback(false);
-        }
-      }
-    );
-  };
-
 //----------------
 // Data Processing
 //----------------
@@ -89,35 +59,13 @@ var writeDataToCSV = function(game, _dataPoint) {
     dataPoint = _.omit(dataPoint, ['workerId', 'assignmentId']);
 
   // Establish stream to file if it doesn't already exist
-  if(!_.has(game.streams, eventType))
-    establishStream(game, dataPoint);
-
+  if(!_.has(game.streams, eventType)){
+      establishStream(game, dataPoint);
+  }
   var line = _.values(dataPoint).join('\t') + "\n";
-  game.streams[eventType].write(line, err => {if(err) throw err;});
+  fs.appendFileSync(game.streams[eventType], line, err => {if(err) throw err;})
 };
 
-var writeDataToMongo = function(game, line) {
-  var postData = _.extend({
-    dbname: game.projectName,
-    colname: game.experimentName
-  }, line);
-  sendPostRequest(
-    'http://localhost:27018/db/insert',
-    { json: postData },
-    (error, res, body) => {
-      if (!error && res.statusCode === 200) {
-        console.log(`sent data to store`);
-      } else {
-	console.log(`error sending data to store: ${error} ${body}`);
-      }
-    }
-  );
-};
-
-
-//----------------
-// Local MongoDB
-//----------------
 
 function makeMessage(text) {
     return `${colors.blue('[store]')} ${text}`;
@@ -143,17 +91,6 @@ function success(response, text) {
     return response.send(message);
 }
 
-function mongoConnectWithRetry(mongoURL, delayInMilliseconds, callback) {
-    MongoClient.connect(mongoURL, (err, connection) => {
-    if (err) {
-        console.error(`Error connecting to MongoDB: ${err}`);
-        setTimeout(() => mongoConnectWithRetry(delayInMilliseconds, callback), delayInMilliseconds);
-    } else {
-        log('connected succesfully to mongodb');
-        callback(connection);
-    }
-    });
-}
 
 var getStims = function(connection, databaseName, collectionName, gameId, callback){
     const database = connection.db(databaseName);
@@ -220,11 +157,12 @@ var establishStream = function(game, dataPoint) {
 
     // Write header
     var header = _.keys(dataPoint).join('\t') + '\n';
-    fs.writeFile(filePath, header, err => {if(err) console.error(err);});
+    fs.writeFileSync(filePath, header, err => {if(err) throw(err);});
+    game.streams[dataPoint.eventType] = filePath;
 
-    // Create stream
-    var stream = fs.createWriteStream(filePath, {'flags' : 'a'});
-    game.streams[dataPoint.eventType] = stream;
+//    // Create stream
+//    var stream = fs.createWriteStream(filePath, {'flags' : 'a'});
+//    game.streams[dataPoint.eventType] = stream;
 };
 
 var getObjectLocHeader = function() {
@@ -495,7 +433,6 @@ function isNumeric(n) {
 
 module.exports = {
     UUID,
-    checkPreviousParticipant,
     serveFile,
     handleDuplicate,
     handleInvalidID,
@@ -503,7 +440,6 @@ module.exports = {
     establishStream,
     getObjectLocHeader,
     writeDataToCSV,
-    writeDataToMongo,
     hsl2lab,
     fillArray,
     randomColor,
@@ -518,7 +454,6 @@ module.exports = {
     generateAttentionQuestion,
     isNumeric,
     getStims,
-    mongoConnectWithRetry,
     log,
     error,
     failure,

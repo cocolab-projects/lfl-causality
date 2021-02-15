@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Learning about Critters</title>
+        <title>Learning about Chemicals</title>
 
         <!-- Load style sheet -->
         <link href="../_shared/css/shared.css" media="screen" rel="stylesheet" type="text/css">
         <link href="../_shared/css/cocolab-style.css" media="screen" rel="stylesheet" type="text/css">
         <link href="css/custom.css" media="screen" rel="stylesheet" type="text/css">
-
+        
         <!-- Notice the URL, this is handled by socket.io on the server automatically, via express -->
         <script type="text/javascript" src="/socket.io/socket.io.js"></script>
 
@@ -17,17 +17,14 @@
         <!-- Load jQuery, which lets us handle mouse events -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-        <!-- Load drawing code. -->
-        <script src="../_shared/js/raphael-min.js"></script> 
-        <script src="../_shared/js/ecosystem.js"></script>   
-
         <!-- Load the common game code. -->
         <script type="text/javascript" src="game.core.js"></script>   
 
         <!-- Finally, Load the game client code. -->  
         <script type="text/javascript" src="../sharedUtils/clientBase.js"></script>
+        <script type="text/javascript" src="../sharedUtils/BoxGenerator.js"></script>
         <script type="text/javascript" src="game.client.js"></script>
-        <script type="text/javascript" src="draw.creatures.js"></script>
+        <script type="text/javascript" src="draw.chemicals.js"></script>
         <script type="text/javascript" src="draw.screen.js"></script>
 
         <script type="text/javascript" src="../_shared/js/mmturkey.js"></script>
@@ -60,10 +57,10 @@
         </div>
 
         <!-- This is the slide in which users will learn how they will play the game. -->
-        <div class="slide hidden" id="train_instructions_slide">
-            <div id="train_instructions_slide_header"></div>
+        <div class="slide hidden" id="tutorial_instructions_slide">
+            <div id="tutorial_instructions_slide_header"></div>
             <br>
-            <button class="continuebutton" id="train_instructions_slide_continue_button" disabled>Continue</button>
+            <button class="continuebutton" id="tutorial_instructions_slide_continue_button" disabled>Continue</button>
         </div>
  
         <!-- <div class="slide hidden" id="load_slide"> 
@@ -73,15 +70,66 @@
                 <b>Loading ... Please wait!</b>
             </p>
         </div> -->
+        
+        <!-- This is the slide in which users will learn to play the game through a tutorial. -->
+        <div class="slide hidden" id="tutorial_slide">
+            <div id="tutorial_slide_header"></div>
+            <br>
+            <br>
+            <div id="tutorial_slide_grid"></div>
+            <br>
+            <button class="continuebutton" id="tutorial_slide_test_button">Mix</button> 
+            <button class="continuebutton" id="tutorial_slide_newtest_button">New Test</button> 
+            <br>
+            <button class="continuebutton" id="tutorial_slide_continue_button">Continue</button> 
+        </div>
+        
+        <!-- This is the slide in which users will be told about questions. -->
+        <div class="slide hidden" id="question_instructions_slide">
+            <div id="question_instructions_slide_header"></div>
+            <br>
+            <br>
+            <button class="continuebutton" id="question_instructions_slide_continue_button">Continue</button> 
+        </div>
+        
+        <!-- This is the slide in which users will learn to about beaker to reaction questions. -->
+        <div class="slide hidden" id="first_question_slide">
+            <div id="first_question_slide_header"></div>
+            <br>
+            <br>
+            <div id="first_question_slide_grid"></div>
+            <br>
+            <button class="continuebutton" id="first_question_slide_continue_button">Continue</button> 
+        </div>
+        
+        <!-- This is the slide in which users will learn to about reaction to beaker questions. -->
+        <div class="slide hidden" id="second_question_slide">
+            <div id="second_question_slide_header"></div>
+            <br>
+            <br>
+            <div id="second_question_slide_grid"></div>
+            <br>
+            <button class="continuebutton" id="second_question_slide_continue_button">Continue</button> 
+        </div>
+        
+        <div class="slide hidden" id="train_instructions_slide">
+            <div id="train_instructions_slide_header"></div>
+            <br>
+            <button class="continuebutton" id="train_instructions_slide_continue_button" disabled>Continue</button>
+        </div>
 
         <!-- This is the learning slide in which users will uncover information about the critters. -->
-        <div class="slide hidden" id="train_creatures_slide">
-            <div id="train_creatures_slide_header"></div>
+        <div class="slide hidden" id="train_chemicals_slide">
+            <div id="train_chemicals_slide_header"></div>
             <br>
             <br>
-            <div id="train_creatures_slide_grid"></div>
+            <div id="train_chemicals_slide_grid"></div>
             <br>
-            <button class="continuebutton" id="train_creatures_slide_continue_button">Continue</button>            
+            <button class="continuebutton" id="train_chemicals_slide_test_button">Mix</button> 
+            <button class="continuebutton" id="train_chemicals_slide_newtest_button">New Test</button> 
+            <br>
+            <br>
+            <button class="continuebutton" id="train_chemicals_slide_continue_button">Continue</button> 
         </div>
 
         <!-- This is the slide in which users will learn about the chatroom. -->
@@ -104,7 +152,7 @@
             </div>
             <div id="chat_room_slide_header">
                 <p id="chat_room_slide_instructions">
-                    Explorer, please talk to the student about the properties of the species.
+                    Explorer, please teach the student what you discovered about the properties of the chemicals.
                 </p>
             </div>
             <div id="main">
@@ -122,7 +170,7 @@
                 </div>
                 <div id="chatCont">
                     <br>
-                    <button class="continuebutton" id="chat_room_slide_continue_button" disabled>Continue</button>
+                    <button class="continuebutton" id="chat_room_slide_continue_button" disabled>Ready for Test</button>
                 </div>
             </div>
         </div>
@@ -135,13 +183,13 @@
             </div>
 
         <!-- Generates critters that the partner learned about and tests the user -->
-        <div class="slide hidden" id="test_creatures_slide">
-            <div id="test_creatures_slide_header"></div>
+        <div class="slide hidden" id="test_chemicals_slide">
+            <div id="test_chemicals_slide_header"></div>
             <br>
             <br>
-            <div id="test_creatures_slide_grid"></div>
+            <div id="test_chemicals_slide_grid"></div>
             <br>
-            <button class="continuebutton disabled" id="test_creatures_slide_continue_button">Continue</button>
+            <button class="continuebutton disabled" id="test_chemicals_slide_continue_button">Continue</button>
         </div>
       
        <!-- Shows score report before allowing player to move on to next block -->
@@ -191,6 +239,9 @@
                     <br>
                     Here are the scores across all the rounds: 
                     <h4 id="total_score"></h4>
+                    <br><br>
+                    You have earned the following bonus:
+                    <h4 id="total_bonus"></h4>
                 </p>
             </div>
             <br>
@@ -245,6 +296,9 @@
       
             <p>Were there any problems or bugs in the experiment?</p>
             <textarea id="problems" rows="2" cols="50" spellcheck=false></textarea>
+            
+            <p>Was any part of the HIT confusing or particularly difficult?</p>
+            <textarea id="confusion" rows="2" cols="50" spellcheck=false></textarea>
       
             <p>What do you think is a fair price for the work you did?</p>
             <textarea id="fairprice" rows="1" cols="10" spellcheck=false></textarea>
@@ -270,6 +324,16 @@
                 <label><option value="4"/>Hold a higher degree</label>
               </select>
             </p>
+            
+            <p>Level Of Chemistry background:
+              <select id="chemistry">
+                <label><option value="-1"/></label>
+                <label><option value="0"/>None</label>
+                <label><option value="1"/>High School level</label>
+                <label><option value="2"/>College level</label>
+                <label><option value="3"/>Advanced (Professional / Graduate level)</label>
+              </select>
+            </p>
       
             <p>Did you enjoy the hit?</p>
             <select id="enjoyment">
@@ -284,7 +348,7 @@
             <br/>
 
             <p> Note: Clicking this button should automatically submit the HIT and close this tab. There is no need to input a code.<p>
-            <p> If you experience a problem submitting, please contact schopra8@stanford.edu for compensation. </p>
+            <p> If you experience a problem submitting, please contact cmacavoy@stanford.edu for compensation. </p>
             <button class="continuebutton" id="subj_info_button">Submit Hit</button>
           </div>
         </div>

@@ -26,10 +26,14 @@ var drawWaitingRoom = function(message, game) {
 var drawRoundNumber = function(roundNum, game) {
     // Draw progress bar
     drawProgressBar(roundNum, game.numRounds, 1, 8);
-    
-    // Set text & enable button
+    // Set text & enable beaker
     $("#round_slide_header").empty();
     $("#round_slide_header").html("<br> <br>")
+    if(roundNum === 0){
+        $("#round_slide_header").append(
+            "<strong>You have been matched with a partner.</strong> <br><br>"
+        );
+    }
     $("#round_slide_header").append(
         "Entering Round " + "<b>" + parseInt(roundNum + 1) + "</b>" + " of " + game.numRounds +
         "<br> <br>" +
@@ -42,45 +46,175 @@ var drawRoundNumber = function(roundNum, game) {
     $("#round_slide").removeClass("hidden");
 };
 
-var drawTrainInstructions = function(game, speciesName, pluralSpeciesName) {
-    // Set instructions text and enable button
+var drawTutorialInstructions = function(game) {
+    // Set instructions text
     if (game.my_role === "explorer") {
-        $("#train_instructions_slide_header").html(
-            `    
+        $("#tutorial_instructions_slide_header").html(
+            `
                 <br><br>
                 <h3>Instructions</h3>
                 <br>
                 <p>
-                    You are the "Explorer", studying creatures with a ` + speciesName + ` detector.
-                    <br> <br>
-                    You will be shown a grid of creatures. Click on a creature to discover whether it is a ` + speciesName + `.
-                    Pay close attention, as you will have to teach your partner which are ` + pluralSpeciesName + `. 
-                    <br> <br>
-                    Press Continue to start the game.
+                    You are an explorer working for <strong>ChemCo</strong>, a chemical corporation. On an alien planet, you have
+                    discovered several beakers of alien chemicals. <strong>ChemCo wants to know more about these chemicals to see
+                    if they can create any new substances with useful properties from them.</strong>
+                    <br><br>
+                    Your goal is to understand what new chemicals can be created by mixing the chemicals. After you are done
+                    exploring, you will teach a student about the properties you have discovered. You and your partner
+                    will then be <strong>tested on your understanding of the properties of mixtures of chemicals.</strong>
+                    <br><br>
+                    <br><br>
+                    You will first enter a tutorial of the interface. <strong>Pay attention</strong>
+                    during the tutorial, because you will be tested on your knowledge at the end.
+                    <br><br>
                     <br><br>
                 </p>
             `
         );
     } else {
-        $("#train_instructions_slide_header").html(
+        $("#tutorial_instructions_slide_header").html(
             `
                 <br><br>
                 <h3>Instructions</h3>
                 <br>
                 <p>
-                    You are the "Student". Your partner is currently studying creatures with a ` + speciesName + ` detector. It will take them approximately 1 - 2 minutes to finish exploring. 
-                    <br> <br>
-                    Meanwhile you will be waiting in a chatroom. Once your partner is done, they will enter the chatroom. You should discuss what properties of ` + pluralSpeciesName + ` they learned during exploration. Pay close attention and ask questions, as you will be tested on your understanding of ` + pluralSpeciesName + `.
-                    <br> <br>
-                    During your partner's exploration period please stay at the computer and <b>DO NOT CLOSE THIS TAB</b>. Otherwise, you will be disconnected from the game and we won't be able to reward you for the hit.
-                    Please keep checking the chat window, as the status will update when the other player has also entered the room.
-                    <br> <br> 
-                    Press Continue to join the chatroom.
-                    <br> <br> 
+                    You are the 'student', and you are a chemist working for <strong>ChemCo</strong>. Your partner is currently
+                    studying alien chemicals and the mixtures produced by them.
+                    <br><br>
+                    Meanwhile you will be waiting in a chatroom. Once your partner is done, they will enter the chatroom.
+                    You should discuss what <strong>properties of chemicals</strong> they learned during exploration.
+                    Pay close attention and ask questions, as <strong>you will be tested on your understanding of the chemicals</strong>.
+                    <br><br>
+                    You will first enter a tutorial of the interface. <strong>Pay attention</strong>
+                    during the tutorial, because you will be tested on your knowledge at the end.
+                    <br><br>
+                    Press Continue to start.
+                    <br><br>
                 </p>
             `
         )
     }
+    // Make visible
+    game.currentSlide[game.my_role] = "tutorial_instructions_slide";
+    $("#tutorial_instructions_slide_continue_button").prop("disabled", false);
+    $("#tutorial_instructions_slide").removeClass("hidden");
+};
+
+var drawQuestionInstructions = function(game) {
+    // Set instructions text
+    $("#question_instructions_slide_header").html(
+            `
+            <br><br>
+            <h3>Instructions</h3>
+            <br>
+            <p>
+                You will now see samples of questions you may be asked in the assessment. These are just some types of
+                questions you may be asked.
+                <br>
+                <br>
+                When answering these questions, use the information you learned in the tutorial.
+                <br>
+                <br>
+                Press Continue to start the questions.
+                <br><br>
+            </p>
+            `
+    );
+    // Make visible
+    game.currentSlide[game.my_role] = "question_instructions_slide";
+    $("#question_instructions_slide_continue_button").prop("disabled", false);
+    $("#question_instructions_slide").removeClass("hidden");
+};
+
+var drawFirstQuestion = function(game) {
+    /// Clear previous
+    $("#question_instructions_slide_header").empty();
+
+    // Draw chemicals
+    $("#first_question_slide_header").html(
+        `
+            <p class="label_prompt">
+                Question 1: Click on labels to indicate if a reaction will or will not occur.
+                You need to set a value (either present or absent) to the reaction.
+            </p>
+        `
+    );
+    drawTutorialBox(game.numBeakers, game.numReactions, true, game.roundProps, game, false);
+    // Make visible
+    game.currentSlide[game.my_role] = "first_question_slide";
+    $("#first_question_slide_continue_button").prop("disabled", false);
+    $("#first_question_slide").removeClass("hidden");
+};
+
+var drawSecondQuestion = function(game) {
+    // Set instructions text
+    /// Clear previous
+    $("#first_question_slide_header").empty();
+    $("#first_question_slide_grid").empty();
+
+    // Draw chemicals
+    $("#second_question_slide_header").html(
+        `
+            <p class="label_prompt">
+                Question 2: Click on chemicals once to add them, and again to remove them.
+            </p>
+        `
+    );
+    drawTutorialBox(game.numBeakers, game.numReactions, true, game.roundProps, game, true);
+    // Make visible
+    game.currentSlide[game.my_role] = "second_question_slide";
+    $("#second_question_slide_continue_button").prop("disabled", false);
+    $("#second_question_slide").removeClass("hidden");
+};
+
+
+var drawTrainInstructions = function(game) {
+    // Set instructions text and enable beaker
+    if (game.my_role === "explorer") {
+        $("#train_instructions_slide_header").html(
+                    `
+                    <br><br>
+                    <h3>Instructions</h3>
+                    <br>
+                    <p>
+                    You are an explorer working for <strong>ChemCo</strong>, a chemical corporation. On an alien planet, you have
+                    discovered several beakers of alien chemicals. None of your previous knowledge applies.
+                    <strong>ChemCo wants to know more about these chemicals to see
+                    if they can create any new substances with useful properties from them.</strong>
+                    <br><br>
+                    Try out <strong>different combinations</strong> to learn what properties the chemicals have.
+                    You can explore as long as you want, and you should <strong>explore until you
+                    completely understand the reactions caused by different combinations of chemicals</strong>.
+                    <br><br>
+                    When you are done exploring you will teach your partner about the chemicals, and
+                    then <strong>you will both be tested on your understanding.</strong>
+                    <br><br>
+                    </p>
+                    `
+                    );
+    } else {
+        $("#train_instructions_slide_header").html(
+                    `
+                    <br><br>
+                    <h3>Instructions</h3>
+                    <br>
+                    <p>
+                    You are the 'student', and you are a chemist working for <strong>ChemCo</strong>. Your partner is currently
+                    studying alien chemicals and the mixtures produced by them.
+                    <br><br>
+                    Once your partner is done exploring, they will teach you about the chemicals, and you will both
+                    be tested on the reactions caused by them.
+                    <br><br>
+                    While your partner explores, please please stay at the computer and DO NOT CLOSE THIS TAB.
+                    Otherwise, you will be disconnected from the game and we will not be able to reward you for the HIT.
+                    Please keep checking the chat window, as the status will update when the other player has also entered the room.
+                    <br><br>
+                    </p>
+                    `
+                    )
+    }
+
+
 
     // Make visible
     game.currentSlide[game.my_role] = "train_instructions_slide";
@@ -88,31 +222,54 @@ var drawTrainInstructions = function(game, speciesName, pluralSpeciesName) {
     $("#train_instructions_slide").removeClass("hidden");
 };
 
-var drawTrainCreatures = function(game, speciesName) {
+var drawTutorial = function(game) {
     // Clear previous
-    $("#train_creatures_slide_header").empty();
-    $("#train_creatures_slide_grid").empty();
+    $("#train_chemicals_slide_header").empty();
+    $("#train_chemicals_slide_grid").empty();
 
-    // Draw creatures
-    $("#train_creatures_slide_header").html(
+    // Draw chemicals
+    $("#tutorial_slide_header").html(
         `
             <p class="label_prompt">
-                Click on each creature to discover whether or not it is a <strong>` + speciesName +`</strong>.
-                <br>
-                Study them carefully.
+                This is a tutorial of the game interface. Click on different components to learn
+                about how they are used. Once you understand how the interface works, click the continue button.
             </p>
         `
     );
-    drawCreaturesTable(game.trialInfo.train, speciesName, 5, true, game.roundProps);
+    drawTutorialBox(game.numBeakers, game.numReactions, false, game.roundProps, game);
 
     // Make visible
-    game.currentSlide[game.my_role] = "train_creatures_slide";    
-    $("#train_creatures_slide_continue_button").hide();
-    $("#train_creatures_slide_continue_button").prop("disabled", true);
-    $("#train_creatures_slide").removeClass("hidden");
+    game.currentSlide[game.my_role] = "tutorial_slide";
+    $("#tutorial_slide_continue_button").prop("disabled", false);
+    $("#tutorial_slide").removeClass("hidden");
 };
 
-var drawExplorerChatInstructions = function(game, speciesName) {
+var drawTrainBox = function(game) {
+    // Clear previous
+    $("#train_chemicals_slide_header").empty();
+    $("#train_chemicals_slide_grid").empty();
+
+    // Draw chemicals
+    $("#train_chemicals_slide_header").html(
+        `
+            <p class="label_prompt">
+                Click on beakers to add them to the mixture, and click again to remove them from the test.
+                Click <strong>Mix</strong> to test the mixture, and <strong>New Test</strong> to start again after each different combination.
+                Study the results carefully. <strong>Press continue only once you are ready for the chatroom. </strong>
+                <br><br>
+                <strong>There is at least one mixture which causes the reaction to occur.</strong>
+            </p>
+        `
+    );
+    drawBox(game.numBeakers, game.numReactions, true, game.roundProps, game);
+
+    // Make visible
+    game.currentSlide[game.my_role] = "train_chemicals_slide";
+    $("#train_chemicals_slide_continue_button").prop("disabled", true);
+    $("#train_chemicals_slide").removeClass("hidden");
+};
+
+var drawExplorerChatInstructions = function(game) {
     // Set instructions
     var instructions = 
     `
@@ -121,10 +278,12 @@ var drawExplorerChatInstructions = function(game, speciesName) {
         On the next page, you will enter into a chatroom with your partner, the "student".
         <br>
         <br>
-        Please discuss the properties of the ` + speciesName + ` creatures. The "student" will be advance the game out of the chatroom, once they feel like they have a good understanding of the properties of the  ` + speciesName + ` species.
+        Please discuss what reactions happen when you mix different combinations of chemicals.
+        The student will end the chatroom phase when they understand the chemicals.
         <br>
         <br>
-        After the chatroom, you both will be provided a set of unseen creatures that you must classify as belonging to the  ` + speciesName + ` species or not. Your bonus will be the sum of your score and your partner's score on this task.
+        After the chatroom, you both will be asked questions about chemicals and properties.
+        Your bonus will be the sum of your score and the score of your partner on this task.
         <br>
         <br>
     `;
@@ -153,12 +312,12 @@ var drawChatRoom = function(game) {
     game.currentSlide[game.my_role] = "chat_room_slide";            
 };
 
-var drawTestInstructions = function(game, speciesName) {
+var drawTestInstructions = function(game) {
     var instructions = `
         <br><br>
         <h3>Quiz</h3>
         <br>
-        You will be presented a grid. Click on the creatures you believe belong to the  ` + speciesName + ` species.  Press Continue to start the quiz.
+        You will be presented with a series of questions about the alien chemicals. Press Continue to start the quiz.
         <br> <br>
     `;
     $("#test_instructions_slide_header").html(instructions);
@@ -167,29 +326,25 @@ var drawTestInstructions = function(game, speciesName) {
     game.currentSlide[game.my_role] = "test_instructions_slide";                
 };
 
-var drawTestCreatures = function(game, speciesName, pluralSpeciesName) {
+var drawTestChemicals = function(game, question, beakers, config, questionNum) {
     // Clear previous
-    $("#test_creatures_slide_header").empty();
-    $("#test_creatures_slide_grid").empty();
-
+    $("#test_chemicals_slide_header").empty();
+    $("#test_chemicals_slide_grid").empty();
     var instructions = `
-        <p class="label_prompt"> Click on the creatures that you believe are members of the <strong>` + speciesName + `</strong> species.
-        <br>
-        Creatures that you have selected as ` + pluralSpeciesName + ` will have a yellow background.
-        <br>      
-        You can click on a selected creature a second time to un-select it.
-        <br>
-        Once you are done selecting the ` + pluralSpeciesName + `, hit the Continue button.
-        </p>
-    `
-   $("#test_creatures_slide_header").html(instructions);
+            <p class="label_prompt">
+            Question: ${questionNum + 1}
+            </p>
+        `
 
-   drawCreaturesTable(game.trialInfo.test, speciesName, 5, false, game.roundProps);
+
+   $("#test_chemicals_slide_header").html(instructions);
+
+   drawBox(game.numBeakers, game.numReactions, false, game.roundProps, game, beakers, config, question);
    
     // Make visible
-    $("#test_creatures_slide_continue_button").prop("disabled", false);
-    $("#test_creatures_slide").removeClass("hidden");
-    game.currentSlide[game.my_role] = "test_creatures_slide";    
+    $("#test_chemicals_slide_continue_button").prop("disabled", false);
+    $("#test_chemicals_slide").removeClass("hidden");
+    game.currentSlide[game.my_role] = "test_chemicals_slide";
 };
 
 var drawRoundScoreReport = function(game) {
@@ -234,9 +389,33 @@ var clearTrainInstructions = function() {
     $("#train_instructions_slide_continue_button").prop("disabled", true);
 };
 
-var clearTrainCreatures = function() {
-    $("#train_creatures_slide").addClass("hidden");
-    $("#train_creatures_slide_continue_button").prop("disabled", true);
+var clearTutorialInstructions = function() {
+    $("#tutorial_instructions_slide").addClass("hidden");
+    $("#tutorial_instructions_slide_continue_button").prop("disabled", true);
+};
+var clearTutorial = function(){
+    $("#tutorial_slide").addClass("hidden");
+    $("#tutorial_slide_continue_button").prop("disabled", true);
+}
+var clearQuestionInstructions = function(){
+    $("#question_instructions_slide").addClass("hidden");
+    $("#question_instructions_slide_continue_button").prop("disabled", true);
+}
+var clearFirstQuestion = function(){
+    $("#first_question_slide").addClass("hidden");
+    $("#first_question_slide_continue_button").prop("disabled", true);
+}
+var clearSecondQuestion = function(){
+    $("#second_question_slide").addClass("hidden");
+    $("#second_question_slide_continue_button").prop("disabled", true);
+}
+var clearQuestionsInstructions = function(){
+    $("#question_instructions_slide").addClass("hidden");
+    $("#question_instructions_slide_continue_button").prop("disabled", true);
+}
+var clearTrainChemicals = function() {
+    $("#train_chemicals_slide").addClass("hidden");
+    $("#train_chemicals_slide_continue_button").prop("disabled", true);
 };
 
 var clearExplorerChatInstructions = function() {
@@ -254,9 +433,9 @@ var clearTestInstructions = function() {
     $("#test_instructions_slide_continue_button").prop("disabled", true);
 };
 
-var clearTestCreatures = function() {
-    $("#test_creatures_slide").addClass("hidden");
-    $("#test_creatures_slide_continue_button").prop("disabled", true);
+var clearTestChemicals = function() {
+    $("#test_chemicals_slide").addClass("hidden");
+    $("#test_chemicals_slide_continue_button").prop("disabled", true);
 };
 
 var clearRoundScoreReport = function() {

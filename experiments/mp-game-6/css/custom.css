@@ -246,3 +246,81 @@ ALOT...don't understand how to adjust that.*/
 .creatures_table {
     table-layout: fixed;
 }
+
+:disabled{
+   opacity: .5;
+}
+
+.beaker{
+   width:150px;
+   height:200px;
+   opacity:1.0;
+   padding:0px 10px;
+}
+
+.mixbeaker{
+   width:200px;
+   height:250px;
+   opacity:1.0;
+   margin:auto;
+   display: inline-block;
+}
+
+.reaction{
+   width:150px;
+   height:200px;
+   opacity:0.5;
+   padding:0px 0px;
+   margin: 10px;
+}
+.caption{
+   width:200px;
+   opacity:0.5;
+   padding:0px 0px;
+   margin: 10px;
+   background-color: #d4d4f7;
+   border: solid;
+}
+.clickable.caption:hover{
+   background-color: #ffd8cc;
+}
+.notPossible{
+   width:200px;
+   opacity:0.5;
+   padding:0px 0px;
+   margin: 10px;
+   background-color: LemonChiffon;
+   border: solid;
+   cursor: pointer;
+}
+.notPossible:hover{
+   background-color: gold;
+}
+.instruct {
+   padding: 10px;
+   margin: 10px 0 0 0;
+   background-color: LemonChiffon;
+   display: block;
+   border: yellow;
+   border-style: solid;
+   border-width: 10px;
+}
+
+.question {
+   background-color: AliceBlue;
+   display: block;
+   padding: 15px;
+   margin-top: 10px;
+}
+
+figure {
+   display: inline-block;
+}
+
+.clickable {
+   cursor: pointer;
+}
+
+button {
+   cursor: pointer;
+}

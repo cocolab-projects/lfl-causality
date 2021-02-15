@@ -21,7 +21,16 @@
     <![endif]-->
   </head>
 
-  <body role="document">
+  <body role="document" onload = "check()">
+    <script src="//uniqueturker.myleott.com/lib.js" type="text/javascript"></script>
+        <script type="text/javascript">
+        function check() {
+              var ut_id = "f37dfa64be19f25070dd3ab86fadcf4c";
+              if (UTWorkerLimitReached(ut_id)) {
+                    location.replace("./notwice.html");
+              }
+        };
+        </script>
     <div class="container theme-showcase" role="main">
       <div id="show">
         <br>
@@ -44,7 +53,7 @@
           </p>
 
           <p>
-              We expect the average game to last approximately 15
+              We expect the average game to last approximately 30 to 45
               minutes, including the time it takes to read instructions and
               wait for another player.
           </p>
@@ -60,7 +69,7 @@
           <p>
             If you find the game is running on the longer side, no need
             to rush or drop out -- leave a comment at the end and/or send
-            us an email (schopra8@stanford.edu) and we will make sure
+            us an email (cmacavoy@stanford.edu) and we will make sure
             you're compensated for your time! Please pay attention and do
             your best! Thank you! </p>
 
@@ -83,9 +92,9 @@
           By answering the following questions, you are
           participating in a study being performed by cognitive scientists
           in the Stanford Department of Psychology. If you have questions
-          about this research, please contact <b> Sahil Chopra </b>
-          at <b><a href="mailto://schopra8@stanford.edu">schopra8@stanford.edu</a></b>, M. H. Tessler 
-          at tessler@mit.edu, or Noah Goodman, at ngoodman@stanford.edu. You must be at least
+          about this research, please contact <b> Clara MacAvoy </b>
+          at <b><a href="mailto://cmacavoy@stanford.edu">cmacavoy@stanford.edu</a></b>, Jesse Mu 
+          at jmu303@stanford.edu, or Noah Goodman, at ngoodman@stanford.edu. You must be at least
           18 years old to participate. Your participation in this research
           is voluntary. You may decline to answer any or all of the
           following questions. You may decline further participation, at

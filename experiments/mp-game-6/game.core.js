@@ -22,6 +22,7 @@ if (typeof _ === "undefined" ) {
 }
 if (has_require) {
     utils = require(__base + "sharedUtils/sharedUtils.js");
+    var box = require(__base + "sharedUtils/BoxGenerator.js");
     assert = require("assert");
     sendPostRequest = require('request').post;
 }
@@ -33,15 +34,15 @@ var game_core = function(options){
     this.isProd = options.isProd;
 
     // Some config settings
-    this.email = "schopra8@stanford.edu";
+    this.email = "cmacavoy@stanford.edu";
     this.projectName = "cultural_ratchet";
     this.experimentName = "mp-game-6";
     this.iterationName = "pilot";
-    this.anonymizeCSV = true;
+    this.anonymizeCSV = false;
     this.bonusAmt = 1; // in cents
 
-    // save data to the following locations (allowed: "csv", "mongo")
-    this.dataStore = ["csv", "mongo"];
+    // save data to the following locations (allowed: "csv")
+    this.dataStore = ["csv"];
 
     // Player parameters
     this.player_count = 1;
@@ -53,12 +54,18 @@ var game_core = function(options){
 
     // Round Info
     this.roundNum = -1;
-    this.numRounds = 5;
+    this.numRounds = 3;
+    this.numBeakers = 5;
+    this.numReactions = 1;
+    this.numRules = 3;
+    this.numReqTests = 3;
+    this.numPointsPerRound = 10;
     this.testScores = {};
     this.testScores[this.playerRoleNames.role1] = _.times(this.numRounds, _.constant({}));
     this.testScores[this.playerRoleNames.role2] = _.times(this.numRounds, _.constant({}));
     this.roundSummaries = [];
     this.roundSelections = [];
+    this.roundConfigs = [];
 
 
     // Other info
@@ -69,7 +76,6 @@ var game_core = function(options){
     if(this.server) {
         this.trialList = [];
         this.numTrialsDefined = 0;
-
         this.id = options.id;
         this.players = [{
             id: options.player_instances[0].id,
@@ -83,30 +89,8 @@ var game_core = function(options){
         this.streams = {};
 
         var localThis = this;
-        this.makeTrialList(options.connection, function(trial){
-            localThis.trialList.push(trial);
-            localThis.numTrialsDefined += 1;
-            if (localThis.numTrialsDefined === localThis.numRounds) {
-                localThis.trialList = _.shuffle(localThis.trialList);
-                localThis.trialStimuli = [];
-                _.forEach(
-                    localThis.trialList,
-                    trialInfo => {
-                        localThis.trialStimuli.push({
-                            train: options.train_stimuli[trialInfo.fileName] ,
-                            test:  options.test_stimuli[trialInfo.fileName],
-                            ruleIdx: trialInfo.ruleIdx,
-                            ruleName: trialInfo.name,
-                            ruleFileName: trialInfo.fileName,
-                            speciesName: trialInfo.speciesName,
-                            pluralSpeciesName: trialInfo.pluralSpeciesName,
-                        });
-                    }
-                )
-                console.log(localThis.trialList);
-                localThis.server_send_update();
-            }
-        });
+        this.configList = box.pickConfigs(this.numBeakers, this.numReactions, this.numRounds, this.numRules)
+        this.server_send_update();
     } else {
         // If we're initializing a player's local game copy, create the player object
         // and the game object. We'll be copying real values into these items
@@ -193,7 +177,7 @@ game_core.prototype.server_send_update = function(){
     var player_packet = _.map(this.players, function(p){
         return {id: p.id, player: null};
     });
-
+    console.log(this.roundNum)
     var state = {
         id : this.id,
         gs : this.start_time,
@@ -202,10 +186,17 @@ game_core.prototype.server_send_update = function(){
         roundNum : this.roundNum,
         numRounds : this.numRounds,
     };
-    if (this.numTrialsDefined === this.numRounds) {
-        state.trialList = this.trialList;
-        state.trialInfo = this.trialStimuli[this.roundNum];
+    if(state.roundNum >= 0){
+        state.boxConfig = JSON.parse(this.configList[this.roundNum]['dict']),
+        state.totalPoints = this.configList[this.roundNum]['totalPoints'],
+        state.config = JSON.parse(this.configList[this.roundNum]['config']),
+        state.configType = this.configList[this.roundNum]['configType']
+        state.ruleTypes = this.configList[this.roundNum]['rules'],
+        state.questions = JSON.parse(this.configList[this.roundNum]['questions'])
     }
+        state.trialList = this.trialList;
+        state.trialInfo = this.trialList[1];
+    // }
 
     _.extend(state, {players: player_packet});
 
@@ -214,41 +205,4 @@ game_core.prototype.server_send_update = function(){
     _.map(this.get_active_players(), function(p){
         p.player.instance.emit('onserverupdate', state);
     });
-};
-
-game_core.prototype.makeTrialList = function (connection, callback) {
-    col_prefix = "fifty_rules_";
-    console.log("Loading from: " + col_prefix);
-    var gameId = this.id;
-    var ruleTypes = [
-        "SINGLE_FEATURE",
-        "CONJUNCTION",
-        "DISJUNCTION",
-        "CONJUNCTION_DISJUNCTION",
-        "DISJUNCTION_CONJUNCTION"
-    ];
-
-    _.forEach(ruleTypes,
-        ruleType => {
-            utils.getStims(
-                connection,
-                "genGames",
-                col_prefix + ruleType,
-                gameId,
-                function(result) {
-                    var trial = {
-                        gameid: gameId,
-                        ruleIdx: result.rule_idx,
-                        fileName: result.file_name,
-                        name: result.name,
-                        ruleType: ruleType,
-                        speciesName: result.speciesName,
-                        pluralSpeciesName: result.speciesNamePlural,
-                    };
-                    callback(trial);
-                }
-            );
-        }
-    );
-
 };

@@ -53,8 +53,8 @@ global.__exp_base = __base + '/' + exp + '/';
 
 // Add Encryption Protocols
 try {
-    var privateKey  = fs.readFileSync('/etc/apache2/ssl/rxdhawkins.me.key'),
-        certificate = fs.readFileSync('/etc/apache2/ssl/rxdhawkins.me.crt'),
+    var privateKey  = fs.readFileSync('/etc/apache2/ssl/stanford-cogsci.org.key'),
+        certificate = fs.readFileSync('/etc/apache2/ssl/stanford-cogsci.org.crt'),
         intermed    = fs.readFileSync('/etc/apache2/ssl/intermediate.crt'),
         options     = {key: privateKey, cert: certificate, ca: intermed},
         server      = require('https').createServer(options,app).listen(gameport),
@@ -104,13 +104,7 @@ app.get( '/*' , function( req, res ) {
       // If invalid id, block them
       return utils.handleInvalidID(req, res);
     } else {
-      // If the database shows they've already participated, block them
-      utils.checkPreviousParticipant(id, (exists) => {
-        return exists ? utils.handleDuplicate(req, res) : utils.serveFile(req, res);
-      },
-      () => {
-        return "genGames";
-      });
+        return utils.serveFile(req, res);
     }
 });
 
